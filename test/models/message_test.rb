@@ -7,4 +7,10 @@ class MessageTest < ActiveSupport::TestCase
     refute message.valid?
     assert_includes message.errors[:body], "can't be blank"
   end
+
+  test "defaults to being from a user" do
+    message = Message.new body: "A message with no 'from' specified."
+
+    assert_equal "user", message.from
+  end
 end

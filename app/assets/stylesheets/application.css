@@ -34,6 +34,10 @@
     color: white;
 }
 
+.green {
+    background: green;
+}
+
 #new_message input {
     margin: 1rem;
     width: 80vw;

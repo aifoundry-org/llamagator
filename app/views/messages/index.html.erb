@@ -2,7 +2,7 @@
 
 <h1>Messages</h1>
 
-<div id="messages">
+<div id="messages" class="message-list">
   <%= turbo_frame_tag "messages" %>
   <% @messages.each do |message| %>
     <%= render message %>

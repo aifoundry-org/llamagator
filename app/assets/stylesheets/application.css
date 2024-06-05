@@ -14,10 +14,29 @@
  *= require_self
  */
 
-.message_bubble {
+.message-list {
+    display: flex;
+    background: lightgray;
+    border-radius: 1rem;
+    margin: 1rem;
+    padding: 1rem;
+    align-items: end;
+    flex-direction: column;
+    overflow: scroll;
+    height: 80vh;
+}
+
+.message-bubble {
     background: blue;
     border-radius: 0.75rem;
     margin: 0.5rem;
     padding: 0.5rem;
     color: white;
+}
+
+#new_message input {
+    margin: 1rem;
+    width: 80vw;
+    height: 3rem;
+    border-radius: 0.5rem;
 }

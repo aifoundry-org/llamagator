@@ -23,13 +23,13 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.save
         # FIXME: this is a massive hack
-        client = OpenAI::Client.new
-        response = client.chat(parameters: {
-                                 model: "gpt-3.5-turbo",
-                                 messages: [{ role: "user", content: @message.body }],
-                                 temperature: 0.5
-                               })
-        Message.create body: "CHATGPT: " + response.dig("choices", 0, "message", "content")
+        # client = OpenAI::Client.new
+        # response = client.chat(parameters: {
+        #                          model: "gpt-3.5-turbo",
+        #                          messages: [{ role: "user", content: @message.body }],
+        #                          temperature: 0.5
+        #                        })
+        # Message.create body: "CHATGPT: " + response.dig("choices", 0, "message", "content")
         # FIXME: the hack ends here
         
         format.html { redirect_to message_url(@message), notice: "Message was successfully created." }

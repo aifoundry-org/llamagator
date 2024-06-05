@@ -3,12 +3,14 @@
 <h1>Messages</h1>
 
 <div id="messages">
+  <%= turbo_frame_tag "messages" %>
   <% @messages.each do |message| %>
     <%= render message %>
-    <p>
-      <%= link_to "Show this message", message %>
-    </p>
   <% end %>
 </div>
 
-<%= link_to "New message", new_message_path %>
+<%= turbo_frame_tag "new_message", target: "_top" do %>
+  <%= form_with model: @message do |f| %>
+    <%= f.text_field :body, placeholder: "Enter text ...", autofocus: true %>
+  <% end %>
+<% end %>

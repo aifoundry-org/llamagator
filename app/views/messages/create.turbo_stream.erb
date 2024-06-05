@@ -1,0 +1,5 @@
+<%= turbo_stream.update('messages') do %>
+  <% @messages.each do |message| %>
+    <%= render message %>
+  <% end %>
+<% end %>

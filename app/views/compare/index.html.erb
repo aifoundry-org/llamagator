@@ -1,0 +1,58 @@
+<!-- app/views/model_versions/index.html.erb -->
+<div class="container mx-auto mt-10 w-full">
+  <% if @prompts.empty? || @model_versions.empty? %>
+    <div class="flex items-center justify-center h-full">
+      <p class="text-gray-500 text-center">No prompts or model versions available. <br> Please create prompts and model versions to perform this action.</p>
+    </div>
+  <% else %>
+    <div>
+      <label for="prompt-id-select" class="block text-sm font-medium text-gray-700">Select Prompt:</label>
+      <%= select_tag 'prompt-id-select', options_from_collection_for_select(@prompts, 'id', 'name', @prompts.first&.id), 
+                     class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md mb-4', id: 'prompt-id-select' %>
+    </div>
+    <div class="flex w-full">
+      <div class="p-4 border-r border-gray-300 panel-half">
+        <h3 class="text-lg font-semibold mb-4">Select Model Version for Left Panel</h3>
+        <% if @model_versions.any? %>
+          <%= select_tag 'left-panel-model', options_from_collection_for_select(@model_versions, 'id', 'full_name'), 
+                         prompt: 'Select a model version', class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md' %>
+          <div id="left-panel-result" class="mt-4">
+          </div>
+        <% else %>
+          <div class="flex items-center justify-center h-full">
+            <p class="text-gray-500 text-center">No model versions available. <br> Please create model versions to perform this action.</p>
+          </div>
+        <% end %>
+      </div>
+      <div class="p-4 panel-half">
+        <h3 class="text-lg font-semibold mb-4">Select Model Version for Right Panel</h3>
+        <% if @model_versions.any? %>
+          <%= select_tag 'right-panel-model', options_from_collection_for_select(@model_versions, 'id', 'full_name'), 
+                         prompt: 'Select a model version', class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md' %>
+          <div id="right-panel-result" class="mt-4">
+          </div>
+        <% else %>
+          <div class="flex items-center justify-center h-full">
+            <p class="text-gray-500 text-center">No model versions available. <br> Please create model versions to perform this action.</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+
+<script>
+  document.querySelector('select[name="left-panel-model"]').addEventListener('change', function() {
+    const promptSelect = document.getElementById('prompt-id-select');
+    const promptId = promptSelect.value;
+    window.fetchLatestTestResult('left', this.value, promptId);
+  });
+
+  document.querySelector('select[name="right-panel-model"]').addEventListener('change', function() {
+    const promptSelect = document.getElementById('prompt-id-select');
+    const promptId = promptSelect.value;
+    window.fetchLatestTestResult('right', this.value, promptId);
+  });
+</script>

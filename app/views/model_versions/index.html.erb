@@ -1,0 +1,56 @@
+<div class="container mx-auto mt-10 w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <% content_for :title, "Model versions" %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Model versions</h1>
+    <%= link_to "New model version", new_model_model_version_path(@model), class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+  <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+          >
+            <th class="px-4 py-3">Build name</th>
+            <th class="px-4 py-3">Model</th>
+            <th class="px-4 py-3">Built on</th>
+          </tr>
+        </thead>
+        <tbody
+          class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+        >
+          <% if @model_versions.empty? %>
+            <tr>
+              <td colspan="3" class="px-4 py-3 text-center">
+                <p class="text-gray-500">No versions found.</p>
+              </td>
+            </tr>
+          <% else %>
+            <% @model_versions.each do |model_version| %>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= link_to model_version.build_name, [@model, model_version] %></p>
+                </td>
+                <td class="px-4 py-3">
+                  <div class="flex items-center text-sm">
+                    <div>
+                      <p class="font-semibold"><%= link_to @model.name, @model %></p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= model_version.built_on&.to_date || 'not specified' %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+</div>

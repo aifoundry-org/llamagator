@@ -1,0 +1,70 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+.message-list {
+    display: flex;
+    background: lightgray;
+    border-radius: 1rem;
+    margin: 1rem;
+    padding: 1rem;
+    align-items: end;
+    flex-direction: column;
+    overflow: scroll;
+    height: 80vh;
+}
+
+.message-bubble {
+    background: blue;
+    border-radius: 0.75rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    color: white;
+}
+
+.green {
+    background: green;
+}
+
+#new_message input {
+    margin: 1rem;
+    width: 80vw;
+    height: 3rem;
+    border-radius: 0.5rem;
+}
+.star {
+    cursor: pointer;
+}
+.star:hover,
+.star.selected {
+    color: #fbbf24; /* Tailwind yellow-400 */
+}
+
+.panel-half {
+    width: 50%;
+}
+.result-container {
+    max-height: 100%; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Add vertical scroll if content exceeds max height */
+}
+
+.secondary-button {
+    background-color: gray;
+}
+
+
+.delete-button {
+    background-color: red;
+}

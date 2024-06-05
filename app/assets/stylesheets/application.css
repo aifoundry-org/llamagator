@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.message_bubble {
+    background: blue;
+    border-radius: 0.75rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    color: white;
+}

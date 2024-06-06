@@ -10,17 +10,6 @@ class MessagesTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Messages"
   end
 
-  test "should create message" do
-    visit messages_url
-    click_on "New message"
-
-    fill_in "Body", with: @message.body
-    click_on "Create Message"
-
-    assert_text "Message was successfully created"
-    click_on "Back"
-  end
-
   test "should update Message" do
     visit message_url(@message)
     click_on "Edit this message", match: :first

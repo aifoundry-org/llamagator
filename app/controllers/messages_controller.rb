@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+  before_action :set_chat
   before_action :set_message, only: %i[ show edit update destroy ]
 
   def index
@@ -18,7 +19,7 @@ class MessagesController < ApplicationController
 
   def create
     @messages = Message.all
-    @message = Message.new(message_params)
+    @message = @chat.messages.new(message_params)
 
     respond_to do |format|
       if @message.save
@@ -32,7 +33,7 @@ class MessagesController < ApplicationController
         # Message.create body: "CHATGPT: " + response.dig("choices", 0, "message", "content")
         # FIXME: the hack ends here
         
-        format.html { redirect_to message_url(@message), notice: "Message was successfully created." }
+        format.html { redirect_to chat_message_url(@chat, @message), notice: "Message was successfully created." }
         format.json { render :show, status: :created, location: @message }
         format.turbo_stream
       else
@@ -45,7 +46,7 @@ class MessagesController < ApplicationController
   def update
     respond_to do |format|
       if @message.update(message_params)
-        format.html { redirect_to message_url(@message), notice: "Message was successfully updated." }
+        format.html { redirect_to chat_message_url(@chat, @message), notice: "Message was successfully updated." }
         format.json { render :show, status: :ok, location: @message }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,14 +59,18 @@ class MessagesController < ApplicationController
     @message.destroy!
 
     respond_to do |format|
-      format.html { redirect_to messages_url, notice: "Message was successfully destroyed." }
+      format.html { redirect_to chat_messages_url(@chat), notice: "Message was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
+    def set_chat
+      @chat = Chat.find(params[:chat_id])
+    end
+  
     def set_message
-      @message = Message.find(params[:id])
+      @message = @chat.messages.find(params[:id])
     end
 
     def message_params

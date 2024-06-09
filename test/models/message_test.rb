@@ -1,6 +1,14 @@
 require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase
+  test "belongs to a chat" do
+    message = messages(:one)
+    message.chat = nil
+
+    refute message.valid?
+    assert_includes message.errors[:chat], "must exist"
+  end
+
   test "requires a body" do
     message = Message.new body: nil
 

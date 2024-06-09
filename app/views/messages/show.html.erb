@@ -3,8 +3,8 @@
 <%= render @message %>
 
 <div>
-  <%= link_to "Edit this message", edit_message_path(@message) %> |
-  <%= link_to "Back to messages", messages_path %>
+  <%= link_to "Edit this message", edit_chat_message_path(@chat, @message) %> |
+  <%= link_to "Back to messages", chat_messages_path(@chat) %>
 
-  <%= button_to "Destroy this message", @message, method: :delete %>
+  <%= button_to "Destroy this message", [@chat, @message], method: :delete %>
 </div>

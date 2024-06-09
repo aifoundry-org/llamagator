@@ -3,46 +3,47 @@ require "test_helper"
 class MessagesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @message = messages(:one)
+    @chat = @message.chat
   end
 
   test "should get index" do
-    get messages_url
+    get chat_messages_url(@chat)
     assert_response :success
   end
 
   test "should get new" do
-    get new_message_url
+    get new_chat_message_url(@chat)
     assert_response :success
   end
 
   test "should create message" do
     assert_difference("Message.count") do
-      post messages_url, params: { message: { body: @message.body } }
+      post chat_messages_url(@chat), params: { message: { body: @message.body } }
     end
 
-    assert_redirected_to message_url(Message.last)
+    assert_redirected_to chat_message_url(@chat, Message.last)
   end
 
   test "should show message" do
-    get message_url(@message)
+    get chat_message_url(@chat, @message)
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_message_url(@message)
+    get edit_chat_message_url(@chat, @message)
     assert_response :success
   end
 
   test "should update message" do
-    patch message_url(@message), params: { message: { body: @message.body } }
-    assert_redirected_to message_url(@message)
+    patch chat_message_url(@chat, @message), params: { message: { body: @message.body } }
+    assert_redirected_to chat_message_url(@chat, @message)
   end
 
   test "should destroy message" do
     assert_difference("Message.count", -1) do
-      delete message_url(@message)
+      delete chat_message_url(@chat, @message)
     end
 
-    assert_redirected_to messages_url
+    assert_redirected_to chat_messages_url(@chat)
   end
 end

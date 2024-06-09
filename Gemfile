@@ -67,3 +67,5 @@ group :test do
 end
 
 gem "ruby-openai", "~> 7.0"
+
+gem "devise", "~> 4.9"

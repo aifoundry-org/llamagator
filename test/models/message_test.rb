@@ -13,4 +13,11 @@ class MessageTest < ActiveSupport::TestCase
 
     assert_equal "user", message.from
   end
+
+  test "from must be present" do
+    message = Message.new body: "A message with no 'from' specified.", from: ""
+
+    refute message.valid?
+    assert_includes message.errors[:from], "can't be blank"
+  end
 end

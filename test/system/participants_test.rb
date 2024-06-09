@@ -2,6 +2,8 @@ require "application_system_test_case"
 
 class ParticipantsTest < ApplicationSystemTestCase
   setup do
+    sign_in users(:one)
+
     @participant = participants(:one)
   end
 

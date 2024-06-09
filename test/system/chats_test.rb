@@ -3,6 +3,8 @@ require "application_system_test_case"
 class ChatsTest < ApplicationSystemTestCase
   setup do
     @chat = chats(:one)
+
+    sign_in users(:one)
   end
 
   test "visiting the index" do

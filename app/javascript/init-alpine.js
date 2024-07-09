@@ -8,12 +8,17 @@ function data() {
     // else return their preferences
     return (
       !!window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
+      window.matchMedia('(prefers-color-scheme: light)').matches
     )
   }
 
   function setThemeToLocalStorage(value) {
     window.localStorage.setItem('dark', value)
+    if (value === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
   }
 
   return {

@@ -6,7 +6,7 @@
 
   <p>
     <strong>Configuration:</strong>
-    <%= participant.configuration %>
+    <%= participant.configuration&.to_json %>
   </p>
 
   <p>

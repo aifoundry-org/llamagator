@@ -1,0 +1,17 @@
+<div id="<%= dom_id model %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Name:</strong>
+    <%= model.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Url:</strong>
+    <%= model.url %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Configuration:</strong>
+    <%= model.configuration&.to_json %>
+  </p>
+
+</div>

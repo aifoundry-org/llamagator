@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@tailwindcss/custom-forms": "^0.2.1",
+    "color": "^4.2.3",
+    "postcss-selector-parser": "^6.1.0",
+    "tailwindcss-multi-theme": "^1.0.4"
+  }
+}

@@ -71,3 +71,5 @@ gem "ruby-openai", "~> 7.0"
 gem "devise", "~> 4.9"
 
 gem "solid_queue", "~> 0.3.3"
+
+gem "tailwindcss-rails", "~> 2.6"

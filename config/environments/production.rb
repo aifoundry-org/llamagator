@@ -25,6 +25,7 @@ Rails.application.configure do
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
+  config.assets.css_compressor = nil
 
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
@@ -49,7 +50,7 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  # config.force_ssl = true
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)

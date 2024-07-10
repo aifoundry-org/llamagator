@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_09_142816) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_10_114447) do
   create_table "chats", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -26,10 +26,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_09_142816) do
     t.index ["chat_id"], name: "index_messages_on_chat_id"
   end
 
+  create_table "model_versions", force: :cascade do |t|
+    t.integer "model_id", null: false
+    t.json "configuration"
+    t.text "description"
+    t.date "built_on"
+    t.string "build_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["model_id"], name: "index_model_versions_on_model_id"
+  end
+
   create_table "models", force: :cascade do |t|
     t.string "name"
     t.string "url"
-    t.json "configuration"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -160,6 +170,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_09_142816) do
   end
 
   add_foreign_key "messages", "chats"
+  add_foreign_key "model_versions", "models"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

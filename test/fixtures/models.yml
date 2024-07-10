@@ -3,11 +3,9 @@
 one:
   name: MyString
   url: MyString
-  configuration: { 'test': true }
   user: one
 
 two:
   name: MyString
   url: MyString
-  configuration: { 'test': true }
   user: one

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :prompts
   resources :models do
     resources :model_versions
   end

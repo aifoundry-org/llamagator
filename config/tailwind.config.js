@@ -9,8 +9,9 @@ module.exports = {
     './app/javascript/**/*.js',
     './app/views/**/*.{erb,haml,html,slim}'
   ],
+  darkMode: 'class',
   theme: {
-    themeVariants: ['dark'],
+    themeVariants: ['dark', 'light'],
     customForms: (theme) => ({
       default: {
         'input, textarea': {

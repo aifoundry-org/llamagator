@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :models do
+    resources :model_versions
+  end
   devise_for :users
   resources :participants
   resources :chats do

@@ -15,6 +15,11 @@ class ModelExecutor
     request = Net::HTTP::Post.new(uri.request_uri, header)
     request.body = data.to_json
     response = http.request(request)
-    response.body
+
+    return { status: :completed, result: response.body } if response.code.to_i == 200
+
+    { status: :failed, result: response.body }
+  rescue
+    { status: :failed }
   end
 end

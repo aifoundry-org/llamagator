@@ -9,7 +9,7 @@ class TestRunsController < ApplicationController
     model_version_ids = params['model_version_ids'].select(&:present?)
 
     model_version_ids.each do |model_version_id|
-      TestRunJob.perform_later(model_version_id, @prompt)
+      TestRunJob.perform_later(model_version_id, @prompt.id)
     end
 
     redirect_to prompt_path(@prompt)

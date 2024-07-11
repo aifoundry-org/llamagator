@@ -44,7 +44,7 @@
             </td>
             <td class="px-4 py-3 text-xs">
               <span
-                class="px-2 py-1 font-semibold leading-tight rounded-full <%= test_result.status == 'pending' ? 'text-blue-700 bg-blue-100 dark:bg-blue-700 dark:text-blue-100' : 'text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100' %>"
+                class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_status_class(test_result.status) %>"
               >
                 <%= test_result.status.capitalize %>
               </span>

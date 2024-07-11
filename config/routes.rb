@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     resources :test_runs, only: [:new, :create]
   end
 
+  resources :test_results, only: :update
+
   resources :models do
     resources :model_versions
   end

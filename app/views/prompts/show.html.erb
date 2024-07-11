@@ -28,6 +28,7 @@
           <th class="px-4 py-3">Status</th>
           <th class="px-4 py-3">Result</th>
           <th class="px-4 py-3">Created at</th>
+          <th class="px-4 py-3">Rating</th>
         </tr>
       </thead>
       <tbody
@@ -53,6 +54,15 @@
             </td>
             <td class="px-4 py-3 text-sm">
               <%= test_result.created_at.to_date %>
+            </td>
+            <td class="px-4 py-3 text-sm">
+              <div class="flex items-center" data-test-result-id="<%= test_result.id %>">
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 1 %>" data-value="1">&#9733;</span>
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 2 %>" data-value="2">&#9733;</span>
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 3 %>" data-value="3">&#9733;</span>
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 4 %>" data-value="4">&#9733;</span>
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 5 %>" data-value="5">&#9733;</span>
+              </div>
             </td>
           </tr>
         <% end %>

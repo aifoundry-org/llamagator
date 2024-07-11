@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_many :models, dependent: :destroy
   has_many :model_versions, through: :models
   has_many :prompts, dependent: :destroy
+  has_many :test_results, through: :prompts
 end

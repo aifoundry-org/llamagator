@@ -44,3 +44,10 @@
     height: 3rem;
     border-radius: 0.5rem;
 }
+.star {
+    cursor: pointer;
+}
+.star:hover,
+.star.selected {
+    color: #fbbf24; /* Tailwind yellow-400 */
+}

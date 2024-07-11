@@ -14,6 +14,7 @@ class ModelExecutor
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri, header)
     request.body = data.to_json
+    http.read_timeout = 2000
     response = http.request(request)
 
     return { status: :completed, result: response.body } if response.code.to_i == 200

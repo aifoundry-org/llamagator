@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_11_071633) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "chats", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -22,12 +25,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "from", default: "user"
-    t.integer "chat_id", null: false
+    t.bigint "chat_id", null: false
     t.index ["chat_id"], name: "index_messages_on_chat_id"
   end
 
   create_table "model_versions", force: :cascade do |t|
-    t.integer "model_id", null: false
+    t.bigint "model_id", null: false
     t.json "configuration"
     t.text "description"
     t.date "built_on"
@@ -40,7 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   create_table "models", force: :cascade do |t|
     t.string "name"
     t.string "url"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_models_on_user_id"
@@ -55,7 +58,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   end
 
   create_table "prompts", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.text "value"
     t.string "name"
     t.datetime "created_at", null: false
@@ -64,7 +67,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
-    t.integer "job_id", null: false
+    t.bigint "job_id", null: false
     t.string "queue_name", null: false
     t.integer "priority", default: 0, null: false
     t.string "concurrency_key", null: false
@@ -76,7 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   end
 
   create_table "solid_queue_claimed_executions", force: :cascade do |t|
-    t.integer "job_id", null: false
+    t.bigint "job_id", null: false
     t.bigint "process_id"
     t.datetime "created_at", null: false
     t.index ["job_id"], name: "index_solid_queue_claimed_executions_on_job_id", unique: true
@@ -84,7 +87,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   end
 
   create_table "solid_queue_failed_executions", force: :cascade do |t|
-    t.integer "job_id", null: false
+    t.bigint "job_id", null: false
     t.text "error"
     t.datetime "created_at", null: false
     t.index ["job_id"], name: "index_solid_queue_failed_executions_on_job_id", unique: true
@@ -127,7 +130,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   end
 
   create_table "solid_queue_ready_executions", force: :cascade do |t|
-    t.integer "job_id", null: false
+    t.bigint "job_id", null: false
     t.string "queue_name", null: false
     t.integer "priority", default: 0, null: false
     t.datetime "created_at", null: false
@@ -137,7 +140,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   end
 
   create_table "solid_queue_recurring_executions", force: :cascade do |t|
-    t.integer "job_id", null: false
+    t.bigint "job_id", null: false
     t.string "task_key", null: false
     t.datetime "run_at", null: false
     t.datetime "created_at", null: false
@@ -146,7 +149,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   end
 
   create_table "solid_queue_scheduled_executions", force: :cascade do |t|
-    t.integer "job_id", null: false
+    t.bigint "job_id", null: false
     t.string "queue_name", null: false
     t.integer "priority", default: 0, null: false
     t.datetime "scheduled_at", null: false
@@ -164,6 +167,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
+  end
+
+  create_table "test_results", force: :cascade do |t|
+    t.bigint "model_version_id", null: false
+    t.bigint "prompt_id", null: false
+    t.text "result"
+    t.float "time"
+    t.integer "rating"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["model_version_id"], name: "index_test_results_on_model_version_id"
+    t.index ["prompt_id"], name: "index_test_results_on_prompt_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -187,4 +203,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_132806) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "test_results", "model_versions"
+  add_foreign_key "test_results", "prompts"
 end

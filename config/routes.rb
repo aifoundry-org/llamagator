@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :prompts
+  resources :prompts do
+    resources :test_runs, only: [:new, :create]
+  end
+
   resources :models do
     resources :model_versions
   end

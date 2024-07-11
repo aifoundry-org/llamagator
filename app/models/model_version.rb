@@ -3,6 +3,10 @@ class ModelVersion < ApplicationRecord
   validate :configuration_is_json
   before_save :parse_configuration
 
+  def full_name
+    "#{model.name} #{build_name}"
+  end
+
   private
 
   def configuration_is_json

@@ -5,13 +5,31 @@ services:
     tty: true
     build: .
     command: ./bin/dev
+    depends_on:
+      - postgres
     volumes:
       - .:/rails
     ports:
       - "3000:3000"
+    links:
+      - postgres
     environment:
       RAILS_ENV: production
       BUNDLE_DEPLOYMENT: "1"
       BUNDLE_PATH: /usr/local/bundle
       BUNDLE_WITHOUT: development
       SECRET_KEY_BASE: a20aff0f4264e4896b81c5377418b46f104fdb209ded3d58b521abf871853adcabd0d904c569def108a35345e29b5e1affad36cb6619f0b51738f7de5d59b528
+      DATABASE_PORT: 5432
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+  postgres:
+    image: postgres:14.4
+    ports:
+      - 5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+volumes:
+  postgres:

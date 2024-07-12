@@ -19,7 +19,7 @@ FROM base as build
 
 # Install packages needed to build gems and node dependencies
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libvips pkg-config curl
+    apt-get install --no-install-recommends -y build-essential git libvips pkg-config curl libpq-dev
 
 # Install Node.js and Yarn
 RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
@@ -49,7 +49,7 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips && \
+    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips libpq-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application, and node_modules

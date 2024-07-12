@@ -6,10 +6,12 @@
 #
 default: &default
   adapter: postgresql
-  username: postgres
-  password: password
-  encoding: utf-8
-  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  port: <%= ENV.fetch("DATABASE_PORT") { "5432" } %>
+  host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
+  user: <%= ENV.fetch("DATABASE_USERNAME") { "postgres" } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { "postgres" } %>
   port: 5432
   pool: 15
 

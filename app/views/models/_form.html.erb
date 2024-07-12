@@ -26,6 +26,11 @@
     <%= form.select :executor_type, Model.executor_types.keys.map { |w| [w.humanize, w] }, {}, class: "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %>
   </div>
 
+    <div class="my-5">
+    <%= form.label :api_key %>
+    <%= form.text_field :api_key, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>

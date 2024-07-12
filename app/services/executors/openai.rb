@@ -1,6 +1,6 @@
 class Executors::Openai < Executors::Base
   def initialize(model_version)
-    @client = OpenAI::Client.new(access_token: ENV["OPENAI_ACCESS_TOKEN"], log_errors: true )
+    @client = OpenAI::Client.new(access_token: model_version.api_key, log_errors: true )
     super(model_version)
   end
 

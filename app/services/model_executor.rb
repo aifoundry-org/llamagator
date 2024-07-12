@@ -1,20 +1,19 @@
 class ModelExecutor
-  attr_reader :model_version
+  attr_reader :executor
 
   def initialize(model_version)
-    @model_version = model_version
+    @executor = executor_by_type(model_version.executor_type).new(model_version)
   end
 
-  def call(text)
-    model = model_version.model
-    uri = URI.parse(model.url)
-    header = {'Content-Type': 'application/json'}
-    data = model_version.configuration.merge(prompt: "This is a conversation between User and OLMo<|endoftext|>\n\nUser:\n" + text + "\n OLMo: ")
+  def call(prompt)
+    executor.call(prompt)
+  end
 
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri, header)
-    request.body = data.to_json
-    response = http.request(request)
-    JSON.parse(response.body)["content"].to_s
+  private
+
+  def executor_by_type(type)
+    return Executors::Openai if type == 'openai'
+
+    Executors::Base
   end
 end

@@ -8,8 +8,65 @@
 
     <%= link_to "Edit this prompt", edit_prompt_path(@prompt), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <%= link_to "Back to prompts", prompts_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Create test runs", new_prompt_test_run_path(@prompt), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this prompt", @prompt, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>
+  </div>
+</div>
+
+<h1 class="font-bold text-4xl">Test Results</h1>
+<div class="w-full overflow-hidden rounded-lg shadow-xs">
+  <div class="w-full overflow-x-auto">
+    <table class="w-full whitespace-no-wrap">
+      <thead>
+        <tr
+          class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+        >
+          <th class="px-4 py-3">Model</th>
+          <th class="px-4 py-3">Model version</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Result</th>
+          <th class="px-4 py-3">Created at</th>
+          <th class="px-4 py-3">Rating</th>
+        </tr>
+      </thead>
+      <tbody
+        class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+      >
+        <% @test_results.each do |test_result| %>
+          <tr class="text-gray-700 dark:text-gray-400">
+            <td class="px-4 py-3 text-sm">
+              <p class="font-semibold"><%= link_to test_result.model_version.model.name, test_result.model_version.model %></p>
+            </td>
+            <td class="px-4 py-3 text-sm">
+              <p class="font-semibold"><%= link_to test_result.model_version.build_name, [test_result.model_version.model, test_result.model_version] %></p>
+            </td>
+            <td class="px-4 py-3 text-xs">
+              <span
+                class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_status_class(test_result.status) %>"
+              >
+                <%= test_result.status.capitalize %>
+              </span>
+            </td>
+            <td class="px-4 py-3 text-sm">
+              <%= test_result.result %>
+            </td>
+            <td class="px-4 py-3 text-sm">
+              <%= test_result.created_at.to_date %>
+            </td>
+            <td class="px-4 py-3 text-sm">
+              <div class="flex items-center" data-test-result-id="<%= test_result.id %>">
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 1 %>" data-value="1">&#9733;</span>
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 2 %>" data-value="2">&#9733;</span>
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 3 %>" data-value="3">&#9733;</span>
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 4 %>" data-value="4">&#9733;</span>
+                <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 5 %>" data-value="5">&#9733;</span>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>

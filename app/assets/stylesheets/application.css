@@ -51,3 +51,11 @@
 .star.selected {
     color: #fbbf24; /* Tailwind yellow-400 */
 }
+
+.panel-half {
+    width: 50%;
+}
+.result-container {
+    max-height: 200px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Add vertical scroll if content exceeds max height */
+}

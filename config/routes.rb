@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   resources :prompts do
     resources :test_runs, only: [:new, :create]
+    resources :compare, only: [:index]
   end
 
-  resources :test_results, only: :update
+  resources :test_results, only: [:index, :update]
 
   resources :models do
     resources :model_versions

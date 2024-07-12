@@ -7,7 +7,6 @@
 
       <%= render @prompt %>
 
-      <%= link_to "Edit this prompt", edit_prompt_path(@prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
       <%= link_to "Back to prompts", prompts_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
       <%= link_to "Create test runs", new_prompt_test_run_path(@prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
       <div class="inline-block ml-2">

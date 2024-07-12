@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :prompts do
+  resources :prompts, except: %i[edit update] do
     resources :test_runs, only: [:new, :create]
   end
 

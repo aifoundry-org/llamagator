@@ -1,13 +1,6 @@
 class CompareController < ApplicationController
-  before_action :set_prompt
-
   def index
+    @prompts = current_user.prompts
     @model_versions = current_user.model_versions.includes(:model)
-  end
-
-  private
-
-  def set_prompt
-    @prompt = current_user.prompts.find(params[:prompt_id])
   end
 end

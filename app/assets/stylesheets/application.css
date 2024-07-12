@@ -56,6 +56,15 @@
     width: 50%;
 }
 .result-container {
-    max-height: 200px; /* Adjust the maximum height as needed */
+    max-height: 100%; /* Adjust the maximum height as needed */
     overflow-y: auto; /* Add vertical scroll if content exceeds max height */
+}
+
+.secondary-button {
+    background-color: gray;
+}
+
+
+.delete-button {
+    background-color: red;
 }

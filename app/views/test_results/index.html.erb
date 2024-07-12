@@ -1,23 +1,9 @@
 <div class="container mx-auto mt-10 w-full">
-  <div class="mx-auto md:w-2/3 w-full flex">
-    <div class="mx-auto">
-      <% if notice.present? %>
-        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-      <% end %>
-
-      <%= render @prompt %>
-
-      <%= link_to "Edit this prompt", edit_prompt_path(@prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-      <%= link_to "Back to prompts", prompts_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-      <%= link_to "Create test runs", new_prompt_test_run_path(@prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-      <div class="inline-block ml-2">
-        <%= button_to "Destroy this prompt", @prompt, method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>
-      </div>
-    </div>
-  </div>
-
-  <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs">
+  <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Test Results</h1>
+    <%= link_to "Export", '', class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+  <div class="w-full overflow-hidden rounded-lg shadow-xs mx-auto mt-10 w-full">
     <div class="w-full overflow-x-auto">
       <table class="w-full whitespace-no-wrap">
         <thead>

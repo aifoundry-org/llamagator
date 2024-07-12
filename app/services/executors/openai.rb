@@ -11,9 +11,9 @@ class Executors::Openai < Executors::Base
 
     result = client.chat(parameters: parameters)
 
-    { status: :completed, result: result.to_s }
+    { status: :completed, result: result.to_json.to_s }
   rescue => e
-    return { status: :failed, result: e.response.to_s } if e.respond_to?(:response)
+    return { status: :failed, result: e.response[:body].to_json.to_s } if e.respond_to?(:response)
 
     { status: :failed }
   end

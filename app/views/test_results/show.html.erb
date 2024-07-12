@@ -1,0 +1,19 @@
+<div class="container mx-auto mt-10 w-full">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Model Name:</strong>
+    <%= @test_result.model_version.model.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Model Version:</strong>
+    <%= @test_result.model_version.build_name %>
+  </p>
+
+  <strong class="block font-medium mb-1">Result:</strong>
+  <pre id="json-display"></pre>
+</div>
+
+<script>
+  var jsonData = <%= raw @test_result.result %>;
+  document.getElementById('json-display').textContent = JSON.stringify(jsonData, null, 2);
+</script>

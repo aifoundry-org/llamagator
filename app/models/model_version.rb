@@ -2,6 +2,7 @@ class ModelVersion < ApplicationRecord
   belongs_to :model
   validate :configuration_is_json
   before_save :parse_configuration
+  delegate :executor_type, to: :model
 
   def full_name
     "#{model.name} #{build_name}"

@@ -1,26 +1,19 @@
 class ModelExecutor
-  attr_reader :model_version
+  attr_reader :executor
 
   def initialize(model_version)
-    @model_version = model_version
+    @executor = executor_by_type(model_version.executor_type).new(model_version)
   end
 
   def call(prompt)
-    model = model_version.model
-    uri = URI.parse(model.url)
-    header = {'Content-Type': 'application/json'}
-    data = model_version.configuration.merge(prompt: prompt)
+    executor.call(prompt)
+  end
 
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri, header)
-    request.body = data.to_json
-    http.read_timeout = 2000
-    response = http.request(request)
+  private
 
-    return { status: :completed, result: response.body } if response.code.to_i == 200
+  def executor_by_type(type)
+    return Executors::Openai if type == 'openai'
 
-    { status: :failed, result: response.body }
-  rescue
-    { status: :failed }
+    Executors::Base
   end
 end

@@ -16,7 +16,7 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Built on:</strong>
-    <%= model_version.built_on %>
+    <%= model_version.built_on&.to_date || 'not specified' %>
   </p>
 
   <p class="my-5">

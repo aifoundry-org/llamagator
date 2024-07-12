@@ -5,21 +5,25 @@
 #   gem "sqlite3"
 #
 default: &default
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  adapter: postgresql
+  username: postgres
+  password: password
+  encoding: utf-8
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  port: 5432
+  pool: 15
 
 development:
   <<: *default
-  database: storage/development.sqlite3
+  database: llamagator_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: storage/test.sqlite3
+  database: llamagator_test
 
 production:
   <<: *default
-  database: storage/production.sqlite3
+  database: llamagator_production

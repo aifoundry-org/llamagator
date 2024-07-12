@@ -78,4 +78,6 @@ Rails.application.configure do
 
   # for Devise to know where email is going
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.hosts << "formally-grateful-man.ngrok-free.app"
 end

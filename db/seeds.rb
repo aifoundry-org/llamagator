@@ -9,3 +9,10 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+# Create user for Discord bot use it.
+# Same creds shoudl be added to bot app environment
+bot_email = Rails.application.credentials.bot_user.email
+bot_password = Rails.application.credentials.bot_user.password
+
+User.create!(email: bot_email, password: bot_password)

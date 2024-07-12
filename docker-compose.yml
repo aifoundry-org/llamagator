@@ -1,34 +1,12 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  web:
-    tty: true
-    build: .
-    command: ./bin/dev
-    depends_on:
-      - postgres
-    volumes:
-      - .:/rails
-    ports:
-      - "3000:3000"
-    links:
-      - postgres
-    environment:
-      RAILS_ENV: production
-      BUNDLE_DEPLOYMENT: "1"
-      BUNDLE_PATH: /usr/local/bundle
-      BUNDLE_WITHOUT: development
-      DATABASE_PORT: 5432
-      DATABASE_HOST: postgres
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: postgres
   postgres:
-    image: postgres:14.4
-    ports:
-      - 5432
-    volumes:
-      - postgres:/var/lib/postgresql/data
+    container_name: llamagator_postgres
+    image: postgres
+    restart: always
+    shm_size: 128mb
     environment:
-      POSTGRES_PASSWORD: postgres
-volumes:
-  postgres:
+      POSTGRES_PASSWORD: example
+    ports:
+      - 5432:5432

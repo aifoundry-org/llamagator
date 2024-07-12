@@ -4,6 +4,11 @@ class TestResult < ApplicationRecord
 
   enum :status, [ :pending, :completed, :failed ], scopes: true, default: :pending
 
+  def as_json(options={})
+    options[:methods] ||= [:content]
+    super
+  end
+
   def content
     return '' if pending?
 

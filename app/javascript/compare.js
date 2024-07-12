@@ -14,16 +14,14 @@ function fetchLatestTestResult(panel, modelVersionId, promptId) {
             <p>Created At: ${result.created_at}</p>
             <div class="flex items-center" data-test-result-id="${result.id}">
               <span class="star ${result.rating && result.rating >= 1 ? 'selected' : '' }" data-value="1">&#9733;</span>
-              <span class="star ${result.rating && result.rating >= 2 ? 'selected' : '' }<%= 'selected' if test_result.rating && test_result.rating >= 2 %>" data-value="2">&#9733;</span>
-              <span class="star ${result.rating && result.rating >= 3 ? 'selected' : '' }<%= 'selected' if test_result.rating && test_result.rating >= 3 %>" data-value="3">&#9733;</span>
-              <span class="star ${result.rating && result.rating >= 14 ? 'selected' : '' }<%= 'selected' if test_result.rating && test_result.rating >= 4 %>" data-value="4">&#9733;</span>
-              <span class="star ${result.rating && result.rating >= 1 ? 'selected' : '' }<%= 'selected' if test_result.rating && test_result.rating >= 5 %>" data-value="5">&#9733;</span>
+              <span class="star ${result.rating && result.rating >= 2 ? 'selected' : '' }" data-value="2">&#9733;</span>
+              <span class="star ${result.rating && result.rating >= 3 ? 'selected' : '' }" data-value="3">&#9733;</span>
+              <span class="star ${result.rating && result.rating >= 4 ? 'selected' : '' }" data-value="4">&#9733;</span>
+              <span class="star ${result.rating && result.rating >= 5 ? 'selected' : '' }" data-value="5">&#9733;</span>
             </div>
-            <pre id="json-display-${modelVersionId}"></pre>
+            <p>Result: ${result.content}</p>
           </div>
         `;
-
-        document.getElementById(`json-display-${modelVersionId}`).textContent = JSON.stringify(JSON.parse(result.result))
 
       } else {
         resultDiv.innerHTML = `<p>No test results available</p>`;

@@ -7,7 +7,7 @@
     <%= render @model_version %>
 
     <%= link_to "Edit this model version", edit_model_model_version_path(@model, @model_version), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to model versions", model_model_versions_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <%= link_to "Back to model", model_path(@model), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this model version", [@model, @model_version], method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>
     </div>

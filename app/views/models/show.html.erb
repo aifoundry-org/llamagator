@@ -7,10 +7,40 @@
     <%= render @model %>
 
     <%= link_to "Edit this model", edit_model_path(@model), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Model Versions", model_model_versions_path(@model), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to Dashboard", root_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <%= link_to "New model version", new_model_model_version_path(@model), class: "mt-2 rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this model", @model, method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>
     </div>
+
+    <h3 class="mt-10 mb-10 font-bold text-2xl">Model versions</h3>
+    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+          >
+            <th class="px-4 py-3">Build name</th>
+            <th class="px-4 py-3">Built on</th>
+          </tr>
+        </thead>
+        <tbody
+          class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+        >
+          <% @model_versions.each do |model_version| %>
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3 text-sm">
+                <p class="font-semibold"><%= link_to model_version.build_name, [@model, model_version] %></p>
+              </td>
+              <td class="px-4 py-3 text-sm">
+                <%= model_version.built_on&.to_date || 'not specified' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+
   </div>
 </div>

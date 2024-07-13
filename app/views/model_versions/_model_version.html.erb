@@ -6,7 +6,7 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Configuration:</strong>
-    <%= model_version.configuration&.to_json %>
+    <pre id="json-display"></pre>
   </p>
 
   <p class="my-5">
@@ -25,3 +25,8 @@
   </p>
 
 </div>
+
+<script>
+  var jsonData = <%= raw model_version.configuration&.to_json || '{}' %>;
+  document.getElementById('json-display').textContent = JSON.stringify(jsonData, null, 2);
+</script>

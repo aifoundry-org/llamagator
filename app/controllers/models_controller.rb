@@ -8,6 +8,7 @@ class ModelsController < ApplicationController
 
   # GET /models/1 or /models/1.json
   def show
+    @model_versions = @model.model_versions
   end
 
   # GET /models/new

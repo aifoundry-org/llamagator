@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TestResultsController < ApplicationController
-  before_action :set_test_result, only: [:show, :update]
+  before_action :set_test_result, only: %i[show update]
 
   def update
     if @test_result.update(test_results_params)
@@ -12,7 +14,10 @@ class TestResultsController < ApplicationController
   def index
     @test_results = current_user.test_results.includes(model_version: :model).order(created_at: :desc)
 
-    @test_results = @test_results.where(model_version_id: params[:model_version_id], prompt_id: params[:prompt_id]) if params[:model_version_id].present? && params[:prompt_id].present?
+    if params[:model_version_id].present? && params[:prompt_id].present?
+      @test_results = @test_results.where(model_version_id: params[:model_version_id],
+                                          prompt_id: params[:prompt_id])
+    end
 
     respond_to do |format|
       format.html { render :index }

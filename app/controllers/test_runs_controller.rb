@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TestRunsController < ApplicationController
   before_action :set_prompt
 

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ModelsController < ApplicationController
-  before_action :set_model, only: %i[ show edit update destroy ]
+  before_action :set_model, only: %i[show edit update destroy]
 
   # GET /models or /models.json
   def index
@@ -17,8 +19,7 @@ class ModelsController < ApplicationController
   end
 
   # GET /models/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /models or /models.json
   def create
@@ -26,7 +27,7 @@ class ModelsController < ApplicationController
 
     respond_to do |format|
       if @model.save
-        format.html { redirect_to model_url(@model), notice: "Model successfully created." }
+        format.html { redirect_to model_url(@model), notice: 'Model successfully created.' }
         format.json { render :show, status: :created, location: @model }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +40,7 @@ class ModelsController < ApplicationController
   def update
     respond_to do |format|
       if @model.update(model_params)
-        format.html { redirect_to model_url(@model), notice: "Model successfully updated." }
+        format.html { redirect_to model_url(@model), notice: 'Model successfully updated.' }
         format.json { render :show, status: :ok, location: @model }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -53,12 +54,13 @@ class ModelsController < ApplicationController
     @model.destroy!
 
     respond_to do |format|
-      format.html { redirect_to models_url, notice: "Model successfully destroyed." }
+      format.html { redirect_to models_url, notice: 'Model successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_model
     @model = current_user.models.find(params[:id])

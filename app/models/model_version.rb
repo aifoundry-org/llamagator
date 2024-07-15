@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ModelVersion < ApplicationRecord
   belongs_to :model
   has_many :test_results, dependent: :destroy

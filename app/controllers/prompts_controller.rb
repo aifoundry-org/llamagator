@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PromptsController < ApplicationController
-  before_action :set_prompt, only: %i[ show destroy ]
+  before_action :set_prompt, only: %i[show destroy]
 
   # GET /prompts or /prompts.json
   def index
@@ -22,7 +24,7 @@ class PromptsController < ApplicationController
 
     respond_to do |format|
       if @prompt.save
-        format.html { redirect_to prompt_url(@prompt), notice: "Prompt was successfully created." }
+        format.html { redirect_to prompt_url(@prompt), notice: 'Prompt was successfully created.' }
         format.json { render :show, status: :created, location: @prompt }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -36,12 +38,13 @@ class PromptsController < ApplicationController
     @prompt.destroy!
 
     respond_to do |format|
-      format.html { redirect_to prompts_url, notice: "Prompt was successfully destroyed." }
+      format.html { redirect_to prompts_url, notice: 'Prompt was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_prompt
     @prompt = current_user.prompts.find(params[:id])

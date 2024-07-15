@@ -49,6 +49,9 @@ group :development, :test do
   gem 'pry'
   gem "debug", platforms: %i[ mri windows ]
   gem "dotenv", "~> 3.1"
+  gem 'rspec-rails', '~> 5.0.0'
+  gem 'factory_bot_rails'
+  gem 'rails-controller-testing'
 end
 
 group :development do
@@ -66,6 +69,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'database_cleaner'
+  gem 'webmock', '~> 3.14'
 end
 
 gem "ruby-openai", "~> 7.0"

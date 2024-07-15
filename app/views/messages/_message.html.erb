@@ -1,7 +1,0 @@
-<div id="<%= dom_id message %>" class="message-bubble <%= message.body.start_with?('CHATGPT: ') ? 'green' : '' %>">
-  <% if message.body.start_with? "CHATGPT: " %>
-  <%= message.body.gsub! /^CHATGPT: /, "" %>
-  <% else %>
-  <%= message.body %>
-  <% end %>
-</div>

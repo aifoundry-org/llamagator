@@ -10,24 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_12_102033) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_15_112948) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "chats", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "messages", force: :cascade do |t|
-    t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "from", default: "user"
-    t.bigint "chat_id", null: false
-    t.index ["chat_id"], name: "index_messages_on_chat_id"
-  end
 
   create_table "model_versions", force: :cascade do |t|
     t.bigint "model_id", null: false
@@ -49,14 +34,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_12_102033) do
     t.integer "executor_type"
     t.string "api_key"
     t.index ["user_id"], name: "index_models_on_user_id"
-  end
-
-  create_table "participants", force: :cascade do |t|
-    t.string "name"
-    t.text "configuration"
-    t.string "implementor"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "prompts", force: :cascade do |t|
@@ -196,7 +173,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_12_102033) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "messages", "chats"
   add_foreign_key "model_versions", "models"
   add_foreign_key "prompts", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

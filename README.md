@@ -1,5 +1,7 @@
 # Llamagator
 
+<img src="/public/logo.png" alt="Llamagator logo" width="200"/>
+
 Welcome to Llamagator! This project is built using Ruby on Rails and is designed to be easily set up using Docker Compose.
 
 ## Table of Contents

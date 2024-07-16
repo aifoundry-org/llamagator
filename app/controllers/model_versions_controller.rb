@@ -27,7 +27,7 @@ class ModelVersionsController < ApplicationController
     respond_to do |format|
       if @model_version.save
         format.html { redirect_to model_model_version_url(@model, @model_version), notice: "Model version was successfully created." }
-        format.json { render :show, status: :created, location: @model_version }
+        format.json { render :show, status: :created, location: model_model_version_url(@model, @model_version) }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @model_version.errors, status: :unprocessable_entity }

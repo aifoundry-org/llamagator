@@ -71,6 +71,7 @@ end
 gem "ruby-openai", "~> 7.0"
 
 gem "devise", "~> 4.9"
+gem "devise-jwt", "~> 0.12.0"
 
 gem "solid_queue", "~> 0.3.3"
 

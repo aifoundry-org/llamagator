@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 begin
   credentials = Rails.application.credentials
 
   unless credentials.dig(:active_record_encryption, :primary_key) &&
-          credentials.dig(:active_record_encryption, :deterministic_key) &&
-          credentials.dig(:active_record_encryption, :key_derivation_salt)
+         credentials.dig(:active_record_encryption, :deterministic_key) &&
+         credentials.dig(:active_record_encryption, :key_derivation_salt)
     new_keys = {
       active_record_encryption: {
         primary_key: SecureRandom.hex(16),
@@ -13,9 +15,9 @@ begin
     }
 
     encrypted = ActiveSupport::EncryptedConfiguration.new(
-      config_path: "config/credentials.yml.enc",
-      key_path: "config/master.key",
-      env_key: "RAILS_MASTER_KEY",
+      config_path: 'config/credentials.yml.enc',
+      key_path: 'config/master.key',
+      env_key: 'RAILS_MASTER_KEY',
       raise_if_missing_key: true
     )
 
@@ -23,6 +25,6 @@ begin
     updated_credentials = current_credentials.deep_merge(new_keys)
     encrypted.write(updated_credentials.to_yaml)
   end
-rescue => e
+rescue StandardError
   nil
 end

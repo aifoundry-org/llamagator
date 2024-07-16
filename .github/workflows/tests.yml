@@ -1,11 +1,4 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
-# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
-
-name: Ruby
+name: Ruby with PostgreSQL
 
 on:
   push:
@@ -22,19 +15,63 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.6', '2.7', '3.0']
+        ruby-version: ['3.3.0']
+
+    services:
+      db:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Ruby
-    # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
-    # change this to (see https://github.com/ruby/setup-ruby#versioning):
-    # uses: ruby/setup-ruby@v1
-      uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
+    - name: Set up Ruby and PostgreSQL
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+        mirror: 'bd' # Use the Brazilian mirror for faster downloads
+
+    - name: Install PostgreSQL client
+      run: |
+        sudo apt-get install postgresql-client
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        until pg_isready -h localhost -p 5432 -U postgres; do
+          echo "Waiting for PostgreSQL to start..."
+          sleep 1
+        done
+    - name: Generate creds file
+      run: |
+        EDITOR="mate --wait" ./bin/rails credentials:edit
+
+    - name: Install Node.js and Yarn
+      run: |
+        curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+        sudo apt-get install -y nodejs
+        npm install -g yarn
+
+    - name: Yarn install
+      run: |
+        yarn install
+
+    - name: Precompile assets
+      run: |
+        SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+
+    - name: Setup database schema
+      run: |
+        # Replace with your database setup commands (e.g., migrations)
+        bundle exec rake db:create db:schema:load
+
     - name: Run tests
       run: bundle exec rspec
+
     - name: Run rubocop
       run: bundle exec rubocop -DES

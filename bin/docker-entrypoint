@@ -6,7 +6,7 @@ generate_credentials() {
     echo "Generating master key and credentials..."
     rm -f config/master.key config/credentials.yml.enc
     # Generate credentials
-    EDITOR="mate --wait" rails credentials:edit
+    rails credentials:edit
   fi
 }
 

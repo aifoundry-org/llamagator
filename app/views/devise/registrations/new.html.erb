@@ -10,8 +10,7 @@
   <div class="w-full max-w-md">
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <div class="flex justify-center mb-6">
-        <img src="/assets/logo.png" />
-        <%= image_tag asset_path('logo.png'), alt: 'Logo', class: 'h-16 w-16' %>
+        <img class='h-16 w-16' src="/logo.png" alt="Logo" />
       </div>
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "w-full" }) do |form| %>
         <%= form.hidden_field :role, value: "user" %>

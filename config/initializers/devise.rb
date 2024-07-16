@@ -313,7 +313,13 @@ Devise.setup do |config|
 
   # devise-jwt config
   config.jwt do |jwt|
-    credentials = Rails.application.credentials
+    credentials = begin
+      Rails.application.credentials
+    rescue StandardError
+      nil
+    end
+
+    break unless credentials
 
     if credentials.devise_jwt_secret_key.present?
       jwt.secret = credentials.devise_jwt_secret_key!

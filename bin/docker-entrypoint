@@ -1,6 +1,18 @@
 #!/bin/bash -e
 
 # If running the rails server then create or migrate existing database
+generate_credentials() {
+  if [ ! -f "config/master.key" ] || [ ! -f "config/credentials.yml.enc" ]; then
+    echo "Generating master key and credentials..."
+    rm -f config/master.key config/credentials.yml.enc
+    # Generate credentials
+    EDITOR="mate --wait" rails credentials:edit
+  fi
+}
+
+# Generate credentials
+generate_credentials
+
 ./bin/rails db:prepare
 
 exec "${@}"

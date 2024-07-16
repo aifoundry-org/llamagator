@@ -1,0 +1,1 @@
+Add this entry to the credentials of the target environment: active_record_encryption: primary_key: fSTdCcdkL2gqREGZRruBGpaVWo4lwYFR deterministic_key: 9JnNhfymGDeKIKdNABAGO7mwzCBdI7aS key_derivation_salt: TFdLjYpQRHcUXkEbZhU744n5apG9lz5q rails credentials:edit

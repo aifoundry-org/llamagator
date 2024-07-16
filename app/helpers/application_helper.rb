@@ -11,4 +11,10 @@ module ApplicationHelper
       'text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100'
     end
   end
+
+  def rating_tag(model)
+    (1..5).map do |rating_value|
+      content_tag(:span, '&#9733;'.html_safe, class: "star #{'selected' if model.rating.to_i >= rating_value}", data: { value: rating_value })
+    end.join('').html_safe
+  end
 end

@@ -21,40 +21,44 @@
         <tbody
           class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
         >
-          <% @test_results.each do |test_result| %>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3 text-sm">
-                <p class="font-semibold"><%= link_to test_result.model_version.model.name, test_result.model_version.model %></p>
-              </td>
-              <td class="px-4 py-3 text-sm">
-                <p class="font-semibold"><%= link_to test_result.model_version.build_name, [test_result.model_version.model, test_result.model_version] %></p>
-              </td>
-              <td class="px-4 py-3 text-sm">
-                <p class="font-semibold"><%= link_to test_result.id, test_result %></p>
-              </td>
-              <td class="px-4 py-3 text-xs">
-                <span
-                  class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_status_class(test_result.status) %>"
-                >
-                  <%= test_result.status.capitalize %>
-                </span>
-              </td>
-              <td class="px-4 py-3 text-sm">
-                <%= test_result.content %>
-              </td>
-              <td class="px-4 py-3 text-sm">
-                <%= test_result.created_at.to_date %>
-              </td>
-              <td class="px-4 py-3 text-sm">
-                <div class="flex items-center" data-test-result-id="<%= test_result.id %>">
-                  <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 1 %>" data-value="1">&#9733;</span>
-                  <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 2 %>" data-value="2">&#9733;</span>
-                  <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 3 %>" data-value="3">&#9733;</span>
-                  <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 4 %>" data-value="4">&#9733;</span>
-                  <span class="star <%= 'selected' if test_result.rating && test_result.rating >= 5 %>" data-value="5">&#9733;</span>
-                </div>
+          <% if @test_results.empty? %>
+            <tr>
+              <td colspan="7" class="px-4 py-3 text-center">
+                <p class="text-gray-500">No test results found.</p>
               </td>
             </tr>
+          <% else %>
+            <% @test_results.each do |test_result| %>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= link_to test_result.model_version.model.name, test_result.model_version.model %></p>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= link_to test_result.model_version.build_name, [test_result.model_version.model, test_result.model_version] %></p>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= link_to test_result.id, test_result %></p>
+                </td>
+                <td class="px-4 py-3 text-xs">
+                  <span
+                    class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_status_class(test_result.status) %>"
+                  >
+                    <%= test_result.status.capitalize %>
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= test_result.content %>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= test_result.created_at.to_date %>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <div class="flex items-center" data-test-result-id="<%= test_result.id %>">
+                    <%= rating_tag(test_result) %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

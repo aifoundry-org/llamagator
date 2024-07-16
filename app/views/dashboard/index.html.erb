@@ -134,37 +134,45 @@
         <tbody
           class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
         >
-          <% current_user.models.each do |model| %>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <!-- Avatar with inset shadow -->
-                  <div
-                    class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
-                  >
-                    <%# <img
-                      class="object-cover w-full h-full rounded-full"
-                      src=""
-                      alt=""
-                      loading="lazy"
-                    /> %>
-                    <div
-                      class="absolute inset-0 rounded-full shadow-inner"
-                      aria-hidden="true"
-                    ></div>
-                  </div>
-                  <div>
-                    <p class="font-semibold"><%= link_to model.name, model %></p>
-                    <%# <p class="text-xs text-gray-600 dark:text-gray-400">
-                      Prompt
-                    </p> %>
-                  </div>
-                </div>
-              </td>
-              <td class="px-4 py-3 text-sm">
-                <%= model.created_at.to_date %>
+          <% if current_user.models.empty? %>
+            <tr>
+              <td colspan="2" class="px-4 py-3 text-center">
+                <p class="text-gray-500">No models found.</p>
               </td>
             </tr>
+          <% else %>
+            <% current_user.models.each do |model| %>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3">
+                  <div class="flex items-center text-sm">
+                    <!-- Avatar with inset shadow -->
+                    <div
+                      class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
+                    >
+                      <%# <img
+                        class="object-cover w-full h-full rounded-full"
+                        src=""
+                        alt=""
+                        loading="lazy"
+                      /> %>
+                      <div
+                        class="absolute inset-0 rounded-full shadow-inner"
+                        aria-hidden="true"
+                      ></div>
+                    </div>
+                    <div>
+                      <p class="font-semibold"><%= link_to model.name, model %></p>
+                      <%# <p class="text-xs text-gray-600 dark:text-gray-400">
+                        Prompt
+                      </p> %>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= model.created_at.to_date %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

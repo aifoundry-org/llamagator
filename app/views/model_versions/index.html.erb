@@ -25,22 +25,30 @@
         <tbody
           class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
         >
-          <% @model_versions.each do |model_version| %>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3 text-sm">
-                <p class="font-semibold"><%= link_to model_version.build_name, [@model, model_version] %></p>
-              </td>
-              <td class="px-4 py-3">
-                <div class="flex items-center text-sm">
-                  <div>
-                    <p class="font-semibold"><%= link_to @model.name, @model %></p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-4 py-3 text-sm">
-                <%= model_version.built_on&.to_date || 'not specified' %>
+          <% if @model_versions.empty? %>
+            <tr>
+              <td colspan="3" class="px-4 py-3 text-center">
+                <p class="text-gray-500">No versions found.</p>
               </td>
             </tr>
+          <% else %>
+            <% @model_versions.each do |model_version| %>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= link_to model_version.build_name, [@model, model_version] %></p>
+                </td>
+                <td class="px-4 py-3">
+                  <div class="flex items-center text-sm">
+                    <div>
+                      <p class="font-semibold"><%= link_to @model.name, @model %></p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= model_version.built_on&.to_date || 'not specified' %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

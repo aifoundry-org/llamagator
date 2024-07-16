@@ -26,15 +26,23 @@
         <tbody
           class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
         >
-           <% @prompts.each do |prompt| %>
-            <tr class="text-gray-700 dark:text-gray-400">
-              <td class="px-4 py-3 text-sm">
-                <p class="font-semibold"><%= link_to prompt.name, prompt %></p>
-              </td>
-              <td class="px-4 py-3 text-sm">
-                <%= prompt.created_at.to_date %>
+          <% if @prompts.empty? %>
+            <tr>
+              <td colspan="2" class="px-4 py-3 text-center">
+                <p class="text-gray-500">No prompts found.</p>
               </td>
             </tr>
+          <% else %>
+            <% @prompts.each do |prompt| %>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= link_to prompt.name, prompt %></p>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= prompt.created_at.to_date %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

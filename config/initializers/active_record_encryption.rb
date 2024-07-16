@@ -6,11 +6,9 @@ rescue StandardError
   nil
 end
 
-return unless credentials
-
-unless credentials.dig(:active_record_encryption, :primary_key) &&
+if credentials.present? && !(credentials.dig(:active_record_encryption, :primary_key) &&
        credentials.dig(:active_record_encryption, :deterministic_key) &&
-       credentials.dig(:active_record_encryption, :key_derivation_salt)
+       credentials.dig(:active_record_encryption, :key_derivation_salt))
   new_keys = {
     active_record_encryption: {
       primary_key: SecureRandom.hex(16),

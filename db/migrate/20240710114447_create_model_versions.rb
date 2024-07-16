@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateModelVersions < ActiveRecord::Migration[7.1]
   def change
     create_table :model_versions do |t|

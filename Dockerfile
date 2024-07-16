@@ -11,8 +11,7 @@ WORKDIR /rails
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development" \
-    SECRET_KEY_BASE="a20aff0f4264e4896b81c5377418b46f104fdb209ded3d58b521abf871853adcabd0d904c569def108a35345e29b5e1affad36cb6619f0b51738f7de5d59b528"
+    BUNDLE_WITHOUT="development"
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
@@ -38,6 +37,10 @@ COPY . .
 # Install JavaScript dependencies
 RUN yarn install
 
+RUN gem install rails
+
+RUN gem install foreman
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
@@ -55,6 +58,8 @@ RUN apt-get update -qq && \
 # Copy built artifacts: gems, application, and node_modules
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
+
+# Generate Rails master key and encrypt database credentials
 
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \

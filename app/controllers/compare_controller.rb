@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CompareController < ApplicationController
   def index
     @prompts = current_user.prompts

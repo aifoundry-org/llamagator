@@ -8,35 +8,44 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
   <div class="w-full max-w-md">
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="<%= user_registration_path %>" method="post">
-      <h2 class="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="user_email">
-          Email
-        </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="user_email" type="email" name="user[email]" value="<%= params[:user] ? params[:user][:email] : '' %>" required>
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="flex justify-center mb-6">
+        <img class='h-16 w-16' src="/logo.png" alt="Logo" />
       </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="user_password">
-          Password
-        </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="user_password" type="password" name="user[password]" required>
-      </div>
-      <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="user_password_confirmation">
-          Confirm Password
-        </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="user_password_confirmation" type="password" name="user[password_confirmation]" required>
-      </div>
-      <div class="flex items-center justify-between">
-        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-          Sign Up
-        </button>
-        <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="<%= new_session_path(resource_name) %>">
-          Already have an account? Sign In
-        </a>
-      </div>
-    </form>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "w-full" }) do |form| %>
+        <%= form.hidden_field :role, value: "user" %>
+        <h2 class="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+        
+        <% if resource.errors.any? %>
+          <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Oops!</strong>
+            <% resource.errors.full_messages.each do |msg| %>
+              <span class="block sm:inline"><%= msg %></span><br>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <div class="mb-4">
+          <%= form.label :email, class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= form.email_field :email, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", required: true %>
+        </div>
+        
+        <div class="mb-4">
+          <%= form.label :password, class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= form.password_field :password, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline", required: true %>
+        </div>
+        
+        <div class="mb-6">
+          <%= form.label :password_confirmation, "Confirm Password", class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= form.password_field :password_confirmation, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline", required: true %>
+        </div>
+        
+        <div class="flex items-center justify-between">
+          <%= form.submit "Sign Up", class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+          <%= link_to "Sign In", new_session_path(resource_name), class: "inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </body>
 </html>

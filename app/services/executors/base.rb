@@ -1,26 +1,30 @@
-class Executors::Base
-  attr_reader :model_version
+# frozen_string_literal: true
 
-  def initialize(model_version)
-    @model_version = model_version
-  end
+module Executors
+  class Base
+    attr_reader :model_version
 
-  def call(prompt)
-    model = model_version.model
-    uri = URI.parse(model.url)
-    header = {'Content-Type': 'application/json'}
-    data = model_version.configuration.merge(prompt: "This is a conversation between User and OLMo<|endoftext|>\n\nUser:\n#{prompt}\n OLMo: ")
+    def initialize(model_version)
+      @model_version = model_version
+    end
 
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri, header)
-    request.body = data.to_json
-    http.read_timeout = 2000
-    response = http.request(request)
+    def call(prompt)
+      model = model_version.model
+      uri = URI.parse(model.url)
+      header = { 'Content-Type': 'application/json' }
+      data = model_version.configuration.merge(prompt: "This is a conversation between User and OLMo<|endoftext|>\n\nUser:\n#{prompt}\n OLMo: ")
 
-    return { status: :completed, result: response.body } if response.code.to_i == 200
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Post.new(uri.request_uri, header)
+      request.body = data.to_json
+      http.read_timeout = 2000
+      response = http.request(request)
 
-    { status: :failed, result: response.body }
-  rescue
-    { status: :failed }
+      return { status: :completed, result: response.body } if response.code.to_i == 200
+
+      { status: :failed, result: response.body }
+    rescue StandardError
+      { status: :failed }
+    end
   end
 end

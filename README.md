@@ -9,7 +9,6 @@ Welcome to Llamagator! This project is built using Ruby on Rails and is designed
   - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
 
 ## Introduction
 
@@ -65,9 +64,4 @@ We welcome contributions from the community! If you'd like to contribute to Llam
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-
-## Contact
-
-If you have any questions or suggestions regarding Llamagator, please feel free to contact us at [email@example.com](mailto:email@example.com).
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.

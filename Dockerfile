@@ -31,11 +31,12 @@ RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
+COPY package.json yarn.lock ./
+RUN yarn install --check-files
+
 # Copy application code
 COPY . .
 
-# Install JavaScript dependencies
-RUN yarn install
 
 RUN gem install rails
 
@@ -64,6 +65,8 @@ COPY --from=build /rails /rails
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
+
+RUN chmod 777 config/
 USER rails:rails
 
 # Entrypoint prepares the database.

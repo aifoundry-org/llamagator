@@ -7,8 +7,6 @@ services:
     command: ./bin/dev
     depends_on:
       - postgres
-    volumes:
-      - .:/rails
     ports:
       - "3000:3000"
     links:

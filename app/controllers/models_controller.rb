@@ -16,6 +16,7 @@ class ModelsController < ApplicationController
   # GET /models/new
   def new
     @model = current_user.models.new
+    @model_version = @model.model_versions.new
   end
 
   # GET /models/1/edit
@@ -68,6 +69,7 @@ class ModelsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def model_params
-    params.require(:model).permit(:name, :url, :executor_type, :api_key)
+    params.require(:model).permit(:name, :url, :executor_type, :api_key,
+                                  model_versions_attributes: %i[id configuration description built_on build_name _destroy])
   end
 end

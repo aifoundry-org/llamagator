@@ -13,7 +13,7 @@
 
   <div class="my-5">
     <%= form.label :configuration %>
-    <%= form.text_field :configuration, value: model_version&.configuration&.to_json, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_field :configuration, value: (model_version&.configuration || {})&.to_json, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
@@ -23,12 +23,12 @@
 
   <div class="my-5">
     <%= form.label :built_on %>
-    <%= form.date_field :built_on, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.date_field :built_on, value: model_version&.built_on || Date.today, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
     <%= form.label :build_name %>
-    <%= form.text_field :build_name, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_field :build_name, value: model_version&.build_name || "Version #{ @model.model_versions.count + 1 }", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="inline">

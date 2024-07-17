@@ -12,7 +12,7 @@ module Executors
       model = model_version.model
       uri = URI.parse(model.url)
       header = { 'Content-Type': 'application/json' }
-      data = model_version.configuration.merge(prompt: "This is a conversation between User and OLMo<|endoftext|>\n\nUser:\n#{prompt}\n OLMo: ")
+      data = model_version.configuration.merge(prompt: prompt)
 
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.request_uri, header)

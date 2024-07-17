@@ -23,8 +23,8 @@ module Executors
       return { status: :completed, result: response.body } if response.code.to_i == 200
 
       { status: :failed, result: response.body }
-    rescue StandardError
-      { status: :failed }
+    rescue StandardError => e
+      { status: :failed, result: e.message }
     end
   end
 end

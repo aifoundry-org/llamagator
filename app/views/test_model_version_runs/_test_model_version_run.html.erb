@@ -1,0 +1,15 @@
+<div id="<%= dom_id test_model_version_run %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Model:</strong>
+    <%= test_model_version_run.model_version.model.name %>
+  </p>
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Model version:</strong>
+    <%= test_model_version_run.model_version.build_name %>
+  </p>
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Prompt:</strong>
+    <%= test_model_version_run.test_run.prompt.value %>
+  </p>
+
+</div>

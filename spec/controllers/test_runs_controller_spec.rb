@@ -7,17 +7,27 @@ RSpec.describe TestRunsController, type: :controller do
   let(:prompt) { create(:prompt, user:) }
   let(:model) { create(:model, user:) }
   let(:model_version) { create(:model_version, model:) }
-  let(:test_run) { create(:test_run, prompt:) }
+  let!(:test_run) { create(:test_run, prompt:) }
 
   before do
     sign_in user
   end
 
   describe 'GET #index' do
+    let(:prompt_2) { create(:prompt, user:) }
+
+    let!(:test_run_2) { create(:test_run, prompt: prompt_2) }
+
     it 'returns a success response' do
       get :index
       expect(response).to be_successful
-      expect(assigns(:test_runs)).to eq(user.test_runs.includes(model_versions: :model).all)
+      expect(assigns(:test_runs)).to match_array([test_run, test_run_2])
+    end
+
+    it 'filters test results by prompt_id' do
+      get :index, params: { prompt_id: prompt.id }
+      expect(response).to be_successful
+      expect(assigns(:test_runs)).to match_array([test_run])
     end
   end
 

@@ -8,7 +8,11 @@ Rails.application.routes.draw do
     resources :test_model_version_runs, only: %i[show]
   end
 
-  resources :compare, only: [:index]
+  resources :compare, only: [:index] do
+    collection do
+      get :model_versions
+    end
+  end
 
   resources :test_results, only: %i[index update show]
 

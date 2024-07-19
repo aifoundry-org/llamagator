@@ -6,6 +6,8 @@ class TestRunsController < ApplicationController
   # GET /test_runs or /test_runs.json
   def index
     @test_runs = current_user.test_runs.includes(model_versions: :model).all
+
+    @test_runs = @test_runs.where(prompt_id: params[:prompt_id]) if params[:prompt_id].present?
   end
 
   # GET /test_runs/1 or /test_runs/1.json

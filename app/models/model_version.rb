@@ -9,6 +9,11 @@ class ModelVersion < ApplicationRecord
   delegate :executor_type, to: :model
   delegate :api_key, to: :model
 
+  def as_json(options = {})
+    options[:methods] ||= [:full_name]
+    super
+  end
+
   def full_name
     "#{model.name} #{build_name}"
   end

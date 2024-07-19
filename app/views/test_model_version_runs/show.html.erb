@@ -5,49 +5,59 @@
         <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
       <% end %>
 
-      <%= render @prompt %>
+      <%= render @test_model_version_run %>
 
-      <%= link_to "Back to prompts", prompts_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-      <%= link_to "Create test runs", new_test_run_path(prompt_id: @prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-      <div class="inline-block ml-2">
-        <%= button_to "Destroy this prompt", @prompt, method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>
-      </div>
+      <%= link_to "Back to test run", test_run_path(@test_run), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
   </div>
 
   <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs">
-    <h1 class="font-bold text-4xl">Test Runs</h1>
+    <h1 class="font-bold text-4xl">Test Results</h1>
     <div class="w-full overflow-x-auto">
       <table class="w-full whitespace-no-wrap">
         <thead>
           <tr
             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
           >
-            <th class="px-4 py-3">Models</th>
             <th class="px-4 py-3">ID</th>
+            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">Result</th>
             <th class="px-4 py-3">Created at</th>
+            <th class="px-4 py-3">Rating</th>
           </tr>
         </thead>
         <tbody
           class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
         >
-          <% if @test_runs.empty? %>
+          <% if @test_results.empty? %>
             <tr>
               <td colspan="7" class="px-4 py-3 text-center">
-                <p class="text-gray-500">No test runs found.</p>
+                <p class="text-gray-500">No test results found.</p>
               </td>
             </tr>
           <% else %>
-            <% @test_runs.each do |test_run| %>
+            <% @test_results.each do |test_result| %>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= test_run.model_versions.map(&:full_name).join(', ') %></p>
+                  <p class="font-semibold"><%= link_to test_result.id, test_result %></p>
+                </td>
+                <td class="px-4 py-3 text-xs">
+                  <span
+                    class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_status_class(test_result.status) %>"
+                  >
+                    <%= test_result.status.capitalize %>
+                  </span>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to test_run.id, test_run %></p>
+                  <%= test_result.content %>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <%= test_run.created_at.to_date %>
+                  <%= test_result.created_at.to_date %>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <div class="flex items-center" data-test-result-id="<%= test_result.id %>">
+                    <%= rating_tag(test_result) %>
+                  </div>
                 </td>
               </tr>
             <% end %>

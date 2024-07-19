@@ -12,12 +12,13 @@ class TestResultsController < ApplicationController
   end
 
   def index
-    @test_results = current_user.test_results.includes(model_version: :model).order(created_at: :desc)
+    @test_results = current_user.test_results.includes(test_model_version_run: { model_version: :model }).order(created_at: :desc)
 
-    if params[:model_version_id].present? && params[:prompt_id].present?
-      @test_results = @test_results.where(model_version_id: params[:model_version_id],
-                                          prompt_id: params[:prompt_id])
+    if params[:model_version_id].present? && params[:test_run_id].present?
+      @test_results = @test_results.joins(:test_model_version_run).where(test_model_version_runs: { model_version_id: params[:model_version_id], test_run_id: params[:test_run_id] })
     end
+
+    @test_results = @test_results.where(status: params[:status]) if params[:status].present?
 
     respond_to do |format|
       format.html { render :index }

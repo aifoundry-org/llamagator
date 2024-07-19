@@ -2,5 +2,6 @@
 
 class Prompt < ApplicationRecord
   belongs_to :user
-  has_many :test_results, dependent: :destroy
+  has_many :test_runs, dependent: :destroy
+  has_many :test_results, through: :test_runs
 end

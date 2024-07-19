@@ -15,8 +15,8 @@ class TestResultsController < ApplicationController
     @test_results = current_user.test_results.includes(test_model_version_run: { model_version: :model }).order(created_at: :desc)
 
     if params[:model_version_id].present? && params[:prompt_id].present?
-      @test_results = @test_results.where(model_version_id: params[:model_version_id],
-                                          prompt_id: params[:prompt_id])
+      @test_results = @test_results.joins(test_model_version_run: :test_run).where({ test_model_version_runs: { model_version_id: params[:model_version_id] },
+                                                                                     test_runs: { prompt_id: params[:prompt_id] } })
     end
 
     respond_to do |format|

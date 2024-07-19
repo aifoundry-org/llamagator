@@ -2,7 +2,8 @@
 
 class ModelVersion < ApplicationRecord
   belongs_to :model
-  has_many :test_results, dependent: :destroy
+  has_many :test_model_version_runs, dependent: :destroy
+  has_many :test_results, through: :test_model_version_runs
   validate :configuration_is_json
   before_save :parse_configuration
   delegate :executor_type, to: :model

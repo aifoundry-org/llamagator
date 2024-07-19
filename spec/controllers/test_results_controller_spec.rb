@@ -7,7 +7,9 @@ RSpec.describe TestResultsController, type: :controller do
   let(:model) { create(:model, user:) }
   let(:model_version) { create(:model_version, model:) }
   let(:prompt) { create(:prompt, user:) }
-  let!(:test_result) { create(:test_result, model_version:, prompt:) }
+  let!(:test_run) { create(:test_run, prompt:) }
+  let!(:test_model_version_run) { create(:test_model_version_run, test_run:, model_version:) }
+  let!(:test_result) { create(:test_result, test_model_version_run:) }
 
   before do
     sign_in user
@@ -29,7 +31,9 @@ RSpec.describe TestResultsController, type: :controller do
     let(:model_2) { create(:model, user:) }
     let(:model_version_2) { create(:model_version, model: model_2) }
     let(:prompt_2) { create(:prompt, user:) }
-    let!(:test_result_2) { create(:test_result, model_version: model_version_2, prompt: prompt_2) }
+    let!(:test_run_2) { create(:test_run, prompt: prompt_2) }
+    let!(:test_model_version_run_2) { create(:test_model_version_run, test_run: test_run_2, model_version: model_version_2) }
+    let!(:test_result_2) { create(:test_result, test_model_version_run: test_model_version_run_2) }
 
     it 'returns all test_results' do
       get :index

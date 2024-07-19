@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :test_run do
-    prompt { nil }
     calls { 1 }
+    association :prompt, factory: :prompt
   end
 end

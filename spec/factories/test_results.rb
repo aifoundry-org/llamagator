@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :test_result do
-    association :model_version, factory: :model_version
-    association :prompt, factory: :prompt
+    association :test_model_version_run, factory: :test_model_version_run
   end
 end

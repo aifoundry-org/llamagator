@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class TestResult < ApplicationRecord
-  belongs_to :model_version
-  belongs_to :prompt
+  belongs_to :test_model_version_run
 
   enum :status, %i[pending completed failed], scopes: true, default: :pending
+
+  delegate :model_version, to: :test_model_version_run
 
   def as_json(options = {})
     options[:methods] ||= [:content]

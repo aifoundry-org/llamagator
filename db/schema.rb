@@ -12,9 +12,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_712_102_033) do
+ActiveRecord::Schema[7.1].define(version: 20_240_718_104_617) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
+
+  create_table 'chats', force: :cascade do |t|
+    t.string 'title'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'messages', force: :cascade do |t|
+    t.text 'body'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'from', default: 'user'
+    t.bigint 'chat_id', null: false
+    t.index ['chat_id'], name: 'index_messages_on_chat_id'
+  end
 
   create_table 'model_versions', force: :cascade do |t|
     t.bigint 'model_id', null: false
@@ -36,6 +51,14 @@ ActiveRecord::Schema[7.1].define(version: 20_240_712_102_033) do
     t.integer 'executor_type'
     t.string 'api_key'
     t.index ['user_id'], name: 'index_models_on_user_id'
+  end
+
+  create_table 'participants', force: :cascade do |t|
+    t.string 'name'
+    t.text 'configuration'
+    t.string 'implementor'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
   create_table 'prompts', force: :cascade do |t|
@@ -150,17 +173,32 @@ ActiveRecord::Schema[7.1].define(version: 20_240_712_102_033) do
     t.index ['key'], name: 'index_solid_queue_semaphores_on_key', unique: true
   end
 
-  create_table 'test_results', force: :cascade do |t|
+  create_table 'test_model_version_runs', force: :cascade do |t|
+    t.bigint 'test_run_id', null: false
     t.bigint 'model_version_id', null: false
-    t.bigint 'prompt_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['model_version_id'], name: 'index_test_model_version_runs_on_model_version_id'
+    t.index ['test_run_id'], name: 'index_test_model_version_runs_on_test_run_id'
+  end
+
+  create_table 'test_results', force: :cascade do |t|
     t.text 'result'
     t.float 'time'
     t.integer 'rating'
     t.integer 'status'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['model_version_id'], name: 'index_test_results_on_model_version_id'
-    t.index ['prompt_id'], name: 'index_test_results_on_prompt_id'
+    t.bigint 'test_model_version_run_id'
+    t.index ['test_model_version_run_id'], name: 'index_test_results_on_test_model_version_run_id'
+  end
+
+  create_table 'test_runs', force: :cascade do |t|
+    t.bigint 'prompt_id', null: false
+    t.integer 'calls', default: 1
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['prompt_id'], name: 'index_test_runs_on_prompt_id'
   end
 
   create_table 'users', force: :cascade do |t|
@@ -175,6 +213,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_712_102_033) do
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
   end
 
+  add_foreign_key 'messages', 'chats'
   add_foreign_key 'model_versions', 'models'
   add_foreign_key 'prompts', 'users'
   add_foreign_key 'solid_queue_blocked_executions', 'solid_queue_jobs', column: 'job_id', on_delete: :cascade
@@ -183,6 +222,8 @@ ActiveRecord::Schema[7.1].define(version: 20_240_712_102_033) do
   add_foreign_key 'solid_queue_ready_executions', 'solid_queue_jobs', column: 'job_id', on_delete: :cascade
   add_foreign_key 'solid_queue_recurring_executions', 'solid_queue_jobs', column: 'job_id', on_delete: :cascade
   add_foreign_key 'solid_queue_scheduled_executions', 'solid_queue_jobs', column: 'job_id', on_delete: :cascade
-  add_foreign_key 'test_results', 'model_versions'
-  add_foreign_key 'test_results', 'prompts'
+  add_foreign_key 'test_model_version_runs', 'model_versions'
+  add_foreign_key 'test_model_version_runs', 'test_runs'
+  add_foreign_key 'test_results', 'test_model_version_runs'
+  add_foreign_key 'test_runs', 'prompts'
 end

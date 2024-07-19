@@ -10,6 +10,11 @@
       <%= select_tag 'prompt-id-select', options_from_collection_for_select(@prompts, 'id', 'name', @prompts.first&.id), 
                      class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md mb-4', id: 'prompt-id-select' %>
     </div>
+    <div>
+      <label for="test-run-select" class="block text-sm font-medium text-gray-700">Select Test Run:</label>
+      <%= select_tag 'test-run-select', '', 
+                     class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md mb-4', id: 'test-run-select' %>
+    </div>
     <div class="flex w-full">
       <div class="p-4 border-r border-gray-300 panel-half">
         <h3 class="text-lg font-semibold mb-4">Select Model Version for Left Panel</h3>
@@ -44,15 +49,94 @@
 
 
 <script>
+  const promptSelect = document.getElementById('prompt-id-select');
+  const testRunSelect = document.getElementById('test-run-select');
+  const leftPanelModelSelect = document.querySelector('select[name="left-panel-model"]');
+  const rightPanelModelSelect = document.querySelector('select[name="right-panel-model"]');
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric',
+      hour: 'numeric', minute: 'numeric', second: 'numeric'
+    }).format(date);
+  }
+
+  function loadTestRuns(promptId) {
+    fetch(`/test_runs.json?prompt_id=${promptId}`)
+      .then(response => response.json())
+      .then(data => {
+        while (testRunSelect.firstChild) {
+          testRunSelect.removeChild(testRunSelect.firstChild);
+        }
+        data.forEach(testRun => {
+          const option = document.createElement('option');
+          option.value = testRun.id;
+          option.textContent = `${testRun.id} (Created at: ${formatDate(testRun.created_at)})`;
+          testRunSelect.appendChild(option);
+        });
+
+        if (!!data[0])
+          loadModelVersions(data[0].id);
+      });
+  }
+
+
+  function loadModelVersions(testRunId) {
+    fetch(`/compare/model_versions?test_run_id=${testRunId}`)
+      .then(response => response.json())
+      .then(data => {
+        while (leftPanelModelSelect.firstChild) {
+          leftPanelModelSelect.removeChild(leftPanelModelSelect.firstChild);
+        }
+        while (rightPanelModelSelect.firstChild) {
+          rightPanelModelSelect.removeChild(rightPanelModelSelect.firstChild);
+        }
+        data.forEach(modelVersion => {
+          const option = document.createElement('option');
+          option.value = modelVersion.id;
+          option.textContent = modelVersion.full_name;
+          leftPanelModelSelect.appendChild(option.cloneNode(true));
+          rightPanelModelSelect.appendChild(option);
+        });
+        if (data.length > 0 ) {
+          const promptSelect = document.getElementById('prompt-id-select');
+          const promptId = promptSelect.value;
+          window.fetchLatestTestResult('left', data[0].id, promptId, testRunId);
+          window.fetchLatestTestResult('right', data[0].id, promptId, testRunId);
+        }
+      });
+  }
+
+  // Load test runs for the first prompt initially
+  if (promptSelect.value) {
+    loadTestRuns(promptSelect.value);
+  }
+
+  promptSelect.addEventListener('change', function() {
+    loadTestRuns(this.value);
+  });
+
+  testRunSelect.addEventListener('change', function() {
+    const testRunId = this.value;
+
+    loadModelVersions(testRunId);
+  });
+  
+
   document.querySelector('select[name="left-panel-model"]').addEventListener('change', function() {
     const promptSelect = document.getElementById('prompt-id-select');
+    const testRunSelect = document.getElementById('test-run-select');
     const promptId = promptSelect.value;
-    window.fetchLatestTestResult('left', this.value, promptId);
+    const testRunId = testRunSelect.value;
+    window.fetchLatestTestResult('left', this.value, promptId, testRunId);
   });
 
   document.querySelector('select[name="right-panel-model"]').addEventListener('change', function() {
     const promptSelect = document.getElementById('prompt-id-select');
+    const testRunSelect = document.getElementById('test-run-select');
     const promptId = promptSelect.value;
-    window.fetchLatestTestResult('right', this.value, promptId);
+    const testRunId = testRunSelect.value;
+    window.fetchLatestTestResult('right', this.value, promptId, testRunId);
   });
 </script>

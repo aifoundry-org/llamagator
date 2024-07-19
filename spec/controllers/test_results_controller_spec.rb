@@ -7,7 +7,9 @@ RSpec.describe TestResultsController, type: :controller do
   let(:model) { create(:model, user:) }
   let(:model_version) { create(:model_version, model:) }
   let(:prompt) { create(:prompt, user:) }
-  let!(:test_result) { create(:test_result, model_version:, prompt:) }
+  let!(:test_run) { create(:test_run, prompt:) }
+  let!(:test_model_version_run) { create(:test_model_version_run, test_run:, model_version:) }
+  let!(:test_result) { create(:test_result, test_model_version_run:) }
 
   before do
     sign_in user
@@ -29,18 +31,27 @@ RSpec.describe TestResultsController, type: :controller do
     let(:model_2) { create(:model, user:) }
     let(:model_version_2) { create(:model_version, model: model_2) }
     let(:prompt_2) { create(:prompt, user:) }
-    let!(:test_result_2) { create(:test_result, model_version: model_version_2, prompt: prompt_2) }
+    let!(:test_run_2) { create(:test_run, prompt: prompt_2) }
+    let!(:test_model_version_run_2) { create(:test_model_version_run, test_run: test_run_2, model_version: model_version_2) }
+    let!(:test_result_2) { create(:test_result, test_model_version_run: test_model_version_run_2) }
+    let!(:test_result_completed) { create(:test_result, test_model_version_run: test_model_version_run_2, status: 'completed') }
 
     it 'returns all test_results' do
       get :index
       expect(response).to have_http_status(:ok)
-      expect(assigns(:test_results)).to match_array([test_result, test_result_2])
+      expect(assigns(:test_results)).to match_array([test_result, test_result_2, test_result_completed])
     end
 
-    it 'filters test results by model_version_id and prompt_id' do
-      get :index, params: { model_version_id: model_version.id, prompt_id: prompt.id }
+    it 'filters test results by model_version_id and test_run_id' do
+      get :index, params: { model_version_id: model_version.id, test_run_id: test_run.id }
       expect(response).to have_http_status(:ok)
       expect(assigns(:test_results)).to match_array([test_result])
+    end
+
+    it 'filters test results by status' do
+      get :index, params: { status: 'completed' }
+      expect(response).to have_http_status(:ok)
+      expect(assigns(:test_results)).to match_array([test_result_completed])
     end
   end
 

@@ -1,9 +1,9 @@
-function fetchLatestTestResult(panel, modelVersionId, promptId) {
+function fetchLatestTestResult(panel, modelVersionId, promptId, testRunId) {
   if (modelVersionId === "") {
     document.getElementById(`${panel}-panel-result`).innerHTML = "";
     return;
   }
-  fetch(`/test_results.json?prompt_id=${promptId}&model_version_id=${modelVersionId}`)
+  fetch(`/test_results.json?&model_version_id=${modelVersionId}&status=completed&test_run_id=${testRunId}`)
     .then(response => response.json())
     .then(data => {
       const result = data[0]

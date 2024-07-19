@@ -10,7 +10,7 @@ class PromptsController < ApplicationController
 
   # GET /prompts/1 or /prompts/1.json
   def show
-    @test_results = @prompt.test_results.includes(model_version: :model).order(created_at: :desc)
+    @test_runs = @prompt.test_runs.includes(model_versions: :model).order(created_at: :desc)
   end
 
   # GET /prompts/new

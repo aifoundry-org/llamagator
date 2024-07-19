@@ -1,18 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :test_runs
-  resources :prompts, except: %i[edit update]
-
-  resources :test_runs, except: %i[edit update destroy] do
-    resources :test_model_version_runs, only: %i[show]
+  resources :prompts, except: %i[edit update] do
+    resources :test_runs, only: %i[new create]
   end
 
-  resources :compare, only: [:index] do
-    collection do
-      get :model_versions
-    end
-  end
+  resources :compare, only: [:index]
 
   resources :test_results, only: %i[index update show]
 

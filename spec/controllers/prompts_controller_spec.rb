@@ -7,7 +7,7 @@ RSpec.describe PromptsController, type: :controller do
   let(:prompt) { create(:prompt, user:) }
   let(:model) { create(:model, user:) }
   let(:model_version) { create(:model_version, model:) }
-  let!(:test_run) { create(:test_run, prompt:) }
+  let!(:test_result) { create(:test_result, prompt:, model_version:) }
 
   before do
     sign_in user
@@ -26,10 +26,10 @@ RSpec.describe PromptsController, type: :controller do
   end
 
   describe 'GET #show' do
-    it 'assigns @prompt and @test_runs' do
+    it 'assigns @prompt and @test_results' do
       get :show, params: { id: prompt.id }
       expect(assigns(:prompt)).to eq(prompt)
-      expect(assigns(:test_runs)).to eq([test_run])
+      expect(assigns(:test_results)).to eq([test_result])
     end
 
     it 'renders the show template' do

@@ -2,17 +2,11 @@
 
 class ModelVersion < ApplicationRecord
   belongs_to :model
-  has_many :test_model_version_runs, dependent: :destroy
-  has_many :test_results, through: :test_model_version_runs
+  has_many :test_results, dependent: :destroy
   validate :configuration_is_json
   before_save :parse_configuration
   delegate :executor_type, to: :model
   delegate :api_key, to: :model
-
-  def as_json(options = {})
-    options[:methods] ||= [:full_name]
-    super
-  end
 
   def full_name
     "#{model.name} #{build_name}"

@@ -1,4 +1,4 @@
-<div class="container mx-auto mt-10 w-full">
+<div class="container px-6 mx-auto mt-10 grid">
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Test Results</h1>
   </div>
@@ -9,9 +9,9 @@
           <tr
             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
           >
+            <th class="px-4 py-3">ID</th>
             <th class="px-4 py-3">Model</th>
             <th class="px-4 py-3">Model version</th>
-            <th class="px-4 py-3">ID</th>
             <th class="px-4 py-3">Status</th>
             <th class="px-4 py-3">Result</th>
             <th class="px-4 py-3">Created at</th>
@@ -31,13 +31,13 @@
             <% @test_results.each do |test_result| %>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to test_result.model_version.model.name, test_result.model_version.model %></p>
+                  <p class="font-semibold"><%= link_to test_result.id, test_result, class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to test_result.model_version.build_name, [test_result.model_version.model, test_result.model_version] %></p>
+                  <p class="font-semibold"><%= link_to test_result.model_version.model.name, test_result.model_version.model, class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to test_result.id, test_result %></p>
+                  <p class="font-semibold"><%= link_to test_result.model_version.build_name, [test_result.model_version.model, test_result.model_version], class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3 text-xs">
                   <span

@@ -1,11 +1,5 @@
-<div class="container mx-auto mt-10 w-full">
+<div class="container px-6 mx-auto mt-10 grid">
   <h1 class="font-bold text-4xl">New test run</h1>
 
   <%= render "form", test_run: @test_run %>
-
-  <% if @prompt.present? %>
-    <%= link_to "Back to prompt", prompt_path(@prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-  <% else %>
-    <%= link_to "Back to test runs", test_runs_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-  <% end %>
 </div>

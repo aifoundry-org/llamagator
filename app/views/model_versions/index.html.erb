@@ -1,4 +1,4 @@
-<div class="container mx-auto mt-10 w-full">
+<div class="container px-6 mx-auto mt-10 grid">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
@@ -35,12 +35,12 @@
             <% @model_versions.each do |model_version| %>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to model_version.build_name, [@model, model_version] %></p>
+                  <p class="font-semibold"><%= link_to model_version.build_name, [@model, model_version], class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3">
                   <div class="flex items-center text-sm">
                     <div>
-                      <p class="font-semibold"><%= link_to @model.name, @model %></p>
+                      <p class="font-semibold"><%= link_to @model.name, @model, class: "text-blue-500 underline-link" %></p>
                     </div>
                   </div>
                 </td>

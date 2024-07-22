@@ -33,5 +33,9 @@
 
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <% unless @model_version.new_record? %>
+      <%= link_to "Show this model version", [@model, @model_version], class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <% end %>
+    <%= link_to "Back to model", model_path(@model), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
   </div>
 <% end %>

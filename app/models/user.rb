@@ -12,4 +12,6 @@ class User < ApplicationRecord
   has_many :prompts, dependent: :destroy
   has_many :test_results, through: :prompts
   has_many :test_runs, through: :prompts
+
+  default_scope { order(id: :desc) }
 end

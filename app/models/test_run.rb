@@ -7,4 +7,6 @@ class TestRun < ApplicationRecord
   has_many :test_results, through: :test_model_version_runs
 
   accepts_nested_attributes_for :test_model_version_runs, allow_destroy: true
+
+  default_scope { order(id: :desc) }
 end

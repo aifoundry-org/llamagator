@@ -8,4 +8,6 @@ class Model < ApplicationRecord
   accepts_nested_attributes_for :model_versions, allow_destroy: true, reject_if: :all_blank
 
   enum :executor_type, %i[base openai], scopes: false, default: :base
+
+  default_scope { order(id: :desc) }
 end

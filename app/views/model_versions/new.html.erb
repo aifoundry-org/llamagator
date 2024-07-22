@@ -1,7 +1,5 @@
-<div class="container mx-auto mt-10 w-full">
+<div class="container px-6 mx-auto mt-10 grid">
   <h1 class="font-bold text-4xl">New model version</h1>
 
   <%= render "form", model_version: @model_version %>
-
-  <%= link_to "Back to model versions", model_model_versions_path(@model), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
 </div>

@@ -7,6 +7,8 @@ class TestResult < ApplicationRecord
 
   delegate :model_version, to: :test_model_version_run
 
+  default_scope { order(id: :desc) }
+
   def as_json(options = {})
     options[:methods] ||= [:content]
     super

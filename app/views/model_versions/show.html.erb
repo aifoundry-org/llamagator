@@ -1,11 +1,11 @@
-<div class="container mx-auto mt-10 w-full">
-  <div class="mx-auto">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
+<div class="container px-6 mx-auto mt-10 grid">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
 
-    <%= render @model_version %>
+  <%= render @model_version %>
 
+  <div class="inline" >
     <%= link_to "Edit this model version", edit_model_model_version_path(@model, @model_version), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <%= link_to "Back to model", model_path(@model), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
     <div class="inline-block ml-2">

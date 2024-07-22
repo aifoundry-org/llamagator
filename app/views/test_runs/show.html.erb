@@ -1,15 +1,9 @@
-<div class="container mx-auto mt-10 w-full">
-  <div class="mx-auto md:w-2/3 w-full flex">
-    <div class="mx-auto">
-      <% if notice.present? %>
-        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-      <% end %>
+<div class="container px-6 mx-auto mt-10 grid">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
 
-      <%= render @test_run %>
-
-      <%= link_to "Back to test runs", test_runs_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-    </div>
-  </div>
+  <%= render @test_run %>
 
   <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs">
     <h1 class="font-bold text-4xl">Models Runs</h1>
@@ -19,9 +13,9 @@
           <tr
             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
           >
+            <th class="px-4 py-3">ID</th>
             <th class="px-4 py-3">Model</th>
             <th class="px-4 py-3">Model Version</th>
-            <th class="px-4 py-3">ID</th>
             <th class="px-4 py-3">Created at</th>
           </tr>
         </thead>
@@ -38,13 +32,13 @@
             <% @test_model_version_runs.each do |test_model_version_run| %>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to test_model_version_run.model_version.model.name, test_model_version_run.model_version.model %></p>
+                  <p class="font-semibold"><%= link_to test_model_version_run.id, [@test_run, test_model_version_run], class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to test_model_version_run.model_version.build_name, [test_model_version_run.model_version.model, test_model_version_run.model_version] %></p>
+                  <p class="font-semibold"><%= link_to test_model_version_run.model_version.model.name, test_model_version_run.model_version.model, class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to test_model_version_run.id, [@test_run, test_model_version_run] %></p>
+                  <p class="font-semibold"><%= link_to test_model_version_run.model_version.build_name, [test_model_version_run.model_version.model, test_model_version_run.model_version], class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <%= test_model_version_run.created_at.to_date %>

@@ -1,0 +1,17 @@
+<div id="<%= dom_id assertion %>">
+  <p class="my-5">
+    <strong class="font-medium mb-1">Name:</strong>
+    <%= assertion.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="font-medium mb-1">Assertion type:</strong>
+    <%= assertion.assertion_type.humanize %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Value:</strong>
+    <%= assertion.value %>
+  </p>
+
+</div>

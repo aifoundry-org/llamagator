@@ -69,14 +69,14 @@ RSpec.describe TestRunsController, type: :controller do
       it 'enqueues a TestRunJob' do
         expect(SolidQueue::Job).to receive(:enqueue).exactly(1).time do |job_instance|
           expect(job_instance.class).to eq(TestRunJob)
-          expect(job_instance.arguments).to include(TestRun.last.id)
+          expect(job_instance.arguments).to include(TestRun.reorder(:created_at).last.id)
         end
         post :create, params: { test_run: valid_attributes }
       end
 
       it 'redirects to the created test run' do
         post :create, params: { test_run: valid_attributes }
-        expect(response).to redirect_to(test_run_url(TestRun.last))
+        expect(response).to redirect_to(test_run_url(TestRun.reorder(:created_at).last))
         expect(flash[:notice]).to eq('Test model version run was successfully created.')
       end
 
@@ -84,7 +84,7 @@ RSpec.describe TestRunsController, type: :controller do
         post :create, params: { test_run: valid_attributes }, format: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(response.location).to eq(test_run_url(TestRun.last))
+        expect(response.location).to eq(test_run_url(TestRun.reorder(:created_at).last))
       end
     end
   end

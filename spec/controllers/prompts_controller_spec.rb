@@ -62,7 +62,7 @@ RSpec.describe PromptsController, type: :controller do
 
       it 'redirects to the created prompt' do
         post :create, params: valid_params
-        expect(response).to redirect_to(prompt_url(Prompt.last))
+        expect(response).to redirect_to(prompt_url(Prompt.reorder(:created_at).last))
       end
     end
   end

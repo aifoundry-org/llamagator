@@ -1,17 +1,15 @@
-<div class="container mx-auto mt-10 w-full">
-  <div class="mx-auto md:w-2/3 w-full flex">
-    <div class="mx-auto">
-      <% if notice.present? %>
-        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-      <% end %>
+<div class="container px-6 mx-auto mt-10 grid">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
 
-      <%= render @prompt %>
+  <%= render @prompt %>
 
-      <%= link_to "Back to prompts", prompts_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-      <%= link_to "Create test runs", new_test_run_path(prompt_id: @prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-      <div class="inline-block ml-2">
-        <%= button_to "Destroy this prompt", @prompt, method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>
-      </div>
+  <div class="inline">
+    <%= link_to "Back to prompts", prompts_path, class: "rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <%= link_to "Create test runs", new_test_run_path(prompt_id: @prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <div class="inline-block ml-2">
+      <%= button_to "Destroy this prompt", @prompt, method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>
     </div>
   </div>
 
@@ -23,8 +21,8 @@
           <tr
             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
           >
-            <th class="px-4 py-3">Models</th>
             <th class="px-4 py-3">ID</th>
+            <th class="px-4 py-3">Models</th>
             <th class="px-4 py-3">Created at</th>
           </tr>
         </thead>
@@ -41,10 +39,10 @@
             <% @test_runs.each do |test_run| %>
               <tr class="text-gray-700 dark:text-gray-400">
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= test_run.model_versions.map(&:full_name).join(', ') %></p>
+                  <p class="font-semibold"><%= link_to test_run.id, test_run, class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <p class="font-semibold"><%= link_to test_run.id, test_run %></p>
+                  <p class="font-semibold"><%= test_run.model_versions.map(&:full_name).join(', ') %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <%= test_run.created_at.to_date %>

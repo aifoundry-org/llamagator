@@ -1,15 +1,15 @@
-<div class="container mx-auto mt-10 w-full">
+<div class="container px-6 mx-auto mt-10 grid">
   <p class="my-5">
-    <strong class="block font-medium mb-1">Model Name:</strong>
+    <strong class="font-medium mb-1">Model Name:</strong>
     <%= @test_result.model_version.model.name %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Model Version:</strong>
+    <strong class="font-medium mb-1">Model Version:</strong>
     <%= @test_result.model_version.build_name %>
   </p>
 
-  <strong class="block font-medium mb-1">Result:</strong>
+  <strong class="font-medium mb-1">Result:</strong>
   <pre id="json-display"></pre>
 </div>
 

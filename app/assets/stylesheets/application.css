@@ -68,3 +68,8 @@
 .delete-button {
     background-color: red;
 }
+
+
+.underline-link {
+    text-decoration: underline !important;
+}

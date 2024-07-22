@@ -57,5 +57,9 @@
 
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <% unless @model.new_record? %>
+      <%= link_to "Show this model", @model, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <% end %>
+    <%= link_to "Back to dashboard", root_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
   </div>
 <% end %>

@@ -1,11 +1,8 @@
 <div id="<%= dom_id test_run %>">
   <p class="my-5">
-    <strong class="block font-medium mb-1">Calls:</strong>
-    <%= test_run.calls %>
+    <strong class="font-medium mr-2">Calls:</strong> <%= test_run.calls %>
   </p>
-
   <p class="my-5">
-    <strong class="block font-medium mb-1">Prompt:</strong>
-    <%= link_to test_run.prompt.name, test_run.prompt %>
+   <strong class="font-medium mr-2">Prompt:</strong> <%= link_to test_run.prompt.name, test_run.prompt, class: "text-blue-500 underline-link" %>
   </p>
 </div>

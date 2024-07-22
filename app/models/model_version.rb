@@ -9,6 +9,8 @@ class ModelVersion < ApplicationRecord
   delegate :executor_type, to: :model
   delegate :api_key, to: :model
 
+  default_scope { order(id: :desc) }
+
   def as_json(options = {})
     options[:methods] ||= [:full_name]
     super

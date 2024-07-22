@@ -1,26 +1,26 @@
 <div id="<%= dom_id model_version %>">
   <p class="my-5">
-    <strong class="block font-medium mb-1">Model:</strong>
+    <strong class="font-medium mb-1">Model:</strong>
     <%= @model&.name %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Configuration:</strong>
+    <strong class="font-medium mb-1">Configuration:</strong>
     <pre id="json-display"></pre>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Description:</strong>
+    <strong class="font-medium mb-1">Description:</strong>
     <%= model_version.description %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Built on:</strong>
+    <strong class="font-medium mb-1">Built on:</strong>
     <%= model_version.built_on&.to_date || 'not specified' %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Build name:</strong>
+    <strong class="font-medium mb-1">Build name:</strong>
     <%= model_version.build_name %>
   </p>
 

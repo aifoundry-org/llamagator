@@ -48,7 +48,7 @@ RSpec.describe Executors::Base do
       end
 
       it 'returns a failed status' do
-        expect(executor.call(prompt)).to eq({ status: :failed, result: 'execution expired' })
+        expect(executor.call(prompt)).to eq({ result: { error: { message: 'execution expired' } }.to_json, status: :failed })
       end
     end
   end

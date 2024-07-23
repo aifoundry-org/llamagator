@@ -9,6 +9,15 @@
     <%= @test_result.model_version.build_name %>
   </p>
 
+  <p class="my-5">
+    <strong class="font-medium mb-1">Status:</strong>
+    <span
+      class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_status_class(@test_result.status) %>"
+    >
+      <%= @test_result.status.capitalize %>
+    </span>
+   </p>
+
   <strong class="font-medium mb-1">Result:</strong>
   <pre id="json-display"></pre>
   <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs">

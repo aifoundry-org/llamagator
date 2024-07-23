@@ -21,10 +21,6 @@ class TestResultsController < ApplicationController
     @test_results = @test_results.where(status: params[:status]) if params[:status].present?
 
     @test_results = @test_results.decorate
-    respond_to do |format|
-      format.html { render :index }
-      format.json { render json: @test_results }
-    end
   end
 
   def show

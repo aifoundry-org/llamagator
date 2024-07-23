@@ -24,7 +24,7 @@ module Executors
 
       { status: :failed, result: response.body }
     rescue StandardError => e
-      { status: :failed, result: e.message }
+      { status: :failed, result: { error: { message: e.message } }.to_json }
     end
   end
 end

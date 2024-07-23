@@ -91,3 +91,5 @@ gem 'tailwindcss-rails', '~> 2.6'
 gem 'pg', '~> 1.5'
 
 gem 'draper', '~> 4.0'
+
+gem 'data_migrate', '~> 9.4'

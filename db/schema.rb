@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_722_144_846) do
+ActiveRecord::Schema[7.1].define(version: 20_240_723_105_858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -225,6 +225,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_722_144_846) do
     t.integer 'calls', default: 1
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.float 'passing_threshold', default: 0.0
     t.index ['prompt_id'], name: 'index_test_runs_on_prompt_id'
   end
 

@@ -49,7 +49,7 @@
                   <%= test_result.content %>
                 </td>
                 <td class="px-4 py-3 text-xs">
-                  <% state = assertions_state(test_result) %>
+                  <% state = test_result.assertions_state %>
                   <span
                     class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_assertions_state_class(state) %>"
                   >

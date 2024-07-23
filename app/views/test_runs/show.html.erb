@@ -16,6 +16,7 @@
             <th class="px-4 py-3">ID</th>
             <th class="px-4 py-3">Model</th>
             <th class="px-4 py-3">Model Version</th>
+            <th class="px-4 py-3">Assertions Passed Percentage</th>
             <th class="px-4 py-3">Created at</th>
           </tr>
         </thead>
@@ -39,6 +40,9 @@
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <p class="font-semibold"><%= link_to test_model_version_run.model_version.build_name, [test_model_version_run.model_version.model, test_model_version_run.model_version], class: "text-blue-500 underline-link" %></p>
+                </td>
+                 <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= test_model_version_run.passed_percentage %>%</p>
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <%= test_model_version_run.created_at.to_date %>

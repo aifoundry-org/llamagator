@@ -12,7 +12,7 @@ class TestRunsController < ApplicationController
 
   # GET /test_runs/1 or /test_runs/1.json
   def show
-    @test_model_version_runs = @test_run.test_model_version_runs.includes(model_version: :model)
+    @test_model_version_runs = @test_run.test_model_version_runs.includes(model_version: :model).with_passed_test_results_count.decorate
   end
 
   # GET /test_runs/new

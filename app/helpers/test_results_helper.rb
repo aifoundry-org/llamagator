@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
 module TestResultsHelper
-  def assertions_state(test_result)
-    return '' if test_result.pending?
-
-    return 'passed' if test_result.assertion_results.all?(&:passed?)
-
-    'failed'
-  end
-
   def define_assertions_state_class(state)
     case state
     when 'failed'

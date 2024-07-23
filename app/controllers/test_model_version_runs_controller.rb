@@ -6,7 +6,7 @@ class TestModelVersionRunsController < ApplicationController
 
   # GET /test_model_version_runs/1 or /test_model_version_runs/1.json
   def show
-    @test_results = @test_model_version_run.test_results
+    @test_results = @test_model_version_run.test_results.includes(:assertion_results)
   end
 
   private

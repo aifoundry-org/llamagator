@@ -20,6 +20,7 @@ class TestRunsController < ApplicationController
     @prompt = current_user.prompts.find_by(id: params[:prompt_id])
     @prompts = current_user.prompts
     @model_versions = current_user.model_versions.includes(:model)
+    @assertions = current_user.assertions
     @test_run = current_user.test_runs.new(prompt: @prompt)
   end
 
@@ -48,7 +49,7 @@ class TestRunsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def test_run_params
-    params.require(:test_run).permit(:prompt_id, :calls).tap do |permited|
+    params.require(:test_run).permit(:prompt_id, :calls, assertion_ids: []).tap do |permited|
       model_version_ids = params[:test_run][:model_version_ids]&.select(&:present?)
       if model_version_ids.present?
         permited[:test_model_version_runs_attributes] = model_version_ids.map do |model_version_id|

@@ -5,6 +5,6 @@ FactoryBot.define do
     name { 'MyString' }
     assertion_type { :exclude }
     value { 'MyText' }
-    user { nil }
+    association :user, factory: :user
   end
 end

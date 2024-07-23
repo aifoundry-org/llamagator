@@ -12,7 +12,7 @@ class TestResultsController < ApplicationController
   end
 
   def index
-    @test_results = current_user.test_results.includes(test_model_version_run: { model_version: :model }).order(created_at: :desc)
+    @test_results = current_user.test_results.includes(:assertion_results, test_model_version_run: { model_version: :model }).order(created_at: :desc)
 
     if params[:model_version_id].present? && params[:test_run_id].present?
       @test_results = @test_results.joins(:test_model_version_run).where(test_model_version_runs: { model_version_id: params[:model_version_id], test_run_id: params[:test_run_id] })
@@ -26,7 +26,9 @@ class TestResultsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @assertion_results = @test_result.assertion_results.includes(:assertion)
+  end
 
   private
 

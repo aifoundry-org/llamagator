@@ -12,7 +12,7 @@ class TestRunsController < ApplicationController
 
   # GET /test_runs/1 or /test_runs/1.json
   def show
-    @test_model_version_runs = @test_run.test_model_version_runs.includes(model_version: :model)
+    @test_model_version_runs = @test_run.test_model_version_runs.includes(:test_results, model_version: :model).with_passed_test_results_count.decorate
   end
 
   # GET /test_runs/new
@@ -20,6 +20,7 @@ class TestRunsController < ApplicationController
     @prompt = current_user.prompts.find_by(id: params[:prompt_id])
     @prompts = current_user.prompts
     @model_versions = current_user.model_versions.includes(:model)
+    @assertions = current_user.assertions
     @test_run = current_user.test_runs.new(prompt: @prompt)
   end
 
@@ -48,7 +49,7 @@ class TestRunsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def test_run_params
-    params.require(:test_run).permit(:prompt_id, :calls).tap do |permited|
+    params.require(:test_run).permit(:prompt_id, :calls, :passing_threshold, assertion_ids: []).tap do |permited|
       model_version_ids = params[:test_run][:model_version_ids]&.select(&:present?)
       if model_version_ids.present?
         permited[:test_model_version_runs_attributes] = model_version_ids.map do |model_version_id|

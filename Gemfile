@@ -89,3 +89,5 @@ gem 'solid_queue', '~> 0.3.3'
 gem 'tailwindcss-rails', '~> 2.6'
 
 gem 'pg', '~> 1.5'
+
+gem 'draper', '~> 4.0'

@@ -11,5 +11,14 @@
     <strong class="font-medium mb-1">Prompt:</strong>
     <%= test_model_version_run.test_run.prompt.value %>
   </p>
+  <p class="my-5">
+    <strong class="font-medium mb-1">State:</strong>
+    <% state = test_model_version_run.state %>
+    <span
+      class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_status_class(state) %>"
+    >
+        <%= state.capitalize %> <%= test_model_version_run.passed_percentage.present? ? "(#{test_model_version_run.passed_percentage})%" : '' %>
+    </span>
+  </p>
 
 </div>

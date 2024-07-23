@@ -14,6 +14,7 @@
             <th class="px-4 py-3">Model version</th>
             <th class="px-4 py-3">Status</th>
             <th class="px-4 py-3">Result</th>
+            <th class="px-4 py-3">Assertions</th>
             <th class="px-4 py-3">Created at</th>
             <th class="px-4 py-3">Rating</th>
           </tr>
@@ -48,6 +49,14 @@
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <%= test_result.content %>
+                </td>
+                <td class="px-4 py-3 text-xs">
+                  <% state = test_result.assertions_state %>
+                  <span
+                    class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_assertions_state_class(state) %>"
+                  >
+                     <%= state.capitalize %>
+                  </span>
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <%= test_result.created_at.to_date %>

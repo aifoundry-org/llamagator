@@ -12,9 +12,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_718_104_617) do
+ActiveRecord::Schema[7.1].define(version: 20_240_723_105_858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
+
+  create_table 'assertion_results', force: :cascade do |t|
+    t.bigint 'test_result_id', null: false
+    t.bigint 'assertion_id', null: false
+    t.integer 'state'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['assertion_id'], name: 'index_assertion_results_on_assertion_id'
+    t.index ['test_result_id'], name: 'index_assertion_results_on_test_result_id'
+  end
+
+  create_table 'assertions', force: :cascade do |t|
+    t.string 'name'
+    t.integer 'assertion_type'
+    t.text 'value'
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_assertions_on_user_id'
+  end
+
+  create_table 'assertions_test_runs', id: false, force: :cascade do |t|
+    t.bigint 'assertion_id', null: false
+    t.bigint 'test_run_id', null: false
+    t.index ['assertion_id'], name: 'index_assertions_test_runs_on_assertion_id'
+    t.index ['test_run_id'], name: 'index_assertions_test_runs_on_test_run_id'
+  end
 
   create_table 'chats', force: :cascade do |t|
     t.string 'title'
@@ -198,6 +225,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_718_104_617) do
     t.integer 'calls', default: 1
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.float 'passing_threshold', default: 0.0
     t.index ['prompt_id'], name: 'index_test_runs_on_prompt_id'
   end
 
@@ -213,6 +241,9 @@ ActiveRecord::Schema[7.1].define(version: 20_240_718_104_617) do
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
   end
 
+  add_foreign_key 'assertion_results', 'assertions'
+  add_foreign_key 'assertion_results', 'test_results'
+  add_foreign_key 'assertions', 'users'
   add_foreign_key 'messages', 'chats'
   add_foreign_key 'model_versions', 'models'
   add_foreign_key 'prompts', 'users'

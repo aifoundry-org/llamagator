@@ -5,6 +5,7 @@ class TestRun < ApplicationRecord
   has_many :test_model_version_runs, dependent: :destroy
   has_many :model_versions, through: :test_model_version_runs
   has_many :test_results, through: :test_model_version_runs
+  has_and_belongs_to_many :assertions
 
   accepts_nested_attributes_for :test_model_version_runs, allow_destroy: true
 

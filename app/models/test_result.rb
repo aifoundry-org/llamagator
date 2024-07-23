@@ -2,6 +2,7 @@
 
 class TestResult < ApplicationRecord
   belongs_to :test_model_version_run
+  has_many :assertion_results
 
   enum :status, %i[pending completed failed], scopes: true, default: :pending
 

@@ -11,6 +11,47 @@
 
   <strong class="font-medium mb-1">Result:</strong>
   <pre id="json-display"></pre>
+  <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs">
+    <h1 class="font-bold text-4xl">Assertions</h1>
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+          >
+            <th class="px-4 py-3">Assertion</th>
+            <th class="px-4 py-3">Result</th>
+          </tr>
+        </thead>
+        <tbody
+          class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+        >
+          <% if @assertion_results.empty? %>
+            <tr>
+              <td colspan="7" class="px-4 py-3 text-center">
+                <p class="text-gray-500">No assigned assertions found.</p>
+              </td>
+            </tr>
+          <% else %>
+            <% @assertion_results.each do |assertion_result| %>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= link_to assertion_result.assertion.name, assertion_result.assertion, class: "text-blue-500 underline-link" %></p>
+                </td>
+                <td class="px-4 py-3 text-xs">
+                  <span
+                    class="px-2 py-1 font-semibold leading-tight rounded-full <%= define_assertions_state_class(assertion_result.state) %>"
+                  >
+                     <%= assertion_result.state.capitalize %>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script>

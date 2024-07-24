@@ -72,7 +72,7 @@
         data.forEach(testRun => {
           const option = document.createElement('option');
           option.value = testRun.id;
-          option.textContent = `${testRun.id} (Created at: ${formatDate(testRun.created_at)})`;
+          option.textContent = testRun.name;
           testRunSelect.appendChild(option);
         });
 
@@ -88,9 +88,13 @@
       .then(data => {
         while (leftPanelModelSelect.firstChild) {
           leftPanelModelSelect.removeChild(leftPanelModelSelect.firstChild);
+          const leftResultDiv = document.getElementById('left-panel-result');
+          leftResultDiv.innerHTML = ''
         }
         while (rightPanelModelSelect.firstChild) {
           rightPanelModelSelect.removeChild(rightPanelModelSelect.firstChild);
+          const rightResultDiv = document.getElementById('right-panel-result');
+          rightResultDiv.innerHTML = ''
         }
         data.forEach(modelVersion => {
           const option = document.createElement('option');

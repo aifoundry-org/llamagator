@@ -1,12 +1,11 @@
 <div class="container px-6 mx-auto mt-10 grid">
   <p class="my-5">
-    <strong class="font-medium mb-1">Model Name:</strong>
-    <%= @test_result.model_version.model.name %>
+    <strong class="font-medium mb-1">Model:</strong>
+    <%= link_to @test_result.model_version.model.name, @test_result.model_version.model, class: "text-blue-500 underline-link" %>
   </p>
-
   <p class="my-5">
-    <strong class="font-medium mb-1">Model Version:</strong>
-    <%= @test_result.model_version.build_name %>
+    <strong class="font-medium mb-1">Model version:</strong>
+    <%= link_to @test_result.model_version.build_name, [@test_result.model_version.model, @test_result.model_version], class: "text-blue-500 underline-link" %>
   </p>
 
   <p class="my-5">

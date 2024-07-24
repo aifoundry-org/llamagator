@@ -8,7 +8,7 @@
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Test Runs</h1>
      <div class="flex space-x-4">
-       <%= link_to "New test run", new_test_run_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+       <%= link_to "New test run", new_test_run_path, class: "px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" %>
     </div>
   </div>
 
@@ -20,6 +20,7 @@
             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
           >
             <th class="px-4 py-3">ID</th>
+            <th class="px-4 py-3">Name</th>
             <th class="px-4 py-3">Models</th>
             <th class="px-4 py-3">Created at</th>
           </tr>
@@ -40,10 +41,13 @@
                   <p class="font-semibold"><%= link_to test_run.id, test_run, class: "text-blue-500 underline-link" %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= test_run.name %></p>
+                </td>
+                <td class="px-4 py-3 text-sm">
                   <p class="font-semibold"><%= test_run.model_versions.map(&:full_name).join(', ') %></p>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <%= test_run.created_at.to_date %>
+                  <%= time_ago_in_words(test_run.created_at) %> ago
                 </td>
               </tr>
             <% end %>

@@ -57,7 +57,7 @@
                   </span>
                 </td>
                 <td class="px-4 py-3 text-sm">
-                  <%= test_result.created_at.to_date %>
+                  <%= time_ago_in_words(test_result.created_at) %> ago
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <div class="flex items-center" data-test-result-id="<%= test_result.id %>">

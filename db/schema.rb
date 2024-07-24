@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_723_105_858) do
+ActiveRecord::Schema[7.1].define(version: 20_240_724_084_832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -47,6 +47,9 @@ ActiveRecord::Schema[7.1].define(version: 20_240_723_105_858) do
     t.string 'title'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+  end
+
+  create_table 'data_migrations', primary_key: 'version', id: :string, force: :cascade do |t|
   end
 
   create_table 'messages', force: :cascade do |t|
@@ -226,6 +229,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_723_105_858) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.float 'passing_threshold', default: 0.0
+    t.string 'name'
     t.index ['prompt_id'], name: 'index_test_runs_on_prompt_id'
   end
 

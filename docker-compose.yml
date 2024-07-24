@@ -5,6 +5,8 @@ services:
     tty: true
     build: .
     command: ./bin/dev
+    volumes:
+      - ./config:/rails/config
     depends_on:
       - postgres
     ports:

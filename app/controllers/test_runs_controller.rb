@@ -49,7 +49,7 @@ class TestRunsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def test_run_params
-    params.require(:test_run).permit(:prompt_id, :calls, :passing_threshold, assertion_ids: []).tap do |permited|
+    params.require(:test_run).permit(:name, :prompt_id, :calls, :passing_threshold, assertion_ids: []).tap do |permited|
       model_version_ids = params[:test_run][:model_version_ids]&.select(&:present?)
       if model_version_ids.present?
         permited[:test_model_version_runs_attributes] = model_version_ids.map do |model_version_id|

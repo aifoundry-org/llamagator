@@ -3,7 +3,7 @@
 class TestModelVersionRun < ApplicationRecord
   belongs_to :test_run
   belongs_to :model_version
-  has_many :test_results
+  has_many :test_results, dependent: :destroy
 
   default_scope { order(id: :desc) }
 

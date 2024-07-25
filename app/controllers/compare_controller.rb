@@ -2,7 +2,8 @@
 
 class CompareController < ApplicationController
   def index
-    @prompts = current_user.prompts
+    @prompts = current_user.prompts.latest_versions
+    @ancestor_prompts = Prompt.where(id: @prompts.map(&:ancestor_ids).flatten)
     @model_versions = current_user.model_versions.includes(:model)
   end
 

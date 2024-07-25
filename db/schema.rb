@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_724_084_832) do
+ActiveRecord::Schema[7.1].define(version: 20_240_724_124_609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -97,6 +97,8 @@ ActiveRecord::Schema[7.1].define(version: 20_240_724_084_832) do
     t.string 'name'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.string 'ancestry', collation: 'C'
+    t.index ['ancestry'], name: 'index_prompts_on_ancestry'
     t.index ['user_id'], name: 'index_prompts_on_user_id'
   end
 

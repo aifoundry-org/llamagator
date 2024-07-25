@@ -18,7 +18,8 @@ class TestRunsController < ApplicationController
   # GET /test_runs/new
   def new
     @prompt = current_user.prompts.find_by(id: params[:prompt_id])
-    @prompts = current_user.prompts
+    @prompts = current_user.prompts.latest_versions
+    @ancestor_prompts = Prompt.where(id: @prompts.map(&:ancestor_ids).flatten)
     @model_versions = current_user.model_versions.includes(:model)
     @assertions = current_user.assertions
     @test_run = current_user.test_runs.new(prompt: @prompt)

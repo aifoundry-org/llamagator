@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   resources :assertions
   resources :test_runs
-  resources :prompts, except: %i[edit update]
+  resources :prompts
 
   resources :test_runs, except: %i[edit update destroy] do
     resources :test_model_version_runs, only: %i[show]

@@ -17,4 +17,10 @@ module ApplicationHelper
       content_tag(:span, '&#9733;'.html_safe, class: "star #{'selected' if model.rating.to_i >= rating_value}", data: { value: rating_value })
     end.join('').html_safe
   end
+
+  def options_with_versions(latest_versions, previous_versions)
+    latest_versions.map do |version|
+      [version] + previous_versions.select { |ancestor| ancestor.id.in?(version.ancestor_ids) }
+    end.flatten
+  end
 end

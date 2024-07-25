@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe CompareController, type: :controller do
   let(:user) { create(:user) }
-  let(:prompt1) { create(:prompt, user:) }
-  let(:prompt2) { create(:prompt, user:) }
+  let!(:prompt1) { create(:prompt, user:) }
+  let!(:prompt2) { create(:prompt, user:) }
   let(:model) { create(:model, user:) }
-  let(:model_version_1) { create(:model_version, model:) }
-  let(:model_version_2) { create(:model_version, model:) }
+  let!(:model_version_1) { create(:model_version, model:) }
+  let!(:model_version_2) { create(:model_version, model:) }
   let(:test_run) { create(:test_run) }
   let(:test_model_version_run) { create(:test_model_version_run, test_run:, model_version: model_version_1) }
   let!(:test_result) { create(:test_result, test_model_version_run:, status: 'completed') }

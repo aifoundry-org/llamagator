@@ -19,7 +19,7 @@
 
     <div class="my-5">
       <%= form.label :prompt_id %>
-      <%= form.collection_select :prompt_id, @prompts, :id, :name, {}, { class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
+      <%= form.collection_select :prompt_id, options_with_versions(@prompts, @ancestor_prompts), :id, :name, {}, { class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
     </div>
     <div class="my-5">
       <%= form.label :calls %>

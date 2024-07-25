@@ -12,6 +12,7 @@ class TestRunsController < ApplicationController
 
   # GET /test_runs/1 or /test_runs/1.json
   def show
+    @latest_prompt_version = @test_run.prompt.descendants.order(:id).first
     @test_model_version_runs = @test_run.test_model_version_runs.includes(:test_results, model_version: :model).with_passed_test_results_count.decorate
   end
 

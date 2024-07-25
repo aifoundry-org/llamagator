@@ -10,6 +10,8 @@ class PromptsController < ApplicationController
 
   # GET /prompts/1 or /prompts/1.json
   def show
+    @previous_versions = @prompt.ancestors.sort_by { |p| -p.id }
+    @latest_version = @prompt.descendants.order(:id).first unless @prompt.childless?
     @test_runs = @prompt.test_runs.includes(model_versions: :model).order(created_at: :desc)
   end
 

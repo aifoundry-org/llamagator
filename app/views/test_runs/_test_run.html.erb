@@ -8,4 +8,10 @@
   <p class="my-5">
    <strong class="font-medium mr-2">Prompt:</strong> <%= link_to test_run.prompt.name, test_run.prompt, class: "text-blue-500 underline-link" %>
   </p>
+
+  <% if @latest_prompt_version.present? %>
+    <div class="inline-block ml-2">
+      <%= button_to "Rerun with latest prompt version", test_runs_path, params: { test_run: { name: test_run.name, calls: test_run.calls, assertion_ids: test_run.assertion_ids, passing_threshold: test_run.passing_threshold, model_version_ids: test_run.model_version_ids, prompt_id: @latest_prompt_version } }, class: "mt-2 rounded-lg py-3 px-5 secondary-button font-medium" %>
+    </div>
+  <% end %>
 </div>

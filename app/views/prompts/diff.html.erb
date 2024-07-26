@@ -1,0 +1,17 @@
+<div class="container px-6 mx-auto mt-10 grid">
+  <div id="<%= dom_id @prompt %>">
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Name:</strong>
+      <%= Diffy::Diff.new(@previous_prompt_version.name, @prompt.name).to_s(:html).html_safe  %>
+    </p>
+
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Value:</strong>
+      <%= Diffy::Diff.new(@previous_prompt_version.value, @prompt.value).to_s(:html).html_safe  %>
+    </p>
+  </div>
+
+  <div class="inline mt-6">
+    <%= link_to "Back to prompt", prompt_path(@prompt), class: "rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+  </div>
+</div>

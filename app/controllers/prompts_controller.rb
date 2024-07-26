@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PromptsController < ApplicationController
-  before_action :set_prompt, only: %i[show destroy]
+  before_action :set_prompt, only: %i[show destroy diff]
 
   # GET /prompts or /prompts.json
   def index
@@ -18,6 +18,10 @@ class PromptsController < ApplicationController
   def edit
     @parent_prompt = current_user.prompts.find(params[:id])
     @prompt = current_user.prompts.new
+  end
+
+  def diff
+    @previous_prompt_version = current_user.prompts.find(params[:prompt_version_id])
   end
 
   def update

@@ -68,7 +68,7 @@
 
   <% if @previous_versions.present? %>
     <div class="w-full overflow-hidden rounded-lg shadow-xs mx-auto mt-10 w-full">
-      <h1 class="font-bold text-4xl">Versions</h1>
+      <h1 class="font-bold text-4xl">Previous Versions</h1>
       <div class="w-full overflow-x-auto">
         <table class="w-full whitespace-no-wrap">
           <thead>
@@ -77,6 +77,7 @@
             >
               <th class="px-4 py-3">Name</th>
               <th class="px-4 py-3">Created At</th>
+              <th class="px-4 py-3"></th>
             </tr>
           </thead>
           <tbody
@@ -89,6 +90,9 @@
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <%= prompt.created_at.to_date %>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= link_to 'Show diff', diff_prompt_path(@prompt, prompt), class: "text-blue-500 underline-link" %>
                 </td>
               </tr>
             <% end %>

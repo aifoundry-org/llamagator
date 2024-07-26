@@ -20,7 +20,8 @@ module ApplicationHelper
 
   def options_with_versions(latest_versions, previous_versions)
     latest_versions.map do |version|
-      [version] + previous_versions.select { |ancestor| ancestor.id.in?(version.ancestor_ids) }
-    end.flatten
+      ancestors = previous_versions.select { |ancestor| ancestor.id.in?(version.ancestor_ids) }
+      { ancestors.last&.name || version.name => [[version.name, version.id]] + ancestors.map { |v| [v.name, v.id] } }
+    end.reduce(:merge)
   end
 end

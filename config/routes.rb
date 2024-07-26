@@ -3,7 +3,11 @@
 Rails.application.routes.draw do
   resources :assertions
   resources :test_runs
-  resources :prompts
+  resources :prompts do
+    member do
+      get 'diff/:prompt_version_id', action: :diff, as: :diff
+    end
+  end
 
   resources :test_runs, except: %i[edit update destroy] do
     resources :test_model_version_runs, only: %i[show]

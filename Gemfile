@@ -95,3 +95,5 @@ gem 'draper', '~> 4.0'
 gem 'data_migrate', '~> 9.4'
 
 gem 'ancestry', '~> 4.3'
+
+gem 'diffy', '~> 3.4'

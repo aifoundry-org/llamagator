@@ -103,7 +103,7 @@ RSpec.describe ModelsController, type: :controller do
 
     it 'redirects to the models list' do
       delete :destroy, params: { id: model.id }
-      expect(response).to redirect_to(models_url)
+      expect(response).to redirect_to(root_path)
     end
   end
 end

@@ -7,7 +7,7 @@
   <% else %>
     <div>
       <label for="prompt-id-select" class="block text-sm font-medium text-gray-700">Select Prompt:</label>
-      <%= select_tag 'prompt-id-select', options_from_collection_for_select(@prompts, 'id', 'name', @prompts.first&.id), 
+      <%= select_tag 'prompt-id-select', grouped_options_for_select(options_with_versions(@prompts, @ancestor_prompts)), 
                      class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md mb-4', id: 'prompt-id-select' %>
     </div>
     <div>

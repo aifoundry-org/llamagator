@@ -12,13 +12,15 @@ class TestRunsController < ApplicationController
 
   # GET /test_runs/1 or /test_runs/1.json
   def show
+    @latest_prompt_version = @test_run.prompt.descendants.order(:id).first
     @test_model_version_runs = @test_run.test_model_version_runs.includes(:test_results, model_version: :model).with_passed_test_results_count.decorate
   end
 
   # GET /test_runs/new
   def new
     @prompt = current_user.prompts.find_by(id: params[:prompt_id])
-    @prompts = current_user.prompts
+    @prompts = current_user.prompts.latest_versions
+    @ancestor_prompts = Prompt.where(id: @prompts.map(&:ancestor_ids).flatten)
     @model_versions = current_user.model_versions.includes(:model)
     @assertions = current_user.assertions
     @test_run = current_user.test_runs.new(prompt: @prompt)

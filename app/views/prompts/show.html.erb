@@ -6,11 +6,18 @@
   <%= render @prompt %>
 
   <div class="inline">
-    <%= link_to "Back to prompts", prompts_path, class: "rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <% if @prompt.childless? %>
+      <%= link_to "Back to prompts", prompts_path, class: "rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <% else %>
+      <%= link_to "Back to latest version", prompt_path(@latest_version), class: "rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
+    <% end %>
     <%= link_to "Create test runs", new_test_run_path(prompt_id: @prompt), class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this prompt", @prompt, method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>
-    </div>
+    <% if @prompt.childless? %>
+      <%= link_to "Edit this prompt", edit_prompt_path(@prompt), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <div class="inline-block ml-2">
+        <%= button_to "Destroy this prompt", @prompt, method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>
+      </div>
+    <% end %>
   </div>
 
   <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs">
@@ -58,4 +65,40 @@
       </table>
     </div>
   </div>
+
+  <% if @previous_versions.present? %>
+    <div class="w-full overflow-hidden rounded-lg shadow-xs mx-auto mt-10 w-full">
+      <h1 class="font-bold text-4xl">Previous Versions</h1>
+      <div class="w-full overflow-x-auto">
+        <table class="w-full whitespace-no-wrap">
+          <thead>
+            <tr
+              class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+            >
+              <th class="px-4 py-3">Name</th>
+              <th class="px-4 py-3">Created At</th>
+              <th class="px-4 py-3"></th>
+            </tr>
+          </thead>
+          <tbody
+            class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+          >
+            <% @previous_versions.each do |prompt| %>
+              <tr class="text-gray-700 dark:text-gray-400">
+                <td class="px-4 py-3 text-sm">
+                  <p class="font-semibold"><%= link_to prompt.name, prompt, class: "text-blue-500 underline-link" %></p>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= prompt.created_at.to_date %>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <%= link_to 'Show diff', diff_prompt_path(@prompt, prompt), class: "text-blue-500 underline-link" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
 </div>

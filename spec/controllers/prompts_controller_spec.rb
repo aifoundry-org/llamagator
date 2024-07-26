@@ -67,6 +67,38 @@ RSpec.describe PromptsController, type: :controller do
     end
   end
 
+  describe 'GET #edit' do
+    it 'assigns a new prompt as @prompt' do
+      get :edit, params: { id: prompt.to_param }
+      expect(assigns(:parent_prompt)).to eq(prompt)
+      expect(assigns(:prompt)).to be_a_new(Prompt)
+    end
+
+    context 'when not latest version of prompt' do
+      let!(:old_prompt_version) { create(:prompt, user:, parent: prompt) }
+      it 'raises an ActiveRecord::RecordNotFound error' do
+        expect do
+          get :edit, params: { id: prompt.id }
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:valid_attributes) { attributes_for(:prompt) }
+
+      it 'creates a new prompt with parent' do
+        expect do
+          put :update, params: { id: prompt.to_param, prompt: valid_attributes }
+        end.to change(Prompt, :count).by(1)
+
+        expect(response).to redirect_to(prompt.descendants.last)
+        expect(flash[:notice]).to eq('Prompt was successfully updated.')
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     it 'destroys the requested prompt' do
       prompt # create the prompt before the expect block

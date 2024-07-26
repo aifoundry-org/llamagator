@@ -81,6 +81,8 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
+    ancestry (4.3.3)
+      activerecord (>= 5.2.6)
     ast (2.4.2)
     base64 (0.2.0)
     bcrypt (3.1.20)
@@ -128,6 +130,7 @@ GEM
       devise (~> 4.0)
       warden-jwt_auth (~> 0.10)
     diff-lcs (1.5.1)
+    diffy (3.4.2)
     dotenv (3.1.2)
     draper (4.0.2)
       actionpack (>= 5.0)
@@ -427,6 +430,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  ancestry (~> 4.3)
   bootsnap
   capybara
   data_migrate (~> 9.4)
@@ -434,6 +438,7 @@ DEPENDENCIES
   debug
   devise (~> 4.9)
   devise-jwt (~> 0.12.0)
+  diffy (~> 3.4)
   dotenv (~> 3.1)
   draper (~> 4.0)
   factory_bot_rails

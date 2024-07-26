@@ -1,16 +1,43 @@
 # frozen_string_literal: true
 
 class PromptsController < ApplicationController
-  before_action :set_prompt, only: %i[show destroy]
+  before_action :set_prompt, only: %i[show destroy diff]
 
   # GET /prompts or /prompts.json
   def index
-    @prompts = current_user.prompts
+    @prompts = current_user.prompts.latest_versions
   end
 
   # GET /prompts/1 or /prompts/1.json
   def show
+    @previous_versions = @prompt.ancestors.sort_by { |p| -p.id }
+    @latest_version = @prompt.descendants.order(:id).first unless @prompt.childless?
     @test_runs = @prompt.test_runs.includes(model_versions: :model).order(created_at: :desc)
+  end
+
+  def edit
+    @parent_prompt = current_user.prompts.latest_versions.find(params[:id])
+    @prompt = current_user.prompts.new
+  end
+
+  def diff
+    @previous_prompt_version = current_user.prompts.find(params[:prompt_version_id])
+  end
+
+  def update
+    parent_prompt = current_user.prompts.find(params[:id])
+
+    @prompt = current_user.prompts.new(prompt_params.merge(parent: parent_prompt))
+
+    respond_to do |format|
+      if @prompt.save
+        format.html { redirect_to prompt_url(@prompt), notice: 'Prompt was successfully updated.' }
+        format.json { render :show, status: :created, location: @prompt }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @prompt.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /prompts/new
@@ -35,6 +62,7 @@ class PromptsController < ApplicationController
 
   # DELETE /prompts/1 or /prompts/1.json
   def destroy
+    @prompt.ancestors.destroy_all
     @prompt.destroy!
 
     respond_to do |format|

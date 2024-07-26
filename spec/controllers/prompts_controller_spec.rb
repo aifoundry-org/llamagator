@@ -73,6 +73,15 @@ RSpec.describe PromptsController, type: :controller do
       expect(assigns(:parent_prompt)).to eq(prompt)
       expect(assigns(:prompt)).to be_a_new(Prompt)
     end
+
+    context 'when not latest version of prompt' do
+      let!(:old_prompt_version) { create(:prompt, user:, parent: prompt) }
+      it 'raises an ActiveRecord::RecordNotFound error' do
+        expect do
+          get :edit, params: { id: prompt.id }
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 
   describe 'PUT #update' do

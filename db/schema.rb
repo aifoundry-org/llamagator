@@ -97,7 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_724_124_609) do
     t.string 'name'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.string 'ancestry', collation: 'C'
+    t.string 'ancestry', default: '/', null: false, collation: 'C'
     t.index ['ancestry'], name: 'index_prompts_on_ancestry'
     t.index ['user_id'], name: 'index_prompts_on_user_id'
   end

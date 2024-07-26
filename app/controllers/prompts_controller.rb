@@ -16,7 +16,7 @@ class PromptsController < ApplicationController
   end
 
   def edit
-    @parent_prompt = current_user.prompts.find(params[:id])
+    @parent_prompt = current_user.prompts.latest_versions.find(params[:id])
     @prompt = current_user.prompts.new
   end
 

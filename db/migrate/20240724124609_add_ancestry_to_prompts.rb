@@ -3,7 +3,7 @@
 class AddAncestryToPrompts < ActiveRecord::Migration[7.1]
   def change
     change_table(:prompts) do |t|
-      t.string 'ancestry', collation: 'C'
+      t.string 'ancestry', collation: 'C', null: false, default: '/'
       t.index 'ancestry'
     end
   end

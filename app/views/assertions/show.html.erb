@@ -5,8 +5,7 @@
     <% end %>
 
     <%= render @assertion %>
-  
-    <%= link_to "Edit this assertion", edit_assertion_path(@assertion), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
     <%= link_to "Back to assertions", assertions_path, class: "ml-2 rounded-lg py-3 px-5 secondary-button inline-block font-medium" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this assertion", @assertion, method: :delete, class: "mt-2 rounded-lg py-3 px-5 delete-button font-medium" %>

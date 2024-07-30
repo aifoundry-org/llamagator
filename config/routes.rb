@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :assertions
+  resources :assertions, except: %i[edit update]
   resources :test_runs
   resources :prompts do
     member do

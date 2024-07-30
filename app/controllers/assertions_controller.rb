@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AssertionsController < ApplicationController
-  before_action :set_assertion, only: %i[show edit update destroy]
+  before_action :set_assertion, only: %i[show destroy]
 
   # GET /assertions or /assertions.json
   def index
@@ -16,9 +16,6 @@ class AssertionsController < ApplicationController
     @assertion = current_user.assertions.new
   end
 
-  # GET /assertions/1/edit
-  def edit; end
-
   # POST /assertions or /assertions.json
   def create
     @assertion = current_user.assertions.new(assertion_params)
@@ -29,19 +26,6 @@ class AssertionsController < ApplicationController
         format.json { render :show, status: :created, location: @assertion }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @assertion.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /assertions/1 or /assertions/1.json
-  def update
-    respond_to do |format|
-      if @assertion.update(assertion_params)
-        format.html { redirect_to assertion_url(@assertion), notice: 'Assertion was successfully updated.' }
-        format.json { render :show, status: :ok, location: @assertion }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @assertion.errors, status: :unprocessable_entity }
       end
     end

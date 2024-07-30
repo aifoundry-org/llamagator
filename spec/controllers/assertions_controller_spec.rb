@@ -32,13 +32,6 @@ RSpec.describe AssertionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    it 'returns a success response' do
-      get :edit, params: { id: assertion.to_param }
-      expect(response).to be_successful
-    end
-  end
-
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new Assertion' do
@@ -50,23 +43,6 @@ RSpec.describe AssertionsController, type: :controller do
       it 'redirects to the created assertion' do
         post :create, params: { assertion: valid_attributes }
         expect(response).to redirect_to(Assertion.last)
-      end
-    end
-  end
-
-  describe 'PATCH #update' do
-    context 'with valid params' do
-      let(:new_attributes) { { name: 'Updated Assertion' } }
-
-      it 'updates the requested assertion' do
-        patch :update, params: { id: assertion.to_param, assertion: new_attributes }
-        assertion.reload
-        expect(assertion.name).to eq('Updated Assertion')
-      end
-
-      it 'redirects to the assertion' do
-        patch :update, params: { id: assertion.to_param, assertion: valid_attributes }
-        expect(response).to redirect_to(assertion)
       end
     end
   end

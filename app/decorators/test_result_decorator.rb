@@ -18,7 +18,9 @@ class TestResultDecorator < ApplicationDecorator
 
     return JSON.parse(object.result).dig('choices', 0, 'message', 'content') if object.model_version.executor_type == 'openai'
 
-    JSON.parse(object.result)['content'] if object.completed?
+    return JSON.parse(object.result)[0]['response'] if object.model_version.executor_type == 'ollama'
+
+    JSON.parse(object.result)['content']
   rescue StandardError
     ''
   end

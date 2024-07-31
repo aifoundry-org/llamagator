@@ -7,7 +7,7 @@ class Model < ApplicationRecord
   has_many :model_versions, dependent: :destroy
   accepts_nested_attributes_for :model_versions, allow_destroy: true, reject_if: :all_blank
 
-  enum :executor_type, { base: 0, openai: 1 }, scopes: false, default: :base
+  enum :executor_type, { base: 0, openai: 1, ollama: 2 }, scopes: false, default: :base
 
   default_scope { order(id: :desc) }
 end

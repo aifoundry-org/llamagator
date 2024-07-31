@@ -20,11 +20,17 @@ module Executors
       http.read_timeout = 2000
       response = http.request(request)
 
-      return { status: :completed, result: response.body } if response.code.to_i == 200
+      return { status: :completed, result: process_response(response.body) } if response.code.to_i == 200
 
       { status: :failed, result: response.body }
     rescue StandardError => e
       { status: :failed, result: { error: { message: e.message } }.to_json }
+    end
+
+    private
+
+    def process_response(response_body)
+      response_body
     end
   end
 end

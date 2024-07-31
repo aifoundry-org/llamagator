@@ -14,14 +14,22 @@ class TestResultDecorator < ApplicationDecorator
   def content
     return '' if object.pending?
 
-    return JSON.parse(object.result).dig('error', 'message') if object.failed?
+    return json_result.dig('error', 'message') if object.failed?
 
-    return JSON.parse(object.result).dig('choices', 0, 'message', 'content') if object.model_version.executor_type == 'openai'
-
-    return JSON.parse(object.result)[0]['response'] if object.model_version.executor_type == 'ollama'
-
-    JSON.parse(object.result)['content']
+    json_result.dig(*CONTENT_PATHS[object.model_version.executor_type])
   rescue StandardError
     ''
+  end
+
+  private
+
+  CONTENT_PATHS = {
+    'openai' => ['choices', 0, 'message', 'content'],
+    'ollama' => [0, 'response'],
+    'base' => ['content']
+  }.freeze
+
+  def json_result
+    @json_result ||= JSON.parse(object.result)
   end
 end

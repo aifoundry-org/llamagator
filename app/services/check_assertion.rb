@@ -8,7 +8,12 @@ class CheckAssertion
   end
 
   def call(result)
-    return 'passed' if assertion&.value&.split('\n')&.all? { |value| assertion.include? ? result&.include?(value) : result&.exclude?(value) }
+    return 'failed' unless assertion&.value && result
+
+    assertion_type = assertion.assertion_type
+    assertion_values = assertion.value.to_s.split("\n")
+
+    return 'passed' if Assertions.const_get(assertion_type.camelize).new(assertion_values).call(result)
 
     'failed'
   end

@@ -11,9 +11,8 @@ class CheckAssertion
     return 'failed' unless assertion&.value && result
 
     assertion_type = assertion.assertion_type
-    assertion_values = assertion.value.to_s.split("\n")
 
-    return 'passed' if Assertions.const_get(assertion_type.camelize).new(assertion_values, assertion.model_version).call(result)
+    return 'passed' if Assertions.const_get(assertion_type.camelize).new(assertion.value, assertion.model_version).call(result)
 
     'failed'
   end

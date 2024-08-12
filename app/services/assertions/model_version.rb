@@ -3,7 +3,7 @@
 module Assertions
   class ModelVersion < Base
     def call(result)
-      result = ModelExecutor.new(model_version).call([values, result].flatten.join(' '))
+      result = ModelExecutor.new(model_version).call([value, result].join(' '))
 
       return false if result[:status] == :failed
 

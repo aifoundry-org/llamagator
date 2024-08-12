@@ -2,11 +2,17 @@
 
 module Assertions
   class Base
-    attr_reader :values, :model_version
+    attr_reader :value, :model_version
 
-    def initialize(values, assertion)
-      @values = values
-      @model_version = assertion
+    def initialize(value, model_version)
+      @value = value
+      @model_version = model_version
+    end
+
+    private
+
+    def values
+      @values ||= value.to_s.split("\n")
     end
   end
 end

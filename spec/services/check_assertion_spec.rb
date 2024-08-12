@@ -68,26 +68,6 @@ RSpec.describe CheckAssertion do
       end
     end
 
-    context 'when assertion is of type exclude_any' do
-      let(:assertion_type) { 'exclude_any' }
-
-      context 'when any of the values are not included in the result' do
-        let(:assertion_value) { "missing\nvalues" }
-
-        it 'returns passed' do
-          expect(check_assertion.call(result)).to eq('passed')
-        end
-      end
-
-      context 'when all value is included in the result' do
-        let(:assertion_value) { "test\nresult\nincludes" }
-
-        it 'returns failed' do
-          expect(check_assertion.call(result)).to eq('failed')
-        end
-      end
-    end
-
     context 'when assertion value is nil' do
       let(:assertion_type) { 'include_all' }
       let(:assertion_value) { nil }

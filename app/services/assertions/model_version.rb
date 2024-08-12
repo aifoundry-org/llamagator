@@ -5,13 +5,15 @@ module Assertions
     def call(result)
       result = ModelExecutor.new(model_version).call([value, result].join(' '))
 
-      return false if result[:status] == :failed
+      return ['failed', nil] if result[:status] == :failed
 
-      return ActiveModel::Type::Boolean.new.cast(JSON.parse(result[:result]).dig('choices', 0, 'message', 'content')) if model_version.executor_type == 'openai'
+      content = JSON.parse(result[:result]).dig(*model_version.content_path)
 
-      ActiveModel::Type::Boolean.new.cast(JSON.parse(result[:result])['content'])
+      state = ActiveModel::Type::Boolean.new.cast(content) ? 'passed' : 'failed'
+
+      [state, result[:result]]
     rescue StandardError
-      false
+      ['failed', nil]
     end
   end
 end

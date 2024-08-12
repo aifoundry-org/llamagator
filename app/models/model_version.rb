@@ -21,7 +21,17 @@ class ModelVersion < ApplicationRecord
     "#{model.name} #{build_name}"
   end
 
+  def content_path
+    CONTENT_PATHS[executor_type]
+  end
+
   private
+
+  CONTENT_PATHS = {
+    'openai' => ['choices', 0, 'message', 'content'],
+    'ollama' => [0, 'response'],
+    'base' => ['content']
+  }.freeze
 
   def configuration_is_json
     return unless configuration.present? && !configuration.is_a?(Hash)

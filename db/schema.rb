@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_729_074_246) do
+ActiveRecord::Schema[7.1].define(version: 20_240_812_150_858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_729_074_246) do
     t.integer 'state'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.json 'result'
     t.index ['assertion_id'], name: 'index_assertion_results_on_assertion_id'
     t.index ['test_result_id'], name: 'index_assertion_results_on_test_result_id'
   end

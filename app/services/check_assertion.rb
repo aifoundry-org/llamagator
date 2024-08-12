@@ -8,12 +8,10 @@ class CheckAssertion
   end
 
   def call(result)
-    return 'failed' unless assertion&.value && result
+    return ['failed', nil] unless assertion&.value && result
 
     assertion_type = assertion.assertion_type
 
-    return 'passed' if Assertions.const_get(assertion_type.camelize).new(assertion.value, assertion.model_version).call(result)
-
-    'failed'
+    Assertions.const_get(assertion_type.camelize).new(assertion.value, assertion.model_version).call(result)
   end
 end

@@ -16,7 +16,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "test\nresult\nincludes" }
 
         it 'returns passed' do
-          expect(check_assertion.call(result)).to eq('passed')
+          expect(check_assertion.call(result)[0]).to eq('passed')
         end
       end
 
@@ -24,7 +24,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "test\nresult\nmissing" }
 
         it 'returns failed' do
-          expect(check_assertion.call(result)).to eq('failed')
+          expect(check_assertion.call(result)[0]).to eq('failed')
         end
       end
     end
@@ -36,7 +36,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "missing\nvaluesmiss" }
 
         it 'returns passed' do
-          expect(check_assertion.call(result)).to eq('passed')
+          expect(check_assertion.call(result)[0]).to eq('passed')
         end
       end
 
@@ -44,7 +44,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "test\nresult\nincludes" }
 
         it 'returns failed' do
-          expect(check_assertion.call(result)).to eq('failed')
+          expect(check_assertion.call(result)[0]).to eq('failed')
         end
       end
     end
@@ -56,7 +56,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "test\nresult\nnotincludes" }
 
         it 'returns passed' do
-          expect(check_assertion.call(result)).to eq('passed')
+          expect(check_assertion.call(result)[0]).to eq('passed')
         end
       end
 
@@ -64,7 +64,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "tests\nresults\nmissing" }
 
         it 'returns failed' do
-          expect(check_assertion.call(result)).to eq('failed')
+          expect(check_assertion.call(result)[0]).to eq('failed')
         end
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe CheckAssertion do
         let(:result) { 'true' }
 
         it 'returns passed' do
-          expect(check_assertion.call(result)).to eq('passed')
+          expect(check_assertion.call(result)).to eq(['passed', model_response])
         end
       end
 
@@ -92,7 +92,7 @@ RSpec.describe CheckAssertion do
         let(:result) { 'false' }
 
         it 'returns failed' do
-          expect(check_assertion.call(result)).to eq('failed')
+          expect(check_assertion.call(result)).to eq(['failed', model_response])
         end
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe CheckAssertion do
       let(:assertion_value) { nil }
 
       it 'returns failed' do
-        expect(check_assertion.call(result)).to eq('failed')
+        expect(check_assertion.call(result)[0]).to eq('failed')
       end
     end
 
@@ -112,7 +112,7 @@ RSpec.describe CheckAssertion do
       let(:result) { nil }
 
       it 'returns failed' do
-        expect(check_assertion.call(result)).to eq('failed')
+        expect(check_assertion.call(result)[0]).to eq('failed')
       end
     end
   end

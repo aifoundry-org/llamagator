@@ -2,7 +2,9 @@
 
 module Assertions
   class IncludeAll < Base
-    def call(result)
+    private
+
+    def validate?(result)
       values.all? { |value| result&.include?(value) }
     end
   end

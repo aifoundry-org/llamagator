@@ -10,7 +10,7 @@ RSpec.describe TestModelVersionRunJob, type: :job do
   let(:prompt) { test_run.prompt }
   let(:test_result) { create(:test_result, test_model_version_run:) }
   let(:model_executor) { instance_double(ModelExecutor, call: { result: 'success' }) }
-  let(:check_assertion) { instance_double(CheckAssertion, call: 'passed') }
+  let(:check_assertion) { instance_double(CheckAssertion, call: ['passed', { result: 'result' }.to_json]) }
 
   before do
     allow(TestModelVersionRun).to receive(:find).and_return(test_model_version_run)
@@ -46,7 +46,7 @@ RSpec.describe TestModelVersionRunJob, type: :job do
     it 'generates assertion results' do
       assertions.each do |assertion|
         expect(CheckAssertion).to receive(:new).with(assertion).and_return(check_assertion)
-        expect(test_result.assertion_results).to receive(:create).with(assertion:, state: 'passed')
+        expect(test_result.assertion_results).to receive(:create).with(assertion:, state: 'passed', result: { result: 'result' }.to_json)
       end
       described_class.new.perform(test_model_version_run.id)
     end

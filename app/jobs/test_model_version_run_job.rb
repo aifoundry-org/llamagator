@@ -28,9 +28,9 @@ class TestModelVersionRunJob < ApplicationJob
     test_run = test_model_version_run.test_run
 
     test_run.assertions.each do |assertion|
-      state = CheckAssertion.new(assertion).call(test_result.decorate.content)
+      state, result = CheckAssertion.new(assertion).call(test_result.decorate.content)
 
-      test_result.assertion_results.create(assertion:, state:)
+      test_result.assertion_results.create(assertion:, state:, result:)
     end
   end
 end

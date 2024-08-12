@@ -9,6 +9,12 @@ module Assertions
       @model_version = model_version
     end
 
+    def call(result)
+      state = validate?(result) ? 'passed' : 'failed'
+
+      [state, nil]
+    end
+
     private
 
     def values

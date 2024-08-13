@@ -19,7 +19,7 @@
 
   <strong class="font-medium mb-1">Result:</strong>
   <pre id="json-display"></pre>
-  <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs">
+  <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs" data-controller="assertionResultModal">
     <h1 class="font-bold text-4xl">Assertions</h1>
     <div class="w-full overflow-x-auto">
       <table class="w-full whitespace-no-wrap">
@@ -53,11 +53,25 @@
                      <%= assertion_result.state.capitalize %>
                   </span>
                 </td>
+                <% if assertion_result.assertion.model_version? && assertion_result.result.present? %>
+                  <td class="px-4 py-3 text-sm">
+                    <button data-action="click->assertionResultModal#show" class="text-blue-500 underline-link" data-assertion='<%= assertion_result.assertion.name %>' data-json='<%= raw assertion_result.result %>'>
+                      Show full response
+                    </button>
+                  </td>
+                <% end %>
               </tr>
             <% end %>
           <% end %>
         </tbody>
       </table>
+    </div>
+    <div id="assertion-result-modal" class="fixed inset-0 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
+      <div class="bg-white rounded-lg shadow-lg p-6 max-w-xl w-full">
+        <h2 data-assertionResultModal-target="label" class="text-xl font-bold mb-4">Full Result</h2>
+        <pre data-assertionResultModal-target="content" class="bg-gray-100 p-4 rounded-lg overflow-auto"></pre>
+        <button data-action="click->assertionResultModal#close" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Close</button>
+      </div>
     </div>
   </div>
 </div>

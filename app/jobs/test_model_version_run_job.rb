@@ -10,16 +10,18 @@ class TestModelVersionRunJob < ApplicationJob
 
     @test_result = TestResult.create(test_model_version_run:)
 
-    result = {}
-    benchmark = Benchmark.measure do
-      result = ModelExecutor.new(model_version).call(prompt.value)
+    ActiveRecord::Base.transaction do
+      result = {}
+      benchmark = Benchmark.measure do
+        result = ModelExecutor.new(model_version).call(prompt.value)
+      end
+
+      spent_time = benchmark.real
+
+      test_result.update(result.merge(time: spent_time))
+
+      generate_assertion_results
     end
-
-    spent_time = benchmark.real
-
-    test_result.update(result.merge(time: spent_time))
-
-    generate_assertion_results
   end
 
   private

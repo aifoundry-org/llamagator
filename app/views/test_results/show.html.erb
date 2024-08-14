@@ -22,7 +22,7 @@
   <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs" data-controller="assertionResultModal">
     <h1 class="font-bold text-4xl">Assertions</h1>
     <div class="w-full overflow-x-auto">
-      <table class="w-full whitespace-no-wrap">
+      <table class="w-full whitespace-no-wrap max-w-xl">
         <thead>
           <tr
             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
@@ -55,7 +55,7 @@
                 </td>
                 <% if assertion_result.assertion.model_version? && assertion_result.result.present? %>
                   <td class="px-4 py-3 text-sm">
-                    <button data-action="click->assertionResultModal#show" class="text-blue-500 underline-link" data-assertion='<%= assertion_result.assertion.name %>' data-json='<%= raw assertion_result.result %>'>
+                    <button data-action="click->assertionResultModal#show" class="text-blue-500 underline-link" data-assertion='<%= assertion_result.assertion.name %>' data-json="<%= json_escape(assertion_result.result) %>">
                       Show full response
                     </button>
                   </td>

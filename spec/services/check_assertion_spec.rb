@@ -88,6 +88,14 @@ RSpec.describe CheckAssertion do
         end
       end
 
+      context 'when model returns True' do
+        let(:result) { 'True' }
+
+        it 'returns passed' do
+          expect(check_assertion.call(result)).to eq(['passed', model_response])
+        end
+      end
+
       context 'when model returns false' do
         let(:result) { 'false' }
 

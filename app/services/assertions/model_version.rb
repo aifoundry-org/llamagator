@@ -2,7 +2,7 @@
 
 module Assertions
   class ModelVersion < Base
-    TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'on', 'ON'].to_set.freeze
+    TRUE_VALUES = %w[1 t true on].to_set.freeze
 
     def call(result)
       result = ModelExecutor.new(model_version).call([value, result].join(' '))
@@ -11,7 +11,7 @@ module Assertions
 
       content = JSON.parse(result[:result]).dig(*model_version.content_path)
 
-      state = TRUE_VALUES.include?(content) ? 'passed' : 'failed'
+      state = TRUE_VALUES.include?(content.to_s.downcase) ? 'passed' : 'failed'
 
       [state, result[:result]]
     rescue StandardError

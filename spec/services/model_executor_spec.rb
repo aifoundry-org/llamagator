@@ -21,14 +21,14 @@ RSpec.describe ModelExecutor do
       end
     end
 
-    context "when executor type is 'base'" do
-      let(:model) { create(:model, executor_type: 'llama') }
+    context "when executor type is 'llama_cpp'" do
+      let(:model) { create(:model, executor_type: 'llama_cpp') }
       let(:model_version) { create(:model_version, model:) }
       let(:prompt) { 'Test prompt' }
-      let(:executor_instance) { instance_double(Executors::Base) }
+      let(:executor_instance) { instance_double(Executors::LlamaCpp) }
 
       before do
-        allow(Executors::Base).to receive(:new).and_return(executor_instance)
+        allow(Executors::LlamaCpp).to receive(:new).and_return(executor_instance)
         allow(executor_instance).to receive(:call).with(prompt).and_return({ result: 'Test result' })
       end
 

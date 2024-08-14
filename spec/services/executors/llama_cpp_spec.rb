@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'webmock/rspec'
 
-RSpec.describe Executors::Llama do
+RSpec.describe Executors::LlamaCpp do
   describe '#call' do
     let(:model) { create(:model, url: 'http://example.com/model_endpoint') }
     let(:model_version) { create(:model_version, model:, configuration: { param: 'value' }) }

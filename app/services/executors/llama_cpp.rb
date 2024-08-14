@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Executors
-  class Llama < Base
+  class LlamaCpp < Base
   end
 end

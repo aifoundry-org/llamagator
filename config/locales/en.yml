@@ -33,6 +33,6 @@ en:
       attributes:
         model:
           executor_types:
-            llama: 'Llama.cpp'
+            llama_cpp: 'Llama.cpp'
             openai: 'OpenAI'
             ollama: 'Ollama'

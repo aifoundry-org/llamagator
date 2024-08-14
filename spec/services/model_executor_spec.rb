@@ -22,7 +22,7 @@ RSpec.describe ModelExecutor do
     end
 
     context "when executor type is 'base'" do
-      let(:model) { create(:model, executor_type: 'base') }
+      let(:model) { create(:model, executor_type: 'llama') }
       let(:model_version) { create(:model_version, model:) }
       let(:prompt) { 'Test prompt' }
       let(:executor_instance) { instance_double(Executors::Base) }

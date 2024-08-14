@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :model do
     name { 'Test Model' }
     url { 'http://example.com' }
-    executor_type { 'base' }
+    executor_type { 'llama' }
     api_key { 'apikey' }
     association :user
   end

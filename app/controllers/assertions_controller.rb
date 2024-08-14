@@ -2,6 +2,7 @@
 
 class AssertionsController < ApplicationController
   before_action :set_assertion, only: %i[show destroy]
+  before_action :set_model_versions, only: %i[new create]
 
   # GET /assertions or /assertions.json
   def index
@@ -50,6 +51,10 @@ class AssertionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def assertion_params
-    params.require(:assertion).permit(:name, :assertion_type, :value, :user_id)
+    params.require(:assertion).permit(:name, :assertion_type, :value, :model_version_id)
+  end
+
+  def set_model_versions
+    @model_versions = current_user.model_versions.includes(:model)
   end
 end

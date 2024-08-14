@@ -2,7 +2,9 @@
 
 module Assertions
   class ExcludeAll < Base
-    def call(result)
+    private
+
+    def validate?(result)
       values.all? { |value| result&.exclude?(value) }
     end
   end

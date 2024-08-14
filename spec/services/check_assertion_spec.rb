@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe CheckAssertion do
-  let(:assertion) { build(:assertion, assertion_type:, value: assertion_value) }
+  let(:model_version) { nil }
+  let(:assertion) { build(:assertion, assertion_type:, value: assertion_value, model_version:) }
   let(:result) { 'This is a test result string that includes some expected values.' }
   let(:check_assertion) { described_class.new(assertion) }
 
@@ -15,7 +16,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "test\nresult\nincludes" }
 
         it 'returns passed' do
-          expect(check_assertion.call(result)).to eq('passed')
+          expect(check_assertion.call(result)[0]).to eq('passed')
         end
       end
 
@@ -23,7 +24,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "test\nresult\nmissing" }
 
         it 'returns failed' do
-          expect(check_assertion.call(result)).to eq('failed')
+          expect(check_assertion.call(result)[0]).to eq('failed')
         end
       end
     end
@@ -35,7 +36,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "missing\nvaluesmiss" }
 
         it 'returns passed' do
-          expect(check_assertion.call(result)).to eq('passed')
+          expect(check_assertion.call(result)[0]).to eq('passed')
         end
       end
 
@@ -43,7 +44,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "test\nresult\nincludes" }
 
         it 'returns failed' do
-          expect(check_assertion.call(result)).to eq('failed')
+          expect(check_assertion.call(result)[0]).to eq('failed')
         end
       end
     end
@@ -55,7 +56,7 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "test\nresult\nnotincludes" }
 
         it 'returns passed' do
-          expect(check_assertion.call(result)).to eq('passed')
+          expect(check_assertion.call(result)[0]).to eq('passed')
         end
       end
 
@@ -63,7 +64,35 @@ RSpec.describe CheckAssertion do
         let(:assertion_value) { "tests\nresults\nmissing" }
 
         it 'returns failed' do
-          expect(check_assertion.call(result)).to eq('failed')
+          expect(check_assertion.call(result)[0]).to eq('failed')
+        end
+      end
+    end
+
+    context 'when assertion is of type model_version' do
+      let(:model_version) { create(:model_version) }
+      let(:assertion_type) { 'model_version' }
+      let(:assertion_value) { 'return true if text equal zero' }
+      let(:model_response) { { content: result }.to_json }
+      let(:model_executor) { instance_double(ModelExecutor, call: { status: :completed, result: model_response }) }
+
+      before do
+        allow(ModelExecutor).to receive(:new).with(model_version).and_return(model_executor)
+      end
+
+      context 'when model returns true' do
+        let(:result) { 'true' }
+
+        it 'returns passed' do
+          expect(check_assertion.call(result)).to eq(['passed', model_response])
+        end
+      end
+
+      context 'when model returns false' do
+        let(:result) { 'false' }
+
+        it 'returns failed' do
+          expect(check_assertion.call(result)).to eq(['failed', model_response])
         end
       end
     end
@@ -73,7 +102,7 @@ RSpec.describe CheckAssertion do
       let(:assertion_value) { nil }
 
       it 'returns failed' do
-        expect(check_assertion.call(result)).to eq('failed')
+        expect(check_assertion.call(result)[0]).to eq('failed')
       end
     end
 
@@ -83,7 +112,7 @@ RSpec.describe CheckAssertion do
       let(:result) { nil }
 
       it 'returns failed' do
-        expect(check_assertion.call(result)).to eq('failed')
+        expect(check_assertion.call(result)[0]).to eq('failed')
       end
     end
   end

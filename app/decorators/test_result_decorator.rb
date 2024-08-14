@@ -16,18 +16,12 @@ class TestResultDecorator < ApplicationDecorator
 
     return json_result.dig('error', 'message') if object.failed?
 
-    json_result.dig(*CONTENT_PATHS[object.model_version.executor_type])
+    json_result.dig(*object.model_version.content_path)
   rescue StandardError
     ''
   end
 
   private
-
-  CONTENT_PATHS = {
-    'openai' => ['choices', 0, 'message', 'content'],
-    'ollama' => [0, 'response'],
-    'base' => ['content']
-  }.freeze
 
   def json_result
     @json_result ||= JSON.parse(object.result)

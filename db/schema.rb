@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_724_124_609) do
+ActiveRecord::Schema[7.1].define(version: 20_240_812_150_858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_724_124_609) do
     t.integer 'state'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.json 'result'
     t.index ['assertion_id'], name: 'index_assertion_results_on_assertion_id'
     t.index ['test_result_id'], name: 'index_assertion_results_on_test_result_id'
   end
@@ -33,6 +34,8 @@ ActiveRecord::Schema[7.1].define(version: 20_240_724_124_609) do
     t.bigint 'user_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.bigint 'model_version_id'
+    t.index ['model_version_id'], name: 'index_assertions_on_model_version_id'
     t.index ['user_id'], name: 'index_assertions_on_user_id'
   end
 
@@ -249,6 +252,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_724_124_609) do
 
   add_foreign_key 'assertion_results', 'assertions'
   add_foreign_key 'assertion_results', 'test_results'
+  add_foreign_key 'assertions', 'model_versions'
   add_foreign_key 'assertions', 'users'
   add_foreign_key 'messages', 'chats'
   add_foreign_key 'model_versions', 'models'

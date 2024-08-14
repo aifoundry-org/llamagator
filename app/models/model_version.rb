@@ -4,6 +4,7 @@ class ModelVersion < ApplicationRecord
   belongs_to :model
   has_many :test_model_version_runs, dependent: :destroy
   has_many :test_results, through: :test_model_version_runs
+  has_many :assertions, dependent: :destroy
   validate :configuration_is_json
   before_save :parse_configuration
   delegate :executor_type, to: :model
@@ -20,7 +21,17 @@ class ModelVersion < ApplicationRecord
     "#{model.name} #{build_name}"
   end
 
+  def content_path
+    CONTENT_PATHS[executor_type]
+  end
+
   private
+
+  CONTENT_PATHS = {
+    'openai' => ['choices', 0, 'message', 'content'],
+    'ollama' => [0, 'response'],
+    'base' => ['content']
+  }.freeze
 
   def configuration_is_json
     return unless configuration.present? && !configuration.is_a?(Hash)

@@ -1,0 +1,31 @@
+FROM ruby:3.3.0-slim
+
+ARG RAILS_ENV=development
+
+# Install packages needed to build gems and node dependencies
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git libvips pkg-config curl libpq-dev
+
+# Install Node.js and Yarn
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g yarn
+
+# Rails app lives here
+WORKDIR /rails
+
+RUN addgroup --system rails && adduser --system --ingroup rails rails
+RUN chown rails:rails /rails
+
+# Install application gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+COPY package.json yarn.lock ./
+RUN yarn install --check-files
+
+# Copy application code
+COPY . .
+
+# Entrypoint prepares the database.
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]

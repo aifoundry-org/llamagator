@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+    stdin_open: true
+    tty: true
+    command: ./bin/dev
+    volumes:
+      - .:/rails
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    links:
+      - postgres
+    environment:
+      RAILS_ENV: development
+      DATABASE_PORT: 5432
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+
+  postgres:
+    image: postgres:14.4
+    ports:
+      - 5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  postgres:

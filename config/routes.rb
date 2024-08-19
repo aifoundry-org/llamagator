@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   end
 
   resources :test_runs, except: %i[edit update destroy] do
-    resources :test_model_version_runs, only: %i[show]
+    resources :test_model_version_runs, only: %i[show] do
+      post :perform, on: :member
+    end
   end
 
   resources :compare, only: [:index] do

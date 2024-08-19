@@ -16,6 +16,7 @@
             <th class="px-4 py-3">Model Version</th>
             <th class="px-4 py-3">State</th>
             <th class="px-4 py-3">Created at</th>
+            <th class="w-1"></th>
           </tr>
         </thead>
         <tbody
@@ -23,7 +24,7 @@
         >
           <% if @test_model_version_runs.empty? %>
             <tr>
-              <td colspan="7" class="px-4 py-3 text-center">
+              <td colspan="8" class="px-4 py-3 text-center">
                 <p class="text-gray-500">No model versions runs found.</p>
               </td>
             </tr>
@@ -49,6 +50,9 @@
                 </td>
                 <td class="px-4 py-3 text-sm">
                   <%= time_ago_in_words(test_model_version_run.created_at) %> ago
+                </td>
+                <td class="px-4 py-2">
+                  <%= button_to 'Run', perform_test_run_test_model_version_run_path(@test_run, test_model_version_run), method: :post, class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
                 </td>
               </tr>
             <% end %>

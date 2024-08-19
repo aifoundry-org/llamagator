@@ -3,7 +3,10 @@
 
   <%= render @test_model_version_run %>
 
-  <%= link_to "Back to test run", test_run_path(@test_run), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium w-56" %>
+  <div class="flex">
+    <%= button_to 'Run', perform_test_run_test_model_version_run_path(@test_run, @test_model_version_run), method: :post, class: 'rounded-lg py-3 px-5 bg-blue-500 text-white font-medium mr-2' %>
+    <%= link_to "Back to test run", test_run_path(@test_run), class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+  </div>
 
   <div class="w-full w-full mx-auto mt-10 overflow-hidden rounded-lg shadow-xs">
     <h1 class="font-bold text-4xl">Test Results</h1>

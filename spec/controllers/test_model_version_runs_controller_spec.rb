@@ -32,4 +32,18 @@ RSpec.describe TestModelVersionRunsController, type: :controller do
       expect(assigns(:test_run)).to eq(test_run)
     end
   end
+
+  describe 'POST #perform' do
+    subject(:perform!) { post :run, params: { test_run_id: test_run.id, id: test_model_version_run.id } }
+
+    before do
+      allow(ActiveJob).to receive(:perform_all_later)
+    end
+
+    context 'with pending test_model_version_run' do
+      it 'enqueues a TestModelVersionRunJob' do
+        expect { perform! }.to change(TestModelVersionRunJob, :count).by(3)
+      end
+    end
+  end
 end

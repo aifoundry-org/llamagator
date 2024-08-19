@@ -32,7 +32,7 @@ class TestRunsController < ApplicationController
 
     respond_to do |format|
       if @test_run.save
-        TestRunJob.perform_later(@test_run.id)
+        TestRunJob.perform_later(@test_run.id) unless @test_run.manual_execution?
         format.html { redirect_to test_run_url(@test_run), notice: 'Test model version run was successfully created.' }
         format.json { render :show, status: :created, location: @test_run }
       else
@@ -51,7 +51,7 @@ class TestRunsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def test_run_params
-    params.require(:test_run).permit(:name, :prompt_id, :calls, :passing_threshold, assertion_ids: []).tap do |permited|
+    params.require(:test_run).permit(:name, :prompt_id, :calls, :passing_threshold, :manual_execution, assertion_ids: []).tap do |permited|
       model_version_ids = params[:test_run][:model_version_ids]&.select(&:present?)
       if model_version_ids.present?
         permited[:test_model_version_runs_attributes] = model_version_ids.map do |model_version_id|

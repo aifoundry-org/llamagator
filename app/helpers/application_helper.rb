@@ -22,6 +22,6 @@ module ApplicationHelper
     latest_versions.map do |version|
       ancestors = previous_versions.select { |ancestor| ancestor.id.in?(version.ancestor_ids) }
       { ancestors.last&.name || version.name => [[version.name, version.id]] + ancestors.map { |v| [v.name, v.id] } }
-    end.reduce(:merge)
+    end.reduce({}, :merge)
   end
 end

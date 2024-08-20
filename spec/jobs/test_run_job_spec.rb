@@ -17,7 +17,7 @@ RSpec.describe TestRunJob, type: :job do
       expect do
         perform!
         test_model_version_run.reload
-      end.to change(test_model_version_run, :performed).to(true)
+      end.to change(test_model_version_run, :status).to('performed')
     end
 
     it 'enqueues TestModelVersionRunJob for each test_model_version_run the specified number of times' do

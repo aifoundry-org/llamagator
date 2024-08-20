@@ -10,13 +10,15 @@ class PerformTestModelVersionRunJobs
 
   def call
     ApplicationRecord.transaction do
-      break false if test_model_version_run.performed?
+      return false if test_model_version_run.performed?
 
-      jobs = Array.new(test_run.calls) { TestModelVersionRunJob.new(test_model_version_run.id) }
-      SolidQueue::Job.enqueue_all(jobs)
-
-      test_model_version_run.update(performed: true)
+      test_model_version_run.update(status: 'performing')
     end
+
+    jobs = Array.new(test_run.calls) { TestModelVersionRunJob.new(test_model_version_run.id) }
+    ActiveJob.perform_all_later(jobs)
+
+    test_model_version_run.update(status: 'performed')
   end
 
   def test_model_version_run

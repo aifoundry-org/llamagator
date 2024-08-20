@@ -12,9 +12,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_820_104_429) do
+ActiveRecord::Schema[7.1].define(version: 20_240_820_140_136) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum 'test_model_version_run_status', %w[pending performing performed failed]
 
   create_table 'assertion_results', force: :cascade do |t|
     t.bigint 'test_result_id', null: false
@@ -213,7 +217,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_820_104_429) do
     t.bigint 'model_version_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.boolean 'performed', default: false, null: false
+    t.enum 'status', default: 'pending', null: false, enum_type: 'test_model_version_run_status'
     t.index ['model_version_id'], name: 'index_test_model_version_runs_on_model_version_id'
     t.index ['test_run_id'], name: 'index_test_model_version_runs_on_test_run_id'
   end

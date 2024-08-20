@@ -27,4 +27,20 @@ class TestModelVersionRun < ApplicationRecord
       )
       .group('test_model_version_runs.id')
   }
+
+  def pending?
+    status == 'pending'
+  end
+
+  def performing?
+    status == 'performing'
+  end
+
+  def performed?
+    status == 'performed'
+  end
+
+  def failed?
+    status == 'failed'
+  end
 end

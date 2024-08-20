@@ -11,17 +11,14 @@ class TestModelVersionRunsController < ApplicationController
 
   # POST /test_runs/1/test_model_version_runs/2/perform or /test_runs/1/test_model_version_runs/2/perform.json
   def perform
+    message = if perform_all_test_model_version_run_jobs
+                { alert: 'Test model version run has already been performed.' }
+              else
+                { notice: 'Test model version run was successfully performed.' }
+              end
+
     respond_to do |format|
-      if @test_model_version_run.performed?
-        alert = 'Test model version run has already been performed.'
-        format.html { redirect_to perform_test_run_test_model_version_run_path(@test_run, @test_model_version_run), alert: }
-      else
-        perform_all_test_model_version_run_jobs
-
-        notice = 'Test model version run was successfully performed.'
-        format.html { redirect_to perform_test_run_test_model_version_run_path(@test_run, @test_model_version_run), notice: }
-      end
-
+      format.html { redirect_to perform_test_run_test_model_version_run_path(@test_run, @test_model_version_run), **message }
       format.json { render :show, status: :unprocessable_entity }
     end
   end
@@ -38,7 +35,14 @@ class TestModelVersionRunsController < ApplicationController
   end
 
   def perform_all_test_model_version_run_jobs
-    jobs = Array.new(@test_run.calls) { TestModelVersionRunJob.new(@test_model_version_run.id) }
-    ActiveJob.perform_all_later(jobs)
+    ApplicationRecord.transaction do
+      @test_model_version_run.lock!
+      break false if @test_model_version_run.performed?
+
+      jobs = Array.new(@test_run.calls) { TestModelVersionRunJob.new(@test_model_version_run.id) }
+      SolidQueue::Job.enqueue_all(jobs)
+
+      @test_model_version_run.update(performed: true)
+    end
   end
 end

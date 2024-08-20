@@ -41,12 +41,30 @@ RSpec.describe TestModelVersionRunsController, type: :controller do
     end
 
     context 'with pending test_model_version_run' do
+      it 'updates the performed attribute on test_model_version_run to true' do
+        expect do
+          perform!
+          test_model_version_run.reload
+        end.to change(test_model_version_run, :performed).to(true)
+      end
+
       it 'enqueues a TestModelVersionRunJob' do
         perform!
-        expect(SolidQueue::Job).to have_received(:enqueue_all).with([
-                                                                      have_attributes(class: TestModelVersionRunJob, arguments: [test_model_version_run.id]),
-                                                                      have_attributes(class: TestModelVersionRunJob, arguments: [test_model_version_run.id])
-                                                                    ])
+        expect(SolidQueue::Job).to have_received(:enqueue_all).with(
+          [
+            have_attributes(class: TestModelVersionRunJob, arguments: [test_model_version_run.id]),
+            have_attributes(class: TestModelVersionRunJob, arguments: [test_model_version_run.id])
+          ]
+        )
+      end
+    end
+
+    context 'with already performed test_model_version_run' do
+      let(:test_model_version_run) { create(:test_model_version_run, performed: true, test_run:, model_version:) }
+
+      it 'does not enqueue a TestRunJob' do
+        perform!
+        expect(SolidQueue::Job).not_to have_received(:enqueue_all)
       end
     end
   end

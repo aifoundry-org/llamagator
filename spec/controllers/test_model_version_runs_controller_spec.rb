@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TestModelVersionRunsController, type: :controller do
   let(:user) { create(:user) }
   let(:prompt) { create(:prompt, user:) }
-  let(:test_run) { create(:test_run, prompt:) }
+  let(:test_run) { create(:test_run, calls: 2, prompt:) }
   let(:model) { create(:model, user:) }
   let(:model_version) { create(:model_version, model:) }
   let(:test_model_version_run) { create(:test_model_version_run, test_run:, model_version:) }
@@ -34,15 +34,19 @@ RSpec.describe TestModelVersionRunsController, type: :controller do
   end
 
   describe 'POST #perform' do
-    subject(:perform!) { post :run, params: { test_run_id: test_run.id, id: test_model_version_run.id } }
+    subject(:perform!) { post :perform, params: { test_run_id: test_run.id, id: test_model_version_run.id } }
 
     before do
-      allow(ActiveJob).to receive(:perform_all_later)
+      allow(SolidQueue::Job).to receive(:enqueue_all)
     end
 
     context 'with pending test_model_version_run' do
       it 'enqueues a TestModelVersionRunJob' do
-        expect { perform! }.to change(TestModelVersionRunJob, :count).by(3)
+        perform!
+        expect(SolidQueue::Job).to have_received(:enqueue_all).with([
+                                                                      have_attributes(class: TestModelVersionRunJob, arguments: [test_model_version_run.id]),
+                                                                      have_attributes(class: TestModelVersionRunJob, arguments: [test_model_version_run.id])
+                                                                    ])
       end
     end
   end

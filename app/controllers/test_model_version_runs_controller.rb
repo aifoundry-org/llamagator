@@ -15,7 +15,7 @@ class TestModelVersionRunsController < ApplicationController
       if @test_model_version_run.state == 'pending'
         perform_all_test_model_version_run_jobs
 
-        notice = "Test model version run was successfully performed."
+        notice = 'Test model version run was successfully performed.'
         format.html { redirect_to perform_test_run_test_model_version_run_path(@test_run, @test_model_version_run), notice: }
         format.json { render :show, status: :created }
       else

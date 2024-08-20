@@ -2,7 +2,7 @@
 
 class TestModelVersionRunsController < ApplicationController
   before_action :set_test_run
-  before_action :set_test_model_version_run
+  before_action :set_test_model_version_run, only: :show
 
   # GET /test_model_version_runs/1 or /test_model_version_runs/1.json
   def show
@@ -18,7 +18,9 @@ class TestModelVersionRunsController < ApplicationController
               end
 
     respond_to do |format|
-      format.html { redirect_to perform_test_run_test_model_version_run_path(@test_run, @test_model_version_run), **message }
+      format.html do
+        redirect_to perform_test_run_test_model_version_run_path(params[:test_run_id], params[:id]), **message
+      end
       format.json { render :show, status: :unprocessable_entity }
     end
   end
@@ -35,6 +37,6 @@ class TestModelVersionRunsController < ApplicationController
   end
 
   def perform_test_model_version_run_jobs
-    PerformTestModelVersionRunJobs.new(@test_run.id, @test_model_version_run.id).call
+    PerformTestModelVersionRunJobs.new(@test_run, params[:id]).call
   end
 end

@@ -11,7 +11,7 @@ class TestModelVersionRunsController < ApplicationController
 
   # POST /test_runs/1/test_model_version_runs/2/perform or /test_runs/1/test_model_version_runs/2/perform.json
   def perform
-    message = if perform_all_test_model_version_run_jobs
+    message = if perform_test_model_version_run_jobs
                 { alert: 'Test model version run has already been performed.' }
               else
                 { notice: 'Test model version run was successfully performed.' }
@@ -34,15 +34,7 @@ class TestModelVersionRunsController < ApplicationController
     @test_run = current_user.test_runs.find(params[:test_run_id])
   end
 
-  def perform_all_test_model_version_run_jobs
-    ApplicationRecord.transaction do
-      @test_model_version_run.lock!
-      break false if @test_model_version_run.performed?
-
-      jobs = Array.new(@test_run.calls) { TestModelVersionRunJob.new(@test_model_version_run.id) }
-      SolidQueue::Job.enqueue_all(jobs)
-
-      @test_model_version_run.update(performed: true)
-    end
+  def perform_test_model_version_run_jobs
+    PerformTestModelVersionRunJobs.new(@test_run.id, @test_model_version_run.id).call
   end
 end

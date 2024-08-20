@@ -38,8 +38,10 @@
       <%= form.number_field :passing_threshold, step: '0.01', max: 100, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
     <div class="my-5">
-      <%= form.check_box :manual_execution %>
-      <%= form.label :manual_execution %>
+      <%= label_tag do %>
+        <%= check_box_tag 'test_run[manual_execution]' %>
+        Manual execution
+      <% end %>
     </div>
 
     <div class="inline">

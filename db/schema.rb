@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_812_150_858) do
+ActiveRecord::Schema[7.1].define(version: 20_240_820_104_429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -213,6 +213,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_812_150_858) do
     t.bigint 'model_version_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.boolean 'performed', default: false, null: false
     t.index ['model_version_id'], name: 'index_test_model_version_runs_on_model_version_id'
     t.index ['test_run_id'], name: 'index_test_model_version_runs_on_test_run_id'
   end

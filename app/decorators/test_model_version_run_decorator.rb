@@ -12,10 +12,17 @@ class TestModelVersionRunDecorator < ApplicationDecorator
   end
 
   def state
-    return 'pending' if object.test_results.empty? || object.test_results.any?(&:pending?)
-
-    return 'passed' if passed_percentage >= object.test_run.passing_threshold
+    return 'pending' if pending?
+    return 'passed' if passed?
 
     'failed'
+  end
+
+  def pending?
+    object.test_results.empty? || object.test_results.any?(&:pending?)
+  end
+
+  def passed?
+    passed_percentage >= object.test_run.passing_threshold
   end
 end

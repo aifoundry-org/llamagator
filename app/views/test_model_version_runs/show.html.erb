@@ -4,7 +4,9 @@
   <%= render @test_model_version_run %>
 
   <div class="flex">
-    <%= button_to 'Run', perform_test_run_test_model_version_run_path(@test_run, @test_model_version_run), method: :post, class: 'rounded-lg py-3 px-5 bg-blue-500 text-white font-medium mr-2' %>
+    <% unless @test_model_version_run.performed? %>
+      <%= button_to 'Run', perform_test_run_test_model_version_run_path(@test_run, @test_model_version_run), method: :post, class: 'rounded-lg py-3 px-5 bg-blue-500 text-white font-medium mr-2' %>
+    <% end %>
     <%= link_to "Back to test run", test_run_path(@test_run), class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
   </div>
 

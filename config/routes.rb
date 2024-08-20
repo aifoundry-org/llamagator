@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :test_results, only: %i[index update show]
+  resources :test_results, only: %i[index update show] do
+    resources :assertion_results, only: %i[index]
+  end
 
   resources :models do
     resources :model_versions

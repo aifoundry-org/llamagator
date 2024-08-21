@@ -3,7 +3,7 @@
 module ModelVersionsHelper
   DEFAULT_CONFIGURATION = {
     'openai' => '{"model":"gpt-3.5-turbo","temperature":0.5}',
-    'ollama' => '{"model":"llama3.1"}',
+    'ollama' => '{"model":"llama3.1", "stream": false}',
     'llama_cpp' => '{"n_predict":500,"temperature":0.5,"stop":["<|end|>","<|user|>","<|assistant|>","<|endoftext|>","<|system|>"]}'
   }.freeze
 

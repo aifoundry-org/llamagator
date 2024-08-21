@@ -12,44 +12,44 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :name %>
+    <%= form.label :name, class: "block text-gray-700 text-sm font-bold mb-2  text-gray-900 dark:text-gray-100" %>
     <%= form.text_field :name, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :url %>
+    <%= form.label :url, class: "block text-gray-700 text-sm font-bold mb-2  text-gray-900 dark:text-gray-100" %>
     <%= form.text_field :url, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="mb-4">
-    <%= form.label :executor_type, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= form.label :executor_type, class: "block text-gray-700 text-sm font-bold mb-2 text-gray-900 dark:text-gray-100 block" %>
     <%= form.select :executor_type, Model.executor_types.keys.map { |w| [I18n.t("activerecord.attributes.model.executor_types.#{w}"), w] }, {}, class: "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "executor_type_selector", data: { action: "change->model#toggleConfiguration" } %>
   </div>
 
   <div id="api_key_field" data-model-target="apiKeyField" class="my-5" style="<%= model.executor_type == 'openai' ? '' : 'display:none;' %>">
-    <%= form.label :api_key %>
+    <%= form.label :api_key, class: "block text-gray-700 text-sm font-bold mb-2 block text-gray-700 text-sm font-bold mb-2 text-gray-900 dark:text-gray-100" %>
     <%= form.text_field :api_key, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <% if model.new_record? %>
     <%= form.fields_for :model_versions, @model_version do |model_version_fields| %>
       <div class="my-5">
-        <%= model_version_fields.label :configuration %>
+        <%= model_version_fields.label :configuration, class: "block text-gray-700 text-sm font-bold mb-2 text-gray-900 dark:text-gray-100" %>
         <%= model_version_fields.text_field :configuration, value: default_configuration(model.executor_type), 'data-model-target' => "configurationField", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
       </div>
 
       <div class="my-5">
-        <%= model_version_fields.label :description %>
+        <%= model_version_fields.label :description, class: "block text-gray-700 text-sm font-bold mb-2 text-gray-900 dark:text-gray-100" %>
         <%= model_version_fields.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
       </div>
 
       <div class="my-5">
-        <%= model_version_fields.label :built_on %>
+        <%= model_version_fields.label :built_on, class: "block text-gray-700 text-sm font-bold mb-2 text-gray-900 dark:text-gray-100" %>
         <%= model_version_fields.date_field :built_on, value: Date.today, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
       </div>
 
       <div class="my-5">
-        <%= model_version_fields.label :build_name %>
+        <%= model_version_fields.label :build_name, class: "block text-gray-700 text-sm font-bold mb-2 text-gray-900 dark:text-gray-100" %>
         <%= model_version_fields.text_field :build_name, value: 'Version 1', class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
       </div>
     <% end %>

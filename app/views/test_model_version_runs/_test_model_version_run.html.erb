@@ -1,23 +1,23 @@
 <div id="<%= dom_id test_model_version_run %>">
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Model:</strong>
     <%= link_to test_model_version_run.model_version.model.name, test_model_version_run.model_version.model, class: "text-blue-500 underline-link" %>
   </p>
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Model version:</strong>
     <%= link_to test_model_version_run.model_version.build_name, [test_model_version_run.model_version.model, test_model_version_run.model_version], class: "text-blue-500 underline-link" %>
   </p>
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Prompt:</strong>
     <%= link_to test_model_version_run.test_run.prompt.value, test_model_version_run.test_run.prompt, class: "text-blue-500 underline-link" %>
   </p>
-   <p class="my-5">
+   <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Assertions:</strong>
     <% test_model_version_run.test_run.assertions.each_with_index do |assertion, index| %>
       <%= ", " if index > 0 %><%= link_to assertion.name, assertion, class: "text-blue-500 underline-link" %>
     <% end %>
   </p>
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">State:</strong>
     <% state = test_model_version_run.state %>
     <span

@@ -1,11 +1,11 @@
 <div id="<%= dom_id test_run %>">
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mr-2">Name:</strong> <%= test_run.name %>
   </p>
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mr-2">Calls:</strong> <%= test_run.calls %>
   </p>
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
    <strong class="font-medium mr-2">Prompt:</strong> <%= link_to test_run.prompt.name, test_run.prompt, class: "text-blue-500 underline-link" %>
   </p>
 

@@ -12,22 +12,22 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :name %>
+    <%= form.label :name, class: "text-gray-900 dark:text-gray-100" %>
     <%= form.text_field :name, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :assertion_type %>
+    <%= form.label :assertion_type, class: "text-gray-900 dark:text-gray-100" %>
     <%= form.select :assertion_type, Assertion.assertion_types.keys.map { |w| [w.humanize, w] }, { include_blank: false }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full", data: { action: "change->assertion#toggleModelVersion" } %>
   </div>
 
   <div id="model_version_selector" data-assertion-target="modelVersionSelector" class="my-5" style="<%= form.object.assertion_type == 'model_version' ? '' : 'display:none;' %>">
-    <%= form.label 'Select model version' %>
+    <%= form.label 'Select model version', class: "text-gray-900 dark:text-gray-100" %>
     <%= form.collection_select :model_version_id, @model_versions, :id, :full_name, { include_blank: true }, class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :value, "Write each expression on a separate row", 'data-assertion-target' => "valueLabel" %>
+    <%= form.label :value, "Write each expression on a separate row", 'data-assertion-target' => "valueLabel", class: "text-gray-900 dark:text-gray-100" %>
     <%= form.text_area :value, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 

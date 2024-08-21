@@ -12,22 +12,22 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :configuration %>
+    <%= form.label :configuration, class: "text-gray-900 dark:text-gray-100" %>
     <%= form.text_field :configuration, value: model_version&.configuration ? JSON::dump(model_version&.configuration) : default_configuration(@model.executor_type), class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :description %>
+    <%= form.label :description, class: "text-gray-900 dark:text-gray-100" %>
     <%= form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :built_on %>
+    <%= form.label :built_on, class: "text-gray-900 dark:text-gray-100" %>
     <%= form.date_field :built_on, value: model_version&.built_on || Date.today, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :build_name %>
+    <%= form.label :build_name, class: "text-gray-900 dark:text-gray-100" %>
     <%= form.text_field :build_name, value: model_version&.build_name || "Version #{ @model.model_versions.count + 1 }", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 

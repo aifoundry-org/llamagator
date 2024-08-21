@@ -1,25 +1,25 @@
 <div id="<%= dom_id model_version %>">
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Model:</strong>
     <%= @model&.name %>
   </p>
 
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Configuration:</strong>
-    <pre id="json-display"></pre>
+    <pre id="json-display" class="ext-gray-900 dark:text-gray-100"></pre>
   </p>
 
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Description:</strong>
     <%= model_version.description %>
   </p>
 
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Built on:</strong>
     <%= model_version.built_on&.to_date || 'not specified' %>
   </p>
 
-  <p class="my-5">
+  <p class="my-5 text-gray-900 dark:text-gray-100">
     <strong class="font-medium mb-1">Build name:</strong>
     <%= model_version.build_name %>
   </p>

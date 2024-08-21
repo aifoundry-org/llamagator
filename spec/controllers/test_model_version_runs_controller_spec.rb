@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TestModelVersionRunsController, type: :controller do
   let(:user) { create(:user) }
   let(:prompt) { create(:prompt, user:) }
-  let(:test_run) { create(:test_run, prompt:) }
+  let(:test_run) { create(:test_run, calls: 2, prompt:) }
   let(:model) { create(:model, user:) }
   let(:model_version) { create(:model_version, model:) }
   let(:test_model_version_run) { create(:test_model_version_run, test_run:, model_version:) }

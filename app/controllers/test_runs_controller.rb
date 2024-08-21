@@ -32,7 +32,7 @@ class TestRunsController < ApplicationController
 
     respond_to do |format|
       if @test_run.save
-        TestRunJob.perform_later(@test_run.id)
+        TestRunJob.perform_later(@test_run.id) unless manual_execution?
         format.html { redirect_to test_run_url(@test_run), notice: 'Test model version run was successfully created.' }
         format.json { render :show, status: :created, location: @test_run }
       else
@@ -47,6 +47,10 @@ class TestRunsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_test_run
     @test_run = current_user.test_runs.find(params[:id])
+  end
+
+  def manual_execution?
+    ActiveModel::Type::Boolean.new.cast(params.dig(:test_run, :manual_execution))
   end
 
   # Only allow a list of trusted parameters through.

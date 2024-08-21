@@ -86,6 +86,18 @@ RSpec.describe TestRunsController, type: :controller do
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(response.location).to eq(test_run_url(TestRun.reorder(:created_at).last))
       end
+
+      context 'with manual_execution param' do
+        before do
+          valid_attributes[:manual_execution] = '1'
+          allow(SolidQueue::Job).to receive(:enqueue)
+        end
+
+        it 'does not enqueue a TestRunJob' do
+          post :create, params: { test_run: valid_attributes }
+          expect(SolidQueue::Job).not_to have_received(:enqueue)
+        end
+      end
     end
   end
 end

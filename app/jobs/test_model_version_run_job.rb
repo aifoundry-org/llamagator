@@ -21,6 +21,9 @@ class TestModelVersionRunJob < ApplicationJob
       test_result.update(result.merge(time: spent_time))
 
       generate_assertion_results
+    rescue StandardError => e
+      test_model_version_run.update(status: 'failed')
+      raise e
     end
   end
 

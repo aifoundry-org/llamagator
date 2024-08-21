@@ -13,7 +13,7 @@
 
   <div class="my-5">
     <%= form.label :configuration %>
-    <%= form.text_field :configuration, value: (model_version&.configuration || {})&.to_json, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_field :configuration, value: model_version&.configuration ? JSON::dump(model_version&.configuration) : default_configuration(@model.executor_type), class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">

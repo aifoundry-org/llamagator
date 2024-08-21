@@ -29,3 +29,10 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+      attributes:
+        model:
+          executor_types:
+            llama_cpp: 'Llama.cpp'
+            openai: 'OpenAI'
+            ollama: 'Ollama'

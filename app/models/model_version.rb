@@ -30,7 +30,7 @@ class ModelVersion < ApplicationRecord
   CONTENT_PATHS = {
     'openai' => ['choices', 0, 'message', 'content'],
     'ollama' => [0, 'response'],
-    'base' => ['content']
+    'llama_cpp' => ['content']
   }.freeze
 
   def configuration_is_json

@@ -1,4 +1,4 @@
-<%= form_with(model: model, class: "contents") do |form| %>
+<%= form_with(model: model, class: "contents", data: { controller: "model" }) do |form| %>
   <% if model.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(model.errors.count, "error") %> prohibited this model from being saved:</h2>
@@ -23,10 +23,10 @@
 
   <div class="mb-4">
     <%= form.label :executor_type, class: "block text-gray-700 text-sm font-bold mb-2" %>
-    <%= form.select :executor_type, Model.executor_types.keys.map { |w| [w.humanize, w] }, {}, class: "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %>
+    <%= form.select :executor_type, Model.executor_types.keys.map { |w| [I18n.t("activerecord.attributes.model.executor_types.#{w}"), w] }, {}, class: "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "executor_type_selector", data: { action: "change->model#toggleConfiguration" } %>
   </div>
 
-  <div class="my-5">
+  <div id="api_key_field" data-model-target="apiKeyField" class="my-5" style="<%= model.executor_type == 'openai' ? '' : 'display:none;' %>">
     <%= form.label :api_key %>
     <%= form.text_field :api_key, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
@@ -35,7 +35,7 @@
     <%= form.fields_for :model_versions, @model_version do |model_version_fields| %>
       <div class="my-5">
         <%= model_version_fields.label :configuration %>
-        <%= model_version_fields.text_field :configuration, value: {}.to_json , class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+        <%= model_version_fields.text_field :configuration, value: default_configuration(model.executor_type), 'data-model-target' => "configurationField", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
       </div>
 
       <div class="my-5">

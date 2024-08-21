@@ -12,9 +12,9 @@ class TestModelVersionRunsController < ApplicationController
   # POST /test_runs/1/test_model_version_runs/2/perform or /test_runs/1/test_model_version_runs/2/perform.json
   def perform
     message = if perform_test_model_version_run_jobs
-                { alert: 'Test model version run has already been performed.' }
-              else
                 { notice: 'Test model version run was successfully performed.' }
+              else
+                { alert: 'Test model version run has already been performed.' }
               end
 
     respond_to do |format|

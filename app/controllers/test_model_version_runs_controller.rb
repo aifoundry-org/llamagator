@@ -2,27 +2,11 @@
 
 class TestModelVersionRunsController < ApplicationController
   before_action :set_test_run
-  before_action :set_test_model_version_run, only: :show
+  before_action :set_test_model_version_run
 
   # GET /test_model_version_runs/1 or /test_model_version_runs/1.json
   def show
     @test_results = @test_model_version_run.test_results.includes(:assertion_results).decorate
-  end
-
-  # POST /test_runs/1/test_model_version_runs/2/perform or /test_runs/1/test_model_version_runs/2/perform.json
-  def perform
-    message = if perform_test_model_version_run_jobs
-                { notice: 'Test model version run was successfully performed.' }
-              else
-                { alert: 'Test model version run has already been performed.' }
-              end
-
-    respond_to do |format|
-      format.html do
-        redirect_to perform_test_run_test_model_version_run_path(params[:test_run_id], params[:id]), **message
-      end
-      format.json { render :show, status: :unprocessable_entity }
-    end
   end
 
   private
@@ -34,9 +18,5 @@ class TestModelVersionRunsController < ApplicationController
 
   def set_test_run
     @test_run = current_user.test_runs.find(params[:test_run_id])
-  end
-
-  def perform_test_model_version_run_jobs
-    PerformTestModelVersionRunJobs.new(@test_run, params[:id]).call
   end
 end

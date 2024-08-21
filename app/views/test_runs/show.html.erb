@@ -55,7 +55,7 @@
                 </td>
                 <% if test_model_version_run.pending? %>
                   <td class="px-4 py-2">
-                    <%= button_to 'Run', perform_test_run_test_model_version_run_path(@test_run, test_model_version_run), method: :post, class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
+                    <%= button_to 'Run', test_run_test_model_version_run_jobs_path(@test_run, test_model_version_run), method: :post, class: 'bg-blue-500 text-white font-bold py-2 px-4 rounded' %>
                   </td>
                 <% end %>
               </tr>

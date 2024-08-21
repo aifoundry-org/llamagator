@@ -10,4 +10,5 @@ class Assertion < ApplicationRecord
   default_scope { order(id: :desc) }
 
   validates :model_version, presence: true, if: -> { assertion_type == 'model_version' }
+  validates :name, presence: true, uniqueness: { scope: :user_id }
 end

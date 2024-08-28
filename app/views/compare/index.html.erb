@@ -1,146 +1,43 @@
-<!-- app/views/model_versions/index.html.erb -->
-<div class="container px-6 mx-auto mt-10 grid">
+<div class="container px-6 mx-auto mt-10 grid" data-controller="compare">
   <% if @prompts.empty? || @model_versions.empty? %>
     <div class="flex items-center justify-center h-full">
-      <p class="text-gray-500 text-center text-gray-900 dark:text-gray-100">No prompts or model versions available. <br> Please create prompts and model versions to perform this action.</p>
+      <p class="text-gray-500 text-center text-gray-900 dark:text-gray-100">
+        No prompts or model versions available. <br>
+        Please create prompts and model versions to perform this action.
+      </p>
     </div>
   <% else %>
     <div>
       <label for="prompt-id-select" class="block text-sm font-medium text-gray-700 text-gray-900 dark:text-gray-100">Select Prompt:</label>
       <%= select_tag 'prompt-id-select', grouped_options_for_select(options_with_versions(@prompts, @ancestor_prompts)), 
-                     class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md mb-4', id: 'prompt-id-select' %>
+                     class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md mb-4', 
+                     id: 'prompt-id-select', 
+                     data: { action: 'compare#loadTestRuns' } %>
     </div>
     <div>
       <label for="test-run-select" class="block text-sm font-medium text-gray-700 text-gray-900 dark:text-gray-100">Select Test Run:</label>
       <%= select_tag 'test-run-select', '', 
-                     class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md mb-4', id: 'test-run-select' %>
+                     class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md mb-4', 
+                     id: 'test-run-select', 
+                     data: { action: 'compare#loadModelVersions' } %>
     </div>
     <div class="flex w-full">
-      <div class="p-4 border-r border-gray-300 panel-half">
+      <div class="p-4 border-r border-gray-300 panel-half" data-controller="panel" data-panel-side="left">
         <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Select Model Version for Left Panel</h3>
-        <% if @model_versions.any? %>
-          <%= select_tag 'left-panel-model', options_from_collection_for_select(@model_versions, 'id', 'full_name'), 
-                         prompt: 'Select a model version', class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md' %>
-          <div id="left-panel-result" class="mt-4 text-gray-900 dark:text-gray-100">
-          </div>
-        <% else %>
-          <div class="flex items-center justify-center h-full">
-            <p class="text-gray-500 text-center text-gray-900 dark:text-gray-100">No model versions available. <br> Please create model versions to perform this action.</p>
-          </div>
-        <% end %>
+        <%= select_tag 'left-panel-model', options_from_collection_for_select(@model_versions, 'id', 'full_name'), 
+                       prompt: 'Select a model version', 
+                       class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md', 
+                       data: { action: 'change->compare#fetchLatestTestResult', 'compare-target': 'leftPanelSelect' } %>
+        <div id="left-panel-result" class="mt-4 text-gray-900 dark:text-gray-100" data-compare-target="leftPanelResult"></div>
       </div>
-      <div class="p-4 panel-half">
+      <div class="p-4 panel-half" data-controller="panel" data-panel-side="right">
         <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Select Model Version for Right Panel</h3>
-        <% if @model_versions.any? %>
-          <%= select_tag 'right-panel-model', options_from_collection_for_select(@model_versions, 'id', 'full_name'), 
-                         prompt: 'Select a model version', class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md' %>
-          <div id="right-panel-result" class="mt-4 text-gray-900 dark:text-gray-100">
-          </div>
-        <% else %>
-          <div class="flex items-center justify-center h-full">
-            <p class="text-gray-500 text-center text-gray-900 dark:text-gray-100">No model versions available. <br> Please create model versions to perform this action.</p>
-          </div>
-        <% end %>
+        <%= select_tag 'right-panel-model', options_from_collection_for_select(@model_versions, 'id', 'full_name'), 
+                       prompt: 'Select a model version', 
+                       class: 'form-control w-full px-3 py-2 border border-gray-300 rounded-md', 
+                       data: { action: 'change->compare#fetchLatestTestResult', 'compare-target': 'rightPanelSelect' } %>
+        <div id="right-panel-result" class="mt-4 text-gray-900 dark:text-gray-100" data-compare-target="rightPanelResult"></div>
       </div>
     </div>
   <% end %>
 </div>
-
-
-
-<script>
-  const promptSelect = document.getElementById('prompt-id-select');
-  const testRunSelect = document.getElementById('test-run-select');
-  const leftPanelModelSelect = document.querySelector('select[name="left-panel-model"]');
-  const rightPanelModelSelect = document.querySelector('select[name="right-panel-model"]');
-
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-      year: 'numeric', month: 'long', day: 'numeric',
-      hour: 'numeric', minute: 'numeric', second: 'numeric'
-    }).format(date);
-  }
-
-  function loadTestRuns(promptId) {
-    fetch(`/test_runs.json?prompt_id=${promptId}`)
-      .then(response => response.json())
-      .then(data => {
-        while (testRunSelect.firstChild) {
-          testRunSelect.removeChild(testRunSelect.firstChild);
-        }
-        data.forEach(testRun => {
-          const option = document.createElement('option');
-          option.value = testRun.id;
-          option.textContent = testRun.name;
-          testRunSelect.appendChild(option);
-        });
-
-        if (!!data[0])
-          loadModelVersions(data[0].id);
-      });
-  }
-
-
-  function loadModelVersions(testRunId) {
-    fetch(`/compare/model_versions?test_run_id=${testRunId}`)
-      .then(response => response.json())
-      .then(data => {
-        while (leftPanelModelSelect.firstChild) {
-          leftPanelModelSelect.removeChild(leftPanelModelSelect.firstChild);
-          const leftResultDiv = document.getElementById('left-panel-result');
-          leftResultDiv.innerHTML = ''
-        }
-        while (rightPanelModelSelect.firstChild) {
-          rightPanelModelSelect.removeChild(rightPanelModelSelect.firstChild);
-          const rightResultDiv = document.getElementById('right-panel-result');
-          rightResultDiv.innerHTML = ''
-        }
-        data.forEach(modelVersion => {
-          const option = document.createElement('option');
-          option.value = modelVersion.id;
-          option.textContent = modelVersion.full_name;
-          leftPanelModelSelect.appendChild(option.cloneNode(true));
-          rightPanelModelSelect.appendChild(option);
-        });
-        if (data.length > 0 ) {
-          const promptSelect = document.getElementById('prompt-id-select');
-          const promptId = promptSelect.value;
-          window.fetchLatestTestResult('left', data[0].id, promptId, testRunId);
-          window.fetchLatestTestResult('right', data[0].id, promptId, testRunId);
-        }
-      });
-  }
-
-  // Load test runs for the first prompt initially
-  if (promptSelect.value) {
-    loadTestRuns(promptSelect.value);
-  }
-
-  promptSelect.addEventListener('change', function() {
-    loadTestRuns(this.value);
-  });
-
-  testRunSelect.addEventListener('change', function() {
-    const testRunId = this.value;
-
-    loadModelVersions(testRunId);
-  });
-  
-
-  document.querySelector('select[name="left-panel-model"]').addEventListener('change', function() {
-    const promptSelect = document.getElementById('prompt-id-select');
-    const testRunSelect = document.getElementById('test-run-select');
-    const promptId = promptSelect.value;
-    const testRunId = testRunSelect.value;
-    window.fetchLatestTestResult('left', this.value, promptId, testRunId);
-  });
-
-  document.querySelector('select[name="right-panel-model"]').addEventListener('change', function() {
-    const promptSelect = document.getElementById('prompt-id-select');
-    const testRunSelect = document.getElementById('test-run-select');
-    const promptId = promptSelect.value;
-    const testRunId = testRunSelect.value;
-    window.fetchLatestTestResult('right', this.value, promptId, testRunId);
-  });
-</script>

@@ -36,3 +36,4 @@ en:
             llama_cpp: 'Llama.cpp'
             openai: 'OpenAI'
             ollama: 'Ollama'
+            nekkoai: 'NekkoAI'

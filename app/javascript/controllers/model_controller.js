@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 const DEFAULT_CONFIGURATION = {
   openai: '{"model":"gpt-3.5-turbo","temperature":0.5}',
   ollama: '{"model":"llama3.1", "stream": false}',
+  nekkoai: '{"model":"llama","max_tokens":200,"top_p":0.3,"stop":["4.","sushi"]}',
   llama_cpp: '{"n_predict":500,"temperature":0.5,"stop":["<|end|>","<|user|>","<|assistant|>","<|endoftext|>","<|system|>"]}'
 }
 

@@ -3,7 +3,11 @@
 module Executors
   class Openai < Executors::Base
     def initialize(model_version)
-      @client = OpenAI::Client.new(access_token: model_version.api_key, log_errors: true)
+      @client = OpenAI::Client.new(
+        uri_base: model_version.url,
+        access_token: model_version.api_key,
+        log_errors: true,
+      )
       super(model_version)
     end
 

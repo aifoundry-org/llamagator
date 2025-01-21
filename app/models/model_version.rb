@@ -9,6 +9,7 @@ class ModelVersion < ApplicationRecord
   before_save :parse_configuration
   delegate :executor_type, to: :model
   delegate :api_key, to: :model
+  delegate :url, to: :model
 
   default_scope { order(id: :desc) }
 

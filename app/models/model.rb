@@ -9,5 +9,7 @@ class Model < ApplicationRecord
 
   enum :executor_type, { llama_cpp: 0, openai: 1, ollama: 2 }, scopes: false, default: :llama_cpp
 
+  validates :name, presence: true, uniqueness: { scope: :user_id }
+
   default_scope { order(id: :desc) }
 end
